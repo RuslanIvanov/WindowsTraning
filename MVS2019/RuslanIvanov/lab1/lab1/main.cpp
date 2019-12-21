@@ -1,5 +1,6 @@
 #include "myRect.h"
 #include "myString.h"
+#include "Bochka.h"
 #include <iostream>
 
 #define stop __asm nop
@@ -238,8 +239,18 @@ using namespace std;
 	//Требуется определить номер итерации, на которой концентрация спирта в
 	//первой бочке станет меньше 50%.
 
-	//Bochka spirt(...);
-	//Bochka water(...);
+	Bochka spirt;
+	Bochka water;
+	
+	while ( spirt.getPercent() > 50)
+	{
+		spirt.Pereliv(water);
+		water.Pereliv(spirt);
+		spirt.printV();
+		water.printV();
+
+	}
+
 	//...
 	//	while(концентрация спирта в бочке spirt > 50%)
 	//	{

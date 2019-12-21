@@ -143,11 +143,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bochka.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myRect.cpp" />
     <ClCompile Include="myString.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bochka.h" />
     <ClInclude Include="myRect.h" />
     <ClInclude Include="myString.h" />
   </ItemGroup>

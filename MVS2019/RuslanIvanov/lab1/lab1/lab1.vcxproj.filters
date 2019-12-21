@@ -24,12 +24,18 @@
     <ClCompile Include="myString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bochka.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="myRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="myString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bochka.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
