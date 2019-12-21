@@ -1,9 +1,10 @@
 #include "myRect.h"
+#include <iostream>
 
 Rect::Rect()
 {
 	m_left = m_top = m_right = m_bottom = 0;
-
+	std::cout << "\nRect::def constructor";
 }
 
 Rect::Rect(int left, int right, int top, int bottom)
@@ -16,6 +17,12 @@ Rect::Rect(int left, int right, int top, int bottom)
 		this->Normalize();
 
 		//Normalize(left,right,top,bottom);
+		std::cout << "\nRect::constructor, param";
+}
+
+Rect::~Rect()
+{
+	std::cout << "\nRect::~destuctor";
 }
 
 Rect::Rect(const Rect& r) 
@@ -24,6 +31,8 @@ Rect::Rect(const Rect& r)
 	m_top = r.m_top;
 	m_left = r.m_left;
 	m_right = r.m_right;
+
+	std::cout << "\nRect::constructor copy";
 }
 
 void Rect::Normalize()
@@ -93,10 +102,11 @@ void Rect::SetAll(int l, int r, int t, int b)
 	m_right = r;
 	m_top = t;
 	m_bottom = b;
+
 	Normalize();
 }
 
-void Rect::GetAll(int* pl, int* pr, int* pt, int* pb)
+void Rect::GetAll(int* pl, int* pr, int* pt, int* pb) const
 {
 	*pl = m_left;
 	*pr = m_right;
@@ -129,29 +139,30 @@ void Rect::setLeft(int x) { m_bottom = x; }
 void Rect::setRight(int x ) { m_right =x; }
 void Rect::setBottom(int x) { m_bottom = x; }
 
-Rect& Rect::BoundingRect(const Rect& r1) 
+Rect Rect::BoundingRect(const Rect& r1) 
 {
-	if (r1.m_left < m_left) { m_left = r1.m_left; }
-	if (r1.m_top < m_top) { m_top = r1.m_top; }
+	int l, t, r, b;
+	GetAll(&l, &r, &t, &b);
+	
+	if (r1.m_left < m_left) { l = r1.m_left; }
+	if (r1.m_top < m_top) { t = r1.m_top; }
 
-	if (r1.m_right > m_right) { m_right = r1.m_right; }
-	if (r1.m_bottom > m_bottom) { m_bottom = r1.m_bottom; }
-	this->InflateRect();
+	if (r1.m_right > m_right) { r = r1.m_right; }
+	if (r1.m_bottom > m_bottom) { b = r1.m_bottom; }
 
-	return *this;
+	this->Normalize();
+
+	return Rect(l,r,t,b);
+}
+
+void Rect::print()
+{
+	std::cout << "left = " << m_left << " right = " << m_right << "\n";
+	std::cout << "top = " << m_top << " bottom = " << m_bottom << "\n";
 }
 //=================================================================
 Rect BoundingRect(Rect r1, Rect r2)
 {
-	//Rect r_rez;
-	/*
-		if (r1.getLeft() <= r2.getLeft())
-		{
-			r_rez.setLeft(r1.getLeft());
-		}
-		else { r_rez.setLeft(r2.getLeft()); }
-	*/
-
 	int vl1, vr1, vt1, vb1;
 	r1.GetAll(&vl1, &vr1, &vt1, &vb1);
 
@@ -163,11 +174,7 @@ Rect BoundingRect(Rect r1, Rect r2)
 
 	if (vr1 > vr2) { vr2 = vr1; }
 	if (vb1 > vb2) { vb2 = vb1; }
-
-	//r_rez.SetAll(vl2, vr2, vt2, vb2);
-	//r_rez.Normalize();
-	//return r_rez;
-
+		
 	return Rect(vl2, vr2, vt2, vb2);
 }
 
@@ -192,5 +199,4 @@ Rect BoundingRect2(Rect& r1, Rect& r2)// ? вопрос
 	return Rect(vl2, vr2, vt2, vb2);
 
 	//return BoundingRect(r1,r2); // не эффект
-
 }
