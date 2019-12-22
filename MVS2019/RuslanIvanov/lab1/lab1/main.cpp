@@ -239,18 +239,20 @@ using namespace std;
 	//Требуется определить номер итерации, на которой концентрация спирта в
 	//первой бочке станет меньше 50%.
 
-	Bochka spirt;
-	Bochka water;
-	
-	while ( spirt.getPercent() > 50)
+	Bochka spirt(96.,4.);
+	Bochka water(0, 100.);
+	int iter = 0;
+	while ( spirt.getPercent() < 50)
 	{
 		spirt.Pereliv(water);
 		water.Pereliv(spirt);
 		spirt.printV();
-		water.printV();
-
+		
+		iter++;
 	}
 
+	std::cout << "iter = " << iter<<"\n";
+	stop
 	//...
 	//	while(концентрация спирта в бочке spirt > 50%)
 	//	{
