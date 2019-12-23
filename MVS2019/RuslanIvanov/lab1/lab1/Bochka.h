@@ -12,5 +12,8 @@ public:
 	~Bochka();
 	void Pereliv(Bochka&);
 	int getPercent();
+	float getSpirt();
+	void  setV(float);
+	float getV();
 	void printV();
 };

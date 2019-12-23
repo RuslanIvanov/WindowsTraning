@@ -7,7 +7,14 @@ using namespace std;
 
 MyString::MyString()
 {
-	m_pStr = nullptr;
+	//m_pStr = nullptr;
+
+	m_pStr = new char[1];
+	*m_pStr = 0;
+	//m_pStr = new char(0);// или так
+
+	//strcpy(m_pStr, "");
+
 	cout << "\nMyString::def constructor";
 }
 
@@ -16,12 +23,9 @@ MyString::MyString(const char* pstr)
 	int n = strlen(pstr) + 1;
 	m_pStr = new char[n];
 	///////////////////////////////////////////////
-	//strcpy(m_pStr, pstr);// почему не работате ??
-	//strncpy(m_pStr, pstr, n);
-	//strncpy_s(m_pStr, pstr, n);
+	strcpy(m_pStr, pstr);
+	//strcpy_s(m_pStr, n ,pstr);//где  n размер принимающего буффера
 	///////////////////////////////////////////////
-	//memcpy(m_pStr, pstr, n);
-	strcpy_s(m_pStr, n, pstr);
 	cout << "\nMyString::constructor, param";
 }
 
@@ -29,8 +33,8 @@ MyString::MyString(const MyString& r)
 {
 	int n = strlen(r.m_pStr) + 1;
 	m_pStr = new char[n];
-	//memcpy(m_pStr,r.m_pStr, n);
-	strcpy_s(m_pStr,n,r.m_pStr);
+	strcpy(m_pStr, r.m_pStr);
+
 	std::cout << "\nMyString::constructor copy";
 }
 
@@ -56,15 +60,13 @@ void MyString::SetNewString(const char* pstr)
 
 	if (n_new <= n) 
 	{
-		//memcpy(m_pStr,pstr,n_new);
-		strcpy_s(m_pStr, n_new, pstr);
+		strcpy(m_pStr, pstr);
 		return;
 	}
 
 	delete[] m_pStr;
 
 	m_pStr = new char[n_new];
-	//memcpy(m_pStr, pstr,n_new);
-	strcpy_s(m_pStr,n_new, pstr);
+	strcpy(m_pStr, pstr);
 
 }

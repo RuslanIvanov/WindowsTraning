@@ -5,9 +5,9 @@ class MyString
    
 public:
     MyString();
-    MyString(const char* pstr);
+    MyString(const char* pstr); //pstr ="" - тогда не надо MyString()
     MyString(const MyString&);
     ~MyString();
-    const char* GetString();
+   const char* GetString();
     void SetNewString(const char* pstr);
 };

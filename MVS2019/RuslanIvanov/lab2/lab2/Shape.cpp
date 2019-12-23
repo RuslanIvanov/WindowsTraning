@@ -1,0 +1,40 @@
+#include "Shape.h"
+#include <iostream>
+
+Shape::Shape(COLOR c)
+{
+	m_color = c;
+}
+
+Shape::Shape(const Shape& r)
+{
+	m_color = r.m_color; //доступ к privat того же тип объекта разрешен
+	//r.m_color = RED; - нельзя т.к. const
+}
+
+Shape::~Shape()
+{
+
+}
+
+void Shape::printColor()
+{
+	std::cout << "\nmy color is: ";
+	switch (m_color)
+	{
+	case RED:
+		std::cout << "RED";
+	break;
+	case GREEN:
+		std::cout << "GREEN";
+	break;
+	case BLUE:
+		std::cout << "BLUE";
+	break;
+	}
+}
+
+void Shape::WhereAmI()
+{
+	std::cout << "\nNow I am in class Shape";
+}

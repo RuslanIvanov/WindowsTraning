@@ -3,14 +3,12 @@
 
 class Bochka 
 {
-	int m_V;// â %
-	int m_Vcup;
-	int m_spirt; // â %
-	int m_water;
-
+	float m_V;// â %
+	float m_Vcup;
+	float m_spirt; // â %
 public:
 	
-	Bochka(int,int);
+	Bochka(float,float);
 	~Bochka();
 	void Pereliv(Bochka&);
 	int getPercent();

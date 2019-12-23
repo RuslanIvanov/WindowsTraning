@@ -1,13 +1,13 @@
 #include "myRect.h"
 #include <iostream>
 
-Rect::Rect()
+Rect::Rect():Shape(RED)
 {
 	m_left = m_top = m_right = m_bottom = 0;
 	std::cout << "\nRect::def constructor";
 }
 
-Rect::Rect(int left, int right, int top, int bottom)
+Rect::Rect(int left, int right, int top, int bottom,COLOR c):Shape(c)
 {
 		m_left = left;
 		m_top = top;
@@ -16,7 +16,6 @@ Rect::Rect(int left, int right, int top, int bottom)
 
 		this->Normalize();
 
-		//Normalize(left,right,top,bottom);
 		std::cout << "\nRect::constructor, param";
 }
 
@@ -25,7 +24,7 @@ Rect::~Rect()
 	std::cout << "\nRect::~destuctor";
 }
 
-Rect::Rect(const Rect& r) 
+Rect::Rect(const Rect& r):Shape(r)
 {
 	m_bottom = r.m_bottom;
 	m_top = r.m_top;
@@ -150,9 +149,9 @@ Rect Rect::BoundingRect(const Rect& r1)
 	if (r1.m_right > m_right) { r = r1.m_right; }
 	if (r1.m_bottom > m_bottom) { b = r1.m_bottom; }
 
-	//this->Normalize();
+	this->Normalize();
 
-	return Rect(l,r,t,b);
+	return Rect(l,r,t,b,RED);
 }
 
 void Rect::print()
@@ -160,6 +159,12 @@ void Rect::print()
 	std::cout << "left = " << m_left << " right = " << m_right << "\n";
 	std::cout << "top = " << m_top << " bottom = " << m_bottom << "\n";
 }
+
+void Rect::WhereAmI()
+{
+	std::cout << "\nNow I am in class Rect";
+}
+
 //=================================================================
 Rect BoundingRect(Rect r1, Rect r2)
 {
@@ -175,10 +180,10 @@ Rect BoundingRect(Rect r1, Rect r2)
 	if (vr1 > vr2) { vr2 = vr1; }
 	if (vb1 > vb2) { vb2 = vb1; }
 		
-	return Rect(vl2, vr2, vt2, vb2);
+	return Rect(vl2, vr2, vt2, vb2,RED);
 }
 
-Rect BoundingRect2(const Rect& r1, const Rect& r2)// ? вопрос
+Rect BoundingRect2(Rect& r1, Rect& r2)// ? вопрос
 {
 	//Rect r_rez;
 
@@ -196,7 +201,7 @@ Rect BoundingRect2(const Rect& r1, const Rect& r2)// ? вопрос
 	if (vr1 > vr2) { vr2 = vr1; }
 	if (vb1 > vb2) { vb2 = vb1; }
 
-	return Rect(vl2, vr2, vt2, vb2);
+	return Rect(vl2, vr2, vt2, vb2,RED);
 
 	//return BoundingRect(r1,r2); // не эффект
 }

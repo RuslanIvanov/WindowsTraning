@@ -1,13 +1,12 @@
 #pragma once
+#include "Shape.h"
 
-
-
-class Rect
+class Rect: public Shape
 {
 	int m_left, m_right, m_top, m_bottom;
 public:
 	Rect();
-	Rect(int left,int right,int top, int bottom);
+	Rect(int left,int right,int top, int bottom, COLOR c=RED);
 	Rect(const Rect& r);
 	~Rect();
 	void Normalize();
@@ -29,7 +28,9 @@ public:
 
 	Rect BoundingRect(const Rect& r1);
 	void print();
-};
+	void WhereAmI();
 
-Rect BoundingRect2(const Rect& r1, const Rect& r2);
+	};
+
+Rect BoundingRect2(Rect& r1, Rect& r2);
 Rect BoundingRect(Rect r1, Rect r2);
