@@ -6,10 +6,10 @@ class Shape
 	public:
 		Shape(const Shape&);
 		Shape(COLOR c = RED);
-		~Shape();
+		virtual ~Shape();
 
 		COLOR getColor() { return m_color; };
 		void printColor();
-		void WhereAmI();
+		virtual void WhereAmI();
 };
 

@@ -8,7 +8,7 @@ public:
 	Rect();
 	Rect(int left,int right,int top, int bottom, COLOR c=RED);
 	Rect(const Rect& r);
-	~Rect();
+	virtual ~Rect();
 	void Normalize();
 	void Normalize(int l,int r,int t,int b);
 	void InflateRect(int dl, int dr, int dt, int db);
@@ -28,7 +28,7 @@ public:
 
 	Rect BoundingRect(const Rect& r1);
 	void print();
-	void WhereAmI();
+	virtual void WhereAmI();
 
 	};
 

@@ -17,7 +17,7 @@ Circle::Circle(const Circle& r):Shape(r)
 
 Circle::~Circle()
 {
-
+	std::cout << "\nNow I am in Circle's destructor!";
 }
 
 void Circle::WhereAmI()

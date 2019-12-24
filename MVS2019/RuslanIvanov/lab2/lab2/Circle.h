@@ -1,5 +1,6 @@
 #pragma once
 #include "Shape.h"
+#include "myRect.h"
 
 class Circle: public Shape
 {
@@ -10,7 +11,8 @@ class Circle: public Shape
 	public:
 		Circle(COLOR c = RED);
 		Circle(const Circle&);
-		~Circle();	
-		void WhereAmI();
+		Circle(const Rect&) {};
+		virtual ~Circle();	
+		virtual void WhereAmI();
 };
 

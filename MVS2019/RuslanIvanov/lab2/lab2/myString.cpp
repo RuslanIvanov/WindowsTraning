@@ -42,8 +42,7 @@ MyString::MyString(const MyString& r)
 MyString::~MyString()
 {
 	delete[] m_pStr;
-
-	cout << "\nMyString::~destuctor";
+	std::cout << "\nNow I am in nMyString's destructor!";
 }
 
 

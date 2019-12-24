@@ -21,7 +21,7 @@ Rect::Rect(int left, int right, int top, int bottom,COLOR c):Shape(c)
 
 Rect::~Rect()
 {
-	std::cout << "\nRect::~destuctor";
+	std::cout << "\nNow I am in Rect's destructor!";
 }
 
 Rect::Rect(const Rect& r):Shape(r)

@@ -10,11 +10,12 @@ Shape::Shape(const Shape& r)
 {
 	m_color = r.m_color; //доступ к privat того же тип объекта разрешен
 	//r.m_color = RED; - нельзя т.к. const
+	std::cout << "\nI am in Shape's constr copy!";
 }
 
 Shape::~Shape()
 {
-
+	std::cout << "\nNow I am in Shape's destructor!";
 }
 
 void Shape::printColor()
