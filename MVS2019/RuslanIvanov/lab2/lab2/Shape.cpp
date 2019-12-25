@@ -4,6 +4,7 @@
 Shape::Shape(COLOR c)
 {
 	m_color = c;
+	std::cout << "\nI am in Shape's constr!";
 }
 
 Shape::Shape(const Shape& r)
