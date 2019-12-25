@@ -188,23 +188,28 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		Shape* pShapes = new Rect[10];//1)
 		Rect* pRects = new Rect[10];//2)
-
+		//1)  не массив указателей из 10 эл. а память выдеkена под sizeof(Rect)*10  
+		//2) ---//---
+		 
 		//Попробуйте вызвать метод WhereAmI() для каждого элемента обоих массивов -
 		//в чем заключается проблема???
 
 		for (int i = 0; i < 10; i++)
 		{
-			pShapes[i].WhereAmI();
+			if((pShapes+i) !=nullptr)
+				(pShapes+i)->WhereAmI(); // вызов метода под средством мех. вирт. функ. => rect
 			stop
-			pShapes[i].WhereAmI();
+			if ((pRects+i) != nullptr)
+				(pRects +i)->WhereAmI();// вызов метода под средством мех. вирт. функ. => rect
 			stop
 		}
 
 		//Освободите динамически захваченную память
-		//for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++)
+		{}
 		{
-			delete [] pShapes;
-			delete[] pRects;
+			delete  pShapes; // освобождаем столько, сколько  выделели Rect*10
+			delete  pRects; // удаление уже удаленных объектов, т.к. деструкторы вирт.
 		}
 		stop
 	}
