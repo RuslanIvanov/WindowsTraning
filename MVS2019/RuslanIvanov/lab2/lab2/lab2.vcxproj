@@ -123,16 +123,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bin.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Header.cpp" />
+    <ClCompile Include="Hex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myRect.cpp" />
     <ClCompile Include="myString.cpp" />
+    <ClCompile Include="Oct.cpp" />
     <ClCompile Include="Shape.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bin.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Hex.h" />
     <ClInclude Include="myRect.h" />
     <ClInclude Include="myString.h" />
+    <ClInclude Include="Oct.h" />
     <ClInclude Include="Shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

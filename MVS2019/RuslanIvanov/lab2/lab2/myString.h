@@ -10,4 +10,8 @@ public:
     ~MyString();
     const char* GetString();
     void SetNewString(const char* pstr);
+    void ConcatString(const char* pstr);
 };
+
+//////////////////////////////////////////////////////////////////////
+MyString ApplyString(const char *p1, ...);

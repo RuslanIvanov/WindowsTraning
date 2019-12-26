@@ -1,20 +1,21 @@
 #include <string>
-#include "myString.h"
 #include <iostream>
+#include <cstdarg>
+#include "myString.h"
 using namespace std;
 
 // Определение конструктора.
 
 MyString::MyString()
 {
+	/////////////////////////////////////
 	//m_pStr = nullptr;
+	//m_pStr = new char(0);// или так
+	//strcpy(m_pStr, "");// не экономно
+	////////////////////////////////////
 
 	m_pStr = new char[1];
 	*m_pStr = 0;
-	//m_pStr = new char(0);// или так
-
-	//strcpy(m_pStr, "");
-
 	cout << "\nMyString::def constructor";
 }
 
@@ -68,4 +69,43 @@ void MyString::SetNewString(const char* pstr)
 	m_pStr = new char[n_new];
 	strcpy(m_pStr, pstr);
 
+}
+
+void MyString::ConcatString(const char* pstr)
+{
+	if (pstr == nullptr) return ;
+
+	int n_new = strlen(pstr) + 1;
+	int n_current = strlen(m_pStr) + 1;
+
+	char* p_new = new char[n_new + n_current];
+	strcpy(p_new, m_pStr);
+	strcpy(p_new + n_current-1, pstr);
+	//strcat(p_new, pstr);
+
+	delete[] m_pStr;
+
+	m_pStr = p_new;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+MyString ApplyString(const char *p1, ...)
+{
+	MyString strConcat;
+	int count = 0;
+	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
+	va_list p;// универсальынй указатель
+	va_start(p, p1);//направл. универсального указ. на первый необяхат парам.
+
+	while (pstr!=nullptr)
+	{
+		std::cout << "\n#" << count << ": " << pstr;
+		strConcat.ConcatString(pstr);
+		pstr = va_arg(p, char*);
+		count++;
+		
+	}
+
+	return strConcat;
 }

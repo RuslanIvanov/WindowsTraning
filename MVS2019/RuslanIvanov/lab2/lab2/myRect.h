@@ -27,10 +27,11 @@ public:
 	void setBottom(int);
 
 	Rect BoundingRect(const Rect& r1);
-	void print();
+	virtual void print();
 	virtual void WhereAmI();
-
+	virtual void Inflate(int);
 	};
 
+/////////////////////////////////////////////////
 Rect BoundingRect2(Rect& r1, Rect& r2);
 Rect BoundingRect(Rect r1, Rect r2);

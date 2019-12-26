@@ -156,6 +156,7 @@ Rect Rect::BoundingRect(const Rect& r1)
 
 void Rect::print()
 {
+	std::cout << "\nRect:\n";
 	std::cout << "left = " << m_left << " right = " << m_right << "\n";
 	std::cout << "top = " << m_top << " bottom = " << m_bottom << "\n";
 }
@@ -163,6 +164,15 @@ void Rect::print()
 void Rect::WhereAmI()
 {
 	std::cout << "\nNow I am in class Rect";
+}
+
+void Rect::Inflate(int d) 
+{
+	std::cout << "\nRect::Inflate";
+	m_left -= d;
+	m_right += d;
+	m_top -= d;
+	m_bottom += d;
 }
 
 //=================================================================
