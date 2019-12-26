@@ -238,7 +238,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			//WhereAmI()класса Shape
 
 		r.Shape::WhereAmI(); // на этапе компил€ции €вно сказано компил€тору что вызвать
-		p->Shape::WhereAmI();
+		p->Shape::WhereAmI(); // под средством мех. вирт. функц.
 	stop	
 	}
 //*/
@@ -298,15 +298,26 @@ int _tmain(int argc, _TCHAR* argv[])
 	//			восьмеричные, двоичные цифры;
 	//в) измен€ть отдельные двоичные, восьмеричные или шестнадцатеричные цифры;
 
-	MyBytes byte(0x1f);
+	//MyBytes byte(0x1f);
+	MyBytes byte('c');
 
 	byte.ShowHex();
 	byte.ShowBin();
 	byte.ShowChar();
 	byte.ShowOct();
 	//...
+	byte.ShowBinPos(1);
+	byte.ShowHexPos(1);
+	byte.ShowOctPos(1);
 
+	byte.EditBin(7, 0);
+	byte.EditHex(1, 0xc);
+	byte.EditOct(2, 3);
 
+	byte.ShowHex();
+	byte.ShowBin();
+	byte.ShowOct();
+	//...
 
 	return 0;
 }//endmain
