@@ -326,7 +326,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	byte.ShowBin();
 	byte.EditHex(2, 0x6);
 	byte.ShowHex();
-	byte.EditOct(2, 0x8);
+	byte.EditOct(2, 4);
 	byte.ShowOct();
 	//...
 	return 0;
