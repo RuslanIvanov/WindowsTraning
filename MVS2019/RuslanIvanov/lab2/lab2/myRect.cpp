@@ -31,7 +31,7 @@ Rect::Rect(const Rect& r):Shape(r)
 	m_left = r.m_left;
 	m_right = r.m_right;
 
-	std::cout << "\nRect::constructor copy";
+	std::cout << "\nI am in Rect's constr copy!";
 }
 
 void Rect::Normalize()

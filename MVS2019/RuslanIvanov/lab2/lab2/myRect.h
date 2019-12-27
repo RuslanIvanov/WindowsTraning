@@ -8,7 +8,8 @@ public:
 	Rect();
 	Rect(int left,int right,int top, int bottom, COLOR c=RED);
 	Rect(const Rect& r);
-	virtual ~Rect();
+	virtual
+		~Rect();
 	void Normalize();
 	void Normalize(int l,int r,int t,int b);
 	void InflateRect(int dl, int dr, int dt, int db);

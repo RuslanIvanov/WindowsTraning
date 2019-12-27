@@ -10,8 +10,8 @@ void Hex::Show()
 }
 void Hex::ShowPos(int pos)
 {
-	if (pos == 2) { std::cout << "\n1->" << m_hex0; }
-	else if (pos == 1) { std::cout << "\n2->" << m_hex1; }
+	if (pos == 1) { std::cout << "\nHex 1->" << m_hex0; }
+	else if (pos == 2) { std::cout << "\nHex 2->" << m_hex1; }
 		else { std::cout << "\nerror Hex pos: " << pos; }
 }
 

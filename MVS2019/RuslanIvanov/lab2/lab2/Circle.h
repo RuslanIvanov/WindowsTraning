@@ -12,8 +12,9 @@ class Circle: public Shape
 		Circle(COLOR c = RED);
 		Circle(const Circle&);
 		Circle(int x, int y, int D, COLOR c);
-		Circle(const Rect&) {};
-		virtual ~Circle();	
+		Circle(const Rect& r);
+		virtual 
+			~Circle();	
 		virtual void WhereAmI();
 		virtual void Inflate(int);
 		virtual void print();

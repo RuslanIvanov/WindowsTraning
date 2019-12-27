@@ -12,8 +12,8 @@ void Oct::Show()
 
 void Oct::ShowPos(int pos)
 {
-	if (pos == 2) { std::cout << "\n1->" << m_oct0; }
-	else if (pos == 1) { std::cout << "\n2->" << m_oct1; }
+	if (pos == 1) { std::cout << "\nOct 1->" << m_oct0; }
+	else if (pos == 2) { std::cout << "\nOct 2->" << m_oct1; }
 	else { std::cout << "\nerror Oct pos: " << pos; }
 }
 
