@@ -72,7 +72,7 @@ void MyString::SetNewString(const char* pstr)
 }
 
 void MyString::ConcatString(const char* pstr)
-{// не эффективно, дефрагментация памяти => надо убрать
+{
 	if (pstr == nullptr) return ;
 
 	int n_new = strlen(pstr) + 1;
@@ -88,6 +88,36 @@ void MyString::ConcatString(const char* pstr)
 	m_pStr = p_new;
 }
 
+MyString& MyString::operator=(const MyString& r)
+{
+	if (this == &r) { return *this; }
+
+	int n_cur = strlen(m_pStr)+1;
+	int n_copy = strlen(r.m_pStr) + 1;
+
+	if (n_cur < n_copy)
+	{
+		delete[] m_pStr;
+		m_pStr = new char[n_copy];
+	}
+
+	strcpy(m_pStr, r.m_pStr);
+
+	return *this;
+
+	/*if (n_cur >= n_copy)
+	{
+		strcpy(m_pStr, r.m_pStr);
+		return *this;
+	}
+
+	delete[] m_pStr;
+	m_pStr = new char[n_copy];
+
+	strcpy(m_pStr, r.m_pStr);
+
+	return *this;*/
+}
 
 /////////////////////////////////////////////////////////////////////
 MyString ApplyString(const char *p1, ...)
@@ -107,5 +137,5 @@ MyString ApplyString(const char *p1, ...)
 		
 	}
 
-	return strConcat;  //для оптимизаци move копирование для MyString
+	return strConcat;
 }

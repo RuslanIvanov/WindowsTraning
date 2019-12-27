@@ -33,7 +33,7 @@ float Bochka::getV()
 	return m_V; 
 }
 
-int Bochka::getPercent()
+float Bochka::getPercent()
 {
 	return  m_spirt * 100;
 }

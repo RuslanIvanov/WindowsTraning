@@ -14,7 +14,8 @@ class Shape
 
 		COLOR getColor() { return m_color; };
 		void printColor();
-		virtual void WhereAmI();
+		//virtual
+			void WhereAmI();
 		virtual void print() {}//; = 0;
 };
 

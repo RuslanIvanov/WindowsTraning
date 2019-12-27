@@ -46,7 +46,7 @@ void Circle::print()
 	std::cout << "D = " << m_D << "";
 }
 
-Circle::Circle(const Rect& rr)
+Circle::Circle(const Rect& rr):Shape(rr)
 { 
 	int l, t, r, b, H, W;
 	l = r = t = b = H = W = 0;

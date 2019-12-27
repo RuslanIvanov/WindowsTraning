@@ -1,8 +1,8 @@
 #pragma once
 class Hex
 {
-	unsigned /*char*/ m_hex0 : 4; //// разбиваем число на группы по четыре
-	unsigned /*char*/ m_hex1 : 4; ///23 -> 0010 0011
+	unsigned char m_hex0 : 4; //// разбиваем число на группы по четыре
+	unsigned char m_hex1 : 4; ///23 -> 0010 0011
 	
 public:
 	//Hex();

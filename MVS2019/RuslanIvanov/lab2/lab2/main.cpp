@@ -90,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		Rect rA;// деволтный конструктор базового, затем производного
 		Rect rB(1,2,4,5,BLUE);  // конструктор c параметрами базового, затем производного
-		Circle cA;
+		Circle cA(3,5,10,RED);
 		Circle cB(GREEN);
 		rA.printColor();
 		rB.printColor();
@@ -117,9 +117,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	
 		//Метод какого класса вызывается в следующих строчках???
-		s.WhereAmI();	//	посредством объекта вызывается соотв. метод класса
-		r.WhereAmI();	//	посредством объекта вызывается соотв. метод класса
-		c.WhereAmI();	//	посредством объекта вызывается соотв. метод класса
+		s.WhereAmI();	//	посредством объекта вызывается соотв. метод класса Shape
+		r.WhereAmI();	//	посредством объекта вызывается соотв. метод класса Rect
+ 		c.WhereAmI();	//	посредством объекта вызывается соотв. метод класса Circle
 		stop
 
 
@@ -129,7 +129,7 @@ int _tmain(int argc, _TCHAR* argv[])
     	pShape->WhereAmI();	//	посредством механизма вирт. функций вызов метода кл. Shape 
 		pRect->WhereAmI();	//	посредством механизма вирт. функций вызов метода прозводного кл. Rect
 		pCircle->WhereAmI(); //	посредством механизма вирт. функций вызов метода прозводного кл. Circle
-
+		//если WhereAmI не вирт. в базовом, то  вызов Shape, Shape , Shape  стр. 114
 		stop
 
 
@@ -214,8 +214,11 @@ int _tmain(int argc, _TCHAR* argv[])
 				pR->WhereAmI();// вызов метода под средством мех. вирт. функ. => rect
 			stop
 
-			pS = pR++;//сдвиг указателя на производный след объект и компил. приводит его к уаз. на базовый
-			
+			pS = pS + sizeof(Rect);// сдвиг указателя на следущий объект Sahpe с учетом размерв Rect+Sahpe
+
+			static_cast<Rect*>(pShapes)[i].WhereAmI();
+
+			pR++;;//сдвиг указателя на производный след объект
 			stop
 		}
 		stop
@@ -304,9 +307,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//			восьмеричные, двоичные цифры;
 	//в) изменять отдельные двоичные, восьмеричные или шестнадцатеричные цифры;
 
-	//MyBytes byte(0x1f);
+	MyBytes byte(0x1f);
 	//MyBytes byte('c');
-	MyBytes byte(1);
+	//MyBytes byte(1);
 
 	byte.ShowHex();
 	byte.ShowBin();
@@ -314,19 +317,27 @@ int _tmain(int argc, _TCHAR* argv[])
 	byte.ShowOct();
 	stop
 	//...
+	byte.ShowBinPos(0);
+	byte.ShowHexPos(0);
+	byte.ShowOctPos(0);
+
 	byte.ShowBinPos(1);
 	byte.ShowHexPos(1);
 	byte.ShowOctPos(1);
 
-	byte.ShowBinPos(2);
-	byte.ShowHexPos(2);
-	byte.ShowOctPos(2);
-
-	byte.EditBin(2, 1);// а изменения в одной и той же области памяти! 
+	byte.EditBin(1, 1);// а изменения в одной и той же области памяти! 
 	byte.ShowBin();//0000011
-	byte.EditHex(2, 0x6);//0110
 	byte.ShowHex();
-	byte.EditOct(2, 4);//100
+	byte.ShowOct();
+
+	byte.EditHex(1, 0x6);//0110
+	byte.ShowBin();
+	byte.ShowHex();
+	byte.ShowOct();
+
+	byte.EditOct(1, 4);//100
+	byte.ShowBin();
+	byte.ShowHex();
 	byte.ShowOct();
 	//...
 	return 0;

@@ -1,8 +1,8 @@
 #pragma once
 class Oct
 {
-	unsigned /*char*/ m_oct0 : 3;// разбиваем число на группы по три
-	unsigned /*char*/ m_oct1 : 3;// 23 -> 010 011
+	unsigned char m_oct0 : 3;// разбиваем число на группы по три
+	unsigned char m_oct1 : 3;// 23 -> 010 011
 	public:
 		//Oct();
 
