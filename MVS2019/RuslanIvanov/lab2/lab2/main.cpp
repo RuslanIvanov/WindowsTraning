@@ -323,10 +323,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	byte.ShowOctPos(2);
 
 	byte.EditBin(2, 1);// а изменения в одной и той же области памяти! 
-	byte.ShowBin();
-	byte.EditHex(2, 0x6);
+	byte.ShowBin();//0000011
+	byte.EditHex(2, 0x6);//0110
 	byte.ShowHex();
-	byte.EditOct(2, 4);
+	byte.EditOct(2, 4);//100
 	byte.ShowOct();
 	//...
 	return 0;
