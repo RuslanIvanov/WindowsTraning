@@ -322,15 +322,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	byte.ShowHexPos(2);
 	byte.ShowOctPos(2);
 
-	byte.EditBin(7, 1);
-	byte.EditHex(1, 0x0);
-	byte.EditOct(2, 7);
-
-	byte.ShowHex();
+	byte.EditBin(2, 1);// а изменения в одной и той же области памяти! 
 	byte.ShowBin();
+	byte.EditHex(2, 0x6);
+	byte.ShowHex();
+	byte.EditOct(2, 0x8);
 	byte.ShowOct();
 	//...
-
 	return 0;
 }//endmain
 

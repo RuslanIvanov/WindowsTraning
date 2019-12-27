@@ -33,7 +33,7 @@ void Bin::Edit(int pos, int val)
 				else
 					if (pos == 5) { m_bin4 = val; }
 					else
-						if (pos == 6) {m_bin5 = val; }
+						if (pos == 6) { m_bin5 = val; }
 						else
 							if (pos == 7) {  m_bin6 = val; }
 							else
