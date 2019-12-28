@@ -137,5 +137,5 @@ MyString ApplyString(const char *p1, ...)
 		
 	}
 
-	return strConcat;
+	return strConcat; //для оптимизаци move копирование для MyString
 }
