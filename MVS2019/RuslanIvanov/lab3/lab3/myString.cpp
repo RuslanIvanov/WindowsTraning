@@ -104,19 +104,31 @@ MyString& MyString::operator=(const MyString& r)
 	strcpy(m_pStr, r.m_pStr);
 
 	return *this;
+}
 
-	/*if (n_cur >= n_copy)
+MyString::MyString(MyString&& MoveSource) 
+{/*Когда он доступен, компилятор C++11 автоматически выбирает конструктор перемещения 
+ для временного “перемещения” ресурса, а следовательно, избегает этапа глубокого копирования!!!*/
+	if (MoveSource.m_pStr != nullptr) 
 	{
-		strcpy(m_pStr, r.m_pStr);
-		return *this;
+		//взять собственнеость и перкместить
+		m_pStr = MoveSource.m_pStr;
+		MoveSource.m_pStr = nullptr;
 	}
+	cout << "\nMyString::move constructor";
+}
 
-	delete[] m_pStr;
-	m_pStr = new char[n_copy];
+MyString& MyString::operator= ( MyString&& MoveResource) 
+{
+	cout << "\nMyString::move operator=()";
 
-	strcpy(m_pStr, r.m_pStr);
+	if (this == &MoveResource) return *this;
 
-	return *this;*/
+	delete[] m_pStr;// освобожление собственного ресурса
+	m_pStr = MoveResource.m_pStr; // взять в сообственность - начало перемещения
+	MoveResource.m_pStr = nullptr; // освободить источник перемещения от собственности
+
+	return *this;
 }
 
 /////////////////////////////////////////////////////////////////////
