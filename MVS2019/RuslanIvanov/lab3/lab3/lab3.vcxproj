@@ -123,12 +123,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myString.cpp" />
+    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Point.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="myString.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -181,18 +181,6 @@ MyString& MyString::operator+=(const MyString& s)
 	//(*this) =	(*this) + s;
 
 	return (*this) + s;
-	
-	/*int n_cur = strlen(m_pStr) + 1;
-	int n_new = strlen(s.m_pStr) + 1;
-	char* p = new char[n_cur + n_new];
-	strcpy(p, m_pStr);
-	strcat(p, s.m_pStr);
-
-	delete[] m_pStr;
-
-	m_pStr = p;
-
-	return *this;//*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////

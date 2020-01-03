@@ -18,7 +18,7 @@ public:
 
     const char* GetString();
     void SetNewString(const char* pstr);
-    void ConcatString(const char* pstr);
+    void ConcatString(const char* pstr); 
     friend std::ostream& operator<<(std::ostream& os, const MyString& s);
 };
  

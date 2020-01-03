@@ -7,7 +7,7 @@
 #include<iostream>
 #include <tchar.h>
 
-#include "MyString.h"
+#include "myString.h"
 #include "Point.h"
 
 #define	  stop __asm nop
