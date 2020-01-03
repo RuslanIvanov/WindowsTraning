@@ -1,5 +1,6 @@
 #include "Point.h"
 #include <iostream>
+//Globals:///////////////////////////////////////////////////////////
 Point& operator+=(Point& rl, int i) 
 {
 	rl.m_x += i;
@@ -16,7 +17,7 @@ Point& operator-(Point& rl, int i)
 	return rl;
 }
 
-Point& operator-(Point& rl, Point& rr)
+Point& operator-(Point& rl, const Point& rr)
 {
 	rl.m_x -= rr.m_x;
 	rl.m_y -= rr.m_y;
@@ -27,10 +28,12 @@ Point& operator-(Point& rl, Point& rr)
 //??
 Point& operator+(int i, Point& r)
 {
-	r.m_x += i; r.m_y+=i;
+	r.m_x += i; 
+	r.m_y += i;
 	return r;
 }
 //Point& operator+(int i , Point& rr) {	return rr;}
+///////////////////////////////////////////////////////////////////////////////////
 
 Point::Point(int x, int y)
 {
@@ -44,7 +47,7 @@ Point::Point(const Point& r)
 	m_y = r.m_y;
 }
 
-Point& Point::operator=(Point& r)
+Point& Point::operator=(const Point& r)
 {
 	if (this == &r) { return *this; }
 
@@ -54,7 +57,7 @@ Point& Point::operator=(Point& r)
 	return *this;
 }
 
-Point& Point::operator+=(Point& r)
+Point& Point::operator+=(const Point& r)
 {
 	m_x += r.m_x;
 	m_y += r.m_y;
@@ -62,13 +65,21 @@ Point& Point::operator+=(Point& r)
 	return *this;
 }
 
-Point& Point::operator+(Point& r)
+Point& Point::operator+(const Point& r)
 {
 	m_x += r.m_x;
 	m_y += r.m_y;
 
 	return *this;
 }
+/*
+Point& Point::operator-(const Point& r)
+{
+	m_x -= r.m_x;
+	m_y -= r.m_y;
+
+	return *this;
+}//*/
 
 Point& Point::operator+(int i)
 {
@@ -78,9 +89,18 @@ Point& Point::operator+(int i)
 	return *this;
 }
 
-int Point::operator+() 
+Point& Point::operator+() 
 {
-	return m_x + m_y;
+	m_x += 1;
+	m_y += 1;
+	return *this;
+}
+
+Point& Point::operator-()
+{
+	m_x -= 1;
+	m_y -= 1;
+	return *this;
 }
 
 void Point::print()

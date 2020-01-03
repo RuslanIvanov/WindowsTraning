@@ -90,7 +90,10 @@ void MyString::ConcatString(const char* pstr)
 
 MyString& MyString::operator=(const MyString& r)
 {
-	if (this == &r) { return *this; }
+	cout << "\nMyString::operator=()";
+
+	if (this == &r)
+	{ return *this; }
 
 	int n_cur = strlen(m_pStr)+1;
 	int n_copy = strlen(r.m_pStr) + 1;
@@ -102,7 +105,7 @@ MyString& MyString::operator=(const MyString& r)
 	}
 
 	strcpy(m_pStr, r.m_pStr);
-
+	
 	return *this;
 }
 
@@ -111,7 +114,7 @@ MyString::MyString(MyString&& MoveSource)
  для временного “перемещения” ресурса, а следовательно, избегает этапа глубокого копирования!!!*/
 	if (MoveSource.m_pStr != nullptr) 
 	{
-		//взять собственнеость и перкместить
+		//взять собственнеость и переместить
 		m_pStr = MoveSource.m_pStr;
 		MoveSource.m_pStr = nullptr;
 	}
@@ -122,7 +125,10 @@ MyString& MyString::operator= ( MyString&& MoveResource)
 {
 	cout << "\nMyString::move operator=()";
 
-	if (this == &MoveResource) return *this;
+	if (this == &MoveResource)
+	{
+		return *this;
+	}
 
 	delete[] m_pStr;// освобожление собственного ресурса
 	m_pStr = MoveResource.m_pStr; // взять в сообственность - начало перемещения
@@ -150,4 +156,48 @@ MyString ApplyString(const char *p1, ...)
 	}
 
 	return strConcat; //для оптимизаци move копирование для MyString
+}
+MyString& MyString::operator+(const MyString& s)
+{
+	int n_cur = strlen(m_pStr) + 1;
+	int n_new = strlen(s.m_pStr) + 1;
+	char* p = new char[n_cur + n_new];
+	
+	strcpy(p, m_pStr);
+	strcat(p, s.m_pStr);
+
+	delete[] m_pStr;
+
+	m_pStr = p;
+
+	return *this;
+
+}
+
+MyString& MyString::operator+=(const MyString& s) 
+{
+	//this->operator=(this->operator+(s));
+
+	//(*this) =	(*this) + s;
+
+	return (*this) + s;
+	
+	/*int n_cur = strlen(m_pStr) + 1;
+	int n_new = strlen(s.m_pStr) + 1;
+	char* p = new char[n_cur + n_new];
+	strcpy(p, m_pStr);
+	strcat(p, s.m_pStr);
+
+	delete[] m_pStr;
+
+	m_pStr = p;
+
+	return *this;//*/
+}
+
+////////////////////////////////////////////////////////////////////////////////
+ostream& operator<<(ostream& os, const MyString& s) 
+{
+	os << "\nconent: " << s.m_pStr;
+	return os;
 }

@@ -7,22 +7,25 @@ class Point
 	public:
 		Point(int x = 0, int y = 0);
 		Point(const Point& r);
-		Point& operator=(Point&);
+		Point& operator=(const Point&);
 		
-		Point& operator+(Point&);
+		Point& operator+(const Point&);
 		Point& operator+(int);
-		int operator+();
-		
+		//Point& operator-(const Point&);
 	
-		Point& operator+=(Point&);
+		Point& operator+=(const Point&);
+
+		Point& operator+();
+		Point& operator-();
+
 		friend Point& operator+=(Point&, int);
 		friend Point& operator-(Point& rl, int i);
-		friend Point& operator-(Point& rl, Point& rr);
+		friend Point& operator-(Point& rl, const Point& rr);
 		friend Point& operator+(int, Point& r);
 		void print();
 };
 
 Point& operator+=(Point&, int);
 Point& operator-(Point& rl, int i);
-Point& operator-(Point& rl, Point& rr);
+Point& operator-(Point& rl, const Point& rr);
 Point& operator+(int, Point& r);

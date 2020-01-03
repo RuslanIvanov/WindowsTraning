@@ -9,13 +9,19 @@ public:
     MyString(const MyString&);
     MyString(MyString&& MoveSource);// конструктор перемещения
     ~MyString();
+
 	MyString& operator=(const MyString& r);
     MyString& operator= ( MyString&& ); // Оператор присваивания при перемещении
+
+    MyString& operator+(const MyString& s);
+    MyString& operator+=(const MyString& s);
 
     const char* GetString();
     void SetNewString(const char* pstr);
     void ConcatString(const char* pstr);
+    friend std::ostream& operator<<(std::ostream& os, const MyString& s);
 };
-
+ 
 //////////////////////////////////////////////////////////////////////
 MyString ApplyString(const char *p1, ...);
+std::ostream& operator<<(std::ostream& os, const MyString& s);
