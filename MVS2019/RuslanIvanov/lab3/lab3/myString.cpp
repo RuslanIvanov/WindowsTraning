@@ -177,9 +177,7 @@ MyString& MyString::operator+(const MyString& s)
 MyString& MyString::operator+=(const MyString& s) 
 {
 	//this->operator=(this->operator+(s));
-
 	//(*this) =	(*this) + s;
-
 	return (*this) + s;
 }
 
@@ -188,4 +186,25 @@ ostream& operator<<(ostream& os, const MyString& s)
 {
 	os << "\nconent: " << s.m_pStr;
 	return os;
+}
+
+MyString Concat(const char* p1, ...) 
+{
+
+	MyString strConcat;
+	int count = 0;
+	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
+	va_list p;// универсальынй указатель
+	va_start(p, p1);//направл. универсального указ. на первый необяхат парам.
+	/*
+	while (pstr != nullptr)
+	{
+		std::cout << "\n#" << count << ": " << pstr;
+		strConcat.ConcatString(pstr);
+		pstr = va_arg(p, char*);
+		count++;
+
+	}*/
+
+	return strConcat;
 }

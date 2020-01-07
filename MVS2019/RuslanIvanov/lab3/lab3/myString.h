@@ -25,3 +25,4 @@ public:
 //////////////////////////////////////////////////////////////////////
 MyString ApplyString(const char *p1, ...);
 std::ostream& operator<<(std::ostream& os, const MyString& s);
+MyString Concat(const char* p1, ...);

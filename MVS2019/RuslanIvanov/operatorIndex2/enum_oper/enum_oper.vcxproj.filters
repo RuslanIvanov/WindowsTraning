@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="exampleIndexOper.cpp">
+    <ClCompile Include="enum_oper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

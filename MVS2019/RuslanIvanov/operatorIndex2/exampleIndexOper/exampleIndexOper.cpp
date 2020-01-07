@@ -88,7 +88,7 @@ int main()
         }
         cout << endl;
     }
-    system("Pause");
+    getchar();
     return 0;
 }
 
