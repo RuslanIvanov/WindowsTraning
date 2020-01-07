@@ -190,21 +190,33 @@ ostream& operator<<(ostream& os, const MyString& s)
 
 MyString Concat(const char* p1, ...) 
 {
-
-	MyString strConcat;
 	int count = 0;
 	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
 	va_list p;// универсальынй указатель
-	va_start(p, p1);//направл. универсального указ. на первый необяхат парам.
-	/*
+	va_start(p, p1);//направл. универсального указ. на первый необх. парам.
+
+	int len = 0;
+	
 	while (pstr != nullptr)
 	{
 		std::cout << "\n#" << count << ": " << pstr;
-		strConcat.ConcatString(pstr);
+		len += strlen(pstr) + 1;
 		pstr = va_arg(p, char*);
 		count++;
-
-	}*/
-
+	}
+	std::cout << "\n#LEN ALL " << count << ": " << len;
+	char* ppp = new char[len];
+	*ppp = 0;
+	//const char** pp = &p1;
+	const char* pstr2 = p1;
+	va_start(p, p1);
+	for (int i = 0; i < count; i++)
+	{
+		strcat(ppp, pstr2);
+		pstr2 = va_arg(p, char*);
+	
+	}
+	MyString strConcat(ppp);
+	delete[] ppp;
 	return strConcat;
 }

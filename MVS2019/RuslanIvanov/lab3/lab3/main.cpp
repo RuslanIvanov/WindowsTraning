@@ -138,6 +138,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << s4 << std::endl;
 	stop
 
+	MyString strCats= Concat("ONE", "TWO", "FREE", 0);
+	std::cout<<"\nconcat str: '"<<strCats.GetString()<<"'";
+    stop
 //*/
 	//Задание 3. Разработать "базу данных" о сотрудниках посредством ассоциативного
 	//массива. Ключом является фамилия (ключ в задании уникален, поэтому нескольких Ивановых
