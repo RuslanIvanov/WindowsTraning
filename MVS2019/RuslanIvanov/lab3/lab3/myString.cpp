@@ -112,7 +112,7 @@ MyString& MyString::operator=(const MyString& r)
 MyString::MyString(MyString&& MoveSource) 
 {/*Когда он доступен, компилятор C++11 автоматически выбирает конструктор перемещения 
  для временного “перемещения” ресурса, а следовательно, избегает этапа глубокого копирования!!!*/
-	if (MoveSource.m_pStr != nullptr) 
+	if (MoveSource.m_pStr != nullptr) // не надо так как в дефолтофом констр *m_pStr = 0;
 	{
 		//взять собственнеость и переместить
 		m_pStr = MoveSource.m_pStr;
@@ -157,7 +157,7 @@ MyString ApplyString(const char *p1, ...)
 
 	return strConcat; //для оптимизаци move копирование для MyString
 }
-MyString& MyString::operator+(const MyString& s)
+MyString/*&*/ MyString::operator+(const MyString& s)
 {
 	int n_cur = strlen(m_pStr) + 1;
 	int n_new = strlen(s.m_pStr) + 1;
@@ -166,22 +166,34 @@ MyString& MyString::operator+(const MyString& s)
 	strcpy(p, m_pStr);
 	strcat(p, s.m_pStr);
 
-	delete[] m_pStr;
+	//delete[] m_pStr;
+	//m_pStr = p;
+	//return *this;
 
-	m_pStr = p;
-
-	return *this;
-
+	MyString tmp(p);
+	return tmp;
 }
 
 MyString& MyString::operator+=(const MyString& s) 
 {
 	//this->operator=(this->operator+(s));
-	//(*this) =	(*this) + s;
-	return (*this) + s;
+	(*this) = (*this) + s;
+	return *this;
+	//return (*this) + s;
+}
+
+bool MyString::operator == (const char* k) const
+{
+	if (strcmp(m_pStr,k) == 0) return true;
+	else false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+bool operator == (const char* k,const MyString& r) //???
+{	
+	if (strcmp(r.m_pStr, k) == 0) return true;
+	else return false;
+}
 ostream& operator<<(ostream& os, const MyString& s) 
 {
 	os << "\nconent: " << s.m_pStr;
@@ -207,7 +219,7 @@ MyString Concat(const char* p1, ...)
 	std::cout << "\n#LEN ALL " << count << ": " << len;
 	char* ppp = new char[len];
 	*ppp = 0;
-	//const char** pp = &p1;
+	//const char** pp = &p1;//???
 	const char* pstr2 = p1;
 	va_start(p, p1);
 	for (int i = 0; i < count; i++)
@@ -218,5 +230,6 @@ MyString Concat(const char* p1, ...)
 	}
 	MyString strConcat(ppp);
 	delete[] ppp;
-	return strConcat;
+	return strConcat; // работает move!!!
 }
+

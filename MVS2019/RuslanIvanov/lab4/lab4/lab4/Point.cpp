@@ -9,29 +9,30 @@ Point& operator+=(Point& rl, int i)
 	return rl;
 }
 
-Point/*&*/ operator-(Point& rl, int i)
+Point& operator-(Point& rl, int i)
 {
-	//rl.m_x -= i;
-	//rl.m_y -= i;	return rl;
+	rl.m_x -= i;
+	rl.m_y -= i;
 
-	return Point(rl.m_x-i, rl.m_y-i);
+	return rl;
 }
 
-Point/*&*/ operator-(Point& rl, const Point& rr)
+Point& operator-(Point& rl, const Point& rr)
 {
-	//rl.m_x -= rr.m_x;
-	//rl.m_y -= rr.m_y;	return rl;
+	rl.m_x -= rr.m_x;
+	rl.m_y -= rr.m_y;
 
-	return Point(rl.m_x - rr.m_x, rl.m_y - rr.m_y);
+	return rl;
 }
 
-Point/*&*/ operator+(int i, Point& r)
+//??
+Point& operator+(int i, Point& r)
 {
-	//r.m_x += i; 
-	//r.m_y += i; return r;
-
-	return Point(r.m_x + i, r.m_y + i);
+	r.m_x += i; 
+	r.m_y += i;
+	return r;
 }
+//Point& operator+(int i , Point& rr) {	return rr;}
 ///////////////////////////////////////////////////////////////////////////////////
 
 Point::Point(int x, int y)
@@ -64,11 +65,12 @@ Point& Point::operator+=(const Point& r)
 	return *this;
 }
 
-Point/*&*/ Point::operator+(const Point& r)
-{	
-	//m_x += r.m_x;
-	//m_y += r.m_y; return *this;
-	return Point(m_x + r.m_x, m_y + r.m_y);
+Point& Point::operator+(const Point& r)
+{
+	m_x += r.m_x;
+	m_y += r.m_y;
+
+	return *this;
 }
 /*
 Point& Point::operator-(const Point& r)
@@ -79,27 +81,26 @@ Point& Point::operator-(const Point& r)
 	return *this;
 }//*/
 
-Point/*&*/ Point::operator+(int i)
+Point& Point::operator+(int i)
 {
-	//m_x += i;
-	//m_y += i;
-	//return *this;
-	
-	return Point(m_x + i, m_y + i);
-}
+	m_x += i;
+	m_y += i;
 
-Point Point::operator+() 
-{//сам себя меняет
-	//m_x += 1;
-	//m_y += 1;
 	return *this;
 }
-Point operator-(const Point& r)
-//Point& Point::operator-()
+
+Point& Point::operator+() 
 {
-	//m_x -= 1;
-	//m_y -= 1;
-	return Point(-r.m_x,-r.m_y);
+	m_x += 1;
+	m_y += 1;
+	return *this;
+}
+
+Point& Point::operator-()
+{
+	m_x -= 1;
+	m_y -= 1;
+	return *this;
 }
 
 void Point::print()

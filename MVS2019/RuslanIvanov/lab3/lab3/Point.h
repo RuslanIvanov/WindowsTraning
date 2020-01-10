@@ -9,23 +9,25 @@ class Point
 		Point(const Point& r);
 		Point& operator=(const Point&);
 		
-		Point& operator+(const Point&);
-		Point& operator+(int);
+		Point/*&*/ operator+(const Point&); // копию объекта должен возвр, т.т. исменять самого себя не надо
+		Point/*&*/ operator+(int);
 		//Point& operator-(const Point&);
 	
 		Point& operator+=(const Point&);
 
-		Point& operator+();
-		Point& operator-();
-
+		Point/*& */ operator+();
+		
 		friend Point& operator+=(Point&, int);
-		friend Point& operator-(Point& rl, int i);
-		friend Point& operator-(Point& rl, const Point& rr);
-		friend Point& operator+(int, Point& r);
+		friend Point operator-(Point& rl, int i);
+		friend Point operator-(Point& rl, const Point& rr);
+		friend Point operator+(int, Point& r);
+		friend Point operator-(const Point& r);
 		void print();
 };
 
 Point& operator+=(Point&, int);
-Point& operator-(Point& rl, int i);
-Point& operator-(Point& rl, const Point& rr);
-Point& operator+(int, Point& r);
+Point operator-(Point& rl, int i);
+Point operator-(Point& rl, const Point& rr);
+Point operator+(int, Point& r);
+Point operator-(const Point& r);
+

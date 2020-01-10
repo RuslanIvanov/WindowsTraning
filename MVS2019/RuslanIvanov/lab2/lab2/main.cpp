@@ -205,6 +205,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		Shape* pS = pShapes;
 		Rect* pR = pRects;
+		Rect* ptmp = static_cast<Rect*>(pShapes);
 		for (int i = 0; i < 10; i++)
 		{
 			if (pS != nullptr)
@@ -216,7 +217,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			pS = pS + sizeof(Rect);// сдвиг указателя на следущий объект Sahpe с учетом размерв Rect+Sahpe
 
-			static_cast<Rect*>(pShapes)[i].WhereAmI();
+			//static_cast<Rect*>(pShapes)[i].WhereAmI();
+			ptmp[i].WhereAmI();
 
 			pR++;;//сдвиг указателя на производный след объект
 			stop
