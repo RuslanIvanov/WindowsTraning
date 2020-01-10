@@ -15,6 +15,7 @@ Pair::Pair( Pair&& r)
 
 bool Pair::operator == (const char* k) const 
 {
+	//return false;
 	//return (k == key);//глоб оператор ==
 	return (key == k); //оператор == перегрузить	
 }
