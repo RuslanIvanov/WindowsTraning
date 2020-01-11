@@ -7,14 +7,20 @@ class Base
 	size_t capacity; //емкость базы
 
 public:
-	Base() { count = 0; capacity = 10; }
-	~Base() {}
+	Base();
+	~Base();
 
 	Base(const Base& bd);
 	Base& operator=(const Base& bd); //оптимизированный!!!
 	Base(Base&& bd);
+
 	Base& operator=(Base&& bd);
 	Data& operator[](const char* key);
+
 	int deletePair(const char* key);
+
+	friend std::ostream& operator<<(std::ostream& os, const Base& d);
 };
+
+std::ostream& operator<<(std::ostream& os, const Base& d);
 

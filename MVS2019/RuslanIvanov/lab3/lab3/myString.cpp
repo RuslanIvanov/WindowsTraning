@@ -21,6 +21,13 @@ MyString::MyString()
 
 MyString::MyString(const char* pstr) 
 {
+	if (pstr == nullptr) 
+	{
+		m_pStr = new char[1];
+		*m_pStr = 0;
+		return;
+	}
+
 	int n = strlen(pstr) + 1;
 	m_pStr = new char[n];
 	///////////////////////////////////////////////
@@ -184,15 +191,19 @@ MyString& MyString::operator+=(const MyString& s)
 
 bool MyString::operator == (const char* k) const
 {
-	if (strcmp(m_pStr,k) == 0) return true;
-	else false;
+	if (strcmp(m_pStr,k) == 0) 
+		return true;
+	else 
+		return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 bool operator == (const char* k,const MyString& r) //???
 {	
-	if (strcmp(r.m_pStr, k) == 0) return true;
-	else return false;
+	if (strcmp(r.m_pStr, k) == 0) 
+		return true;
+	else 
+		return false;
 }
 ostream& operator<<(ostream& os, const MyString& s) 
 {
@@ -219,7 +230,6 @@ MyString Concat(const char* p1, ...)
 	std::cout << "\n#LEN ALL " << count << ": " << len;
 	char* ppp = new char[len];
 	*ppp = 0;
-	//const char** pp = &p1;//???
 	const char* pstr2 = p1;
 	va_start(p, p1);
 	for (int i = 0; i < count; i++)

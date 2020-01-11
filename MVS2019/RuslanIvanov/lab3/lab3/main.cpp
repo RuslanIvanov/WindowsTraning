@@ -9,6 +9,7 @@
 
 #include "myString.h"
 #include "Point.h"
+#include "Base.h"
 
 #define	  stop __asm nop
 
@@ -151,9 +152,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//вывод информации о конкретном сотруднике
 	//вывод всей (или интересующей) информации о всех сотрудниках
 	//Например:
-/*
-		BD bd;	//создание пустой базы
-		bd["Ivanov"] = Data(30,MALE,<остальные данные>);	//если Ivanov-а в базе еще нет, то
+
+		Base bd;	//создание пустой базы
+			//(Sex _sex, size_t _tm_age, const char* str, float salary);
+		bd["Ivanov"] = Data(Data::MALE,30,"Programmer",100000);	//если Ivanov-а в базе еще нет, то
 						//добавление, если уже есть, то замена его реквизитов
 		std::cout<<bd;	//вывод информации обо всех сотрудниках
 
