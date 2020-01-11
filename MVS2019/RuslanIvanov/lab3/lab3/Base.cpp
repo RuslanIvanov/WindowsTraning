@@ -7,6 +7,8 @@ Base::Base()
 	capacity = 10; 
 
 	pBase = new Pair[capacity];//def constructor
+
+	std::cout << "\nDB is created\n";
 }
 
 Base::Base(const Base& base) 
@@ -25,6 +27,7 @@ Base::Base(const Base& base)
 Base::~Base()
 {
 	delete[] pBase;
+	std::cout << "\nDB is deleteed!!!\n";
 }
 
 Base& Base::operator=(const Base& base)
@@ -77,16 +80,19 @@ Base& Base::operator=(Base&& base)
 
 Data& Base::operator[](const char* key) 
 {
-	for (size_t i = 0; i < capacity; i++)
+	size_t i = 0;
+
+	for (; i < count; i++)
 	{
 		if (pBase[i] == key)//pBase[i].operator=(key)
 		{
 			return pBase[i].data;
 		}
+	}
 
-		//ключа нет - вставка
-		if (i >= capacity)
-		{// места нет - перераспределение пам€ти
+	//ключа нет - вставка
+	if (i >= capacity)
+	{// места нет - перераспределение пам€ти
 			capacity += 10;
 			Pair* p = new Pair[capacity];// def constructor
 			//копи€ данных в выделеную пам€ть
@@ -96,15 +102,13 @@ Data& Base::operator[](const char* key)
 			}
 			delete[] pBase; // удалить не нужно
 			pBase = p;
-		}
-		//добавление нового ключа
-		pBase[i].key = key; 
-		//pBase[i].key.operator=(key);
-		count++;
-		return pBase[i].data; 
 	}
 
-	return pBase[0].data; // перва€ строка пустой базы
+	//добавление нового ключа
+	pBase[i].key = key; 
+	//pBase[i].key.operator=(key);
+	count++;
+	return pBase[i].data; 
 }
 
 int Base::deletePair(const char* key) 
@@ -113,8 +117,18 @@ int Base::deletePair(const char* key)
 	for (; i < count; i++)
 	{
 		if (pBase[i] == key)//pBase[i].operator==(key)
-		{
-			pBase[i] = Pair();//move
+		{//если 
+			if (i == (count - 1))
+			{
+				pBase[i] = Pair();//move
+			}
+			else 
+			{
+				for (size_t j = i; j < (count); j++)
+				{
+					pBase[j] = pBase[j + 1];
+				}
+			}
 			count--;
 			return i;
 		}

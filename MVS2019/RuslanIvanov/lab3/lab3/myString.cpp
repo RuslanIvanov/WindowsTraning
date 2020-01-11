@@ -207,7 +207,8 @@ bool operator == (const char* k,const MyString& r) //???
 }
 ostream& operator<<(ostream& os, const MyString& s) 
 {
-	os << "\nconent: " << s.m_pStr;
+	//os << "\nconent: " << s.m_pStr;
+	os << "" << s.m_pStr;
 	return os;
 }
 

@@ -153,14 +153,34 @@ int _tmain(int argc, _TCHAR* argv[])
 	//вывод всей (или интересующей) информации о всех сотрудниках
 	//Например:
 
-		Base bd;	//создание пустой базы
-			//(Sex _sex, size_t _tm_age, const char* str, float salary);
-		bd["Ivanov"] = Data(Data::MALE,30,"Programmer",100000);	//если Ivanov-а в базе еще нет, то
-						//добавление, если уже есть, то замена его реквизитов
-		std::cout<<bd;	//вывод информации обо всех сотрудниках
+		Base base;	//создание пустой базы
+		std::cout << base;
 
+		base["Ivanov"] = Data(Data::MALE,30,"Programmer",100000);	//если Ivanov-а в базе еще нет, то
+																	//добавление, если уже есть, то замена его реквизитов
+		std::cout<<base;//вывод информации обо всех сотрудниках
+
+		base["Petrov"] = Data(Data::MALE, 40, "Programmer", 200000);
+		base["Sidorov"] = Data(Data::MALE, 50, "Programmer", 300000);
+
+		std::cout << base;
+		std::cout << "\nIvanov info:\n";
+		std::cout << base["Ivanov"];
+
+		base.deletePair("Ivanov");
+		std::cout << base;
 //*/
 	
-	return 0;
+		Base db = base; // конструктор копирования
+		std::cout << db;
+		db["Kirillov"] = Data(Data::MALE, 60, "Programmer", 600000);
+		std::cout << db;
+
+		base = db;
+		std::cout << base;
+		base["Kirillov"] = Data(Data::MALE, 20, "Saler", 15000);
+		std::cout << base;
+
+		return 0;
 }//endmain
 

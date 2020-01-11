@@ -63,7 +63,7 @@ Data& Data::operator=(Data&& r)
 std::ostream& operator<<(std::ostream& os, const Data& d) 
 {
 	os << "|job: " << d.m_job;
-	os << "|sex: " << (d.sex == Data::UNDEF) ? "UNDEF" : (d.sex == Data::MALE) ? "MALE" : "FEMALE";
+	os << "|sex: " <<""<<((d.sex == Data::UNDEF) ? "UNDEF" : (d.sex == Data::MALE) ? "MALE" : "FEMALE");
 	os << "|age " << d.tm_age << " salary: " << d.m_salary<<"|";
 
 	return os;
