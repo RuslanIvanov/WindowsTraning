@@ -1,6 +1,14 @@
-#include "Point.h"
 #include <iostream>
+#include "Point.h"
+
 //Globals:///////////////////////////////////////////////////////////
+std::ostream& operator<<(std::ostream& os, const Point& p)
+{
+	os << "m_x = " << p.m_x << " m_y = " << p.m_y;
+	
+	return os;
+}
+
 Point& operator+=(Point& rl, int i) 
 {
 	rl.m_x += i;
@@ -9,32 +17,25 @@ Point& operator+=(Point& rl, int i)
 	return rl;
 }
 
-Point& operator-(Point& rl, int i)
+Point operator-(Point& rl, int i)
 {
-	rl.m_x -= i;
-	rl.m_y -= i;
-
-	return rl;
+	return Point(rl.m_x-i, rl.m_y-i);
 }
 
-Point& operator-(Point& rl, const Point& rr)
+Point operator-(Point& rl, const Point& rr)
 {
-	rl.m_x -= rr.m_x;
-	rl.m_y -= rr.m_y;
-
-	return rl;
+	return Point(rl.m_x - rr.m_x, rl.m_y - rr.m_y);
 }
 
-//??
-Point& operator+(int i, Point& r)
+Point operator+(int i, Point& r)
 {
-	r.m_x += i; 
-	r.m_y += i;
-	return r;
+	return Point(r.m_x + i, r.m_y + i);
 }
-//Point& operator+(int i , Point& rr) {	return rr;}
-///////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+//Point:////////////////////////////////////////////////////////////////////////////
 Point::Point(int x, int y)
 {
 	m_x = x;
@@ -57,6 +58,14 @@ Point& Point::operator=(const Point& r)
 	return *this;
 }
 
+bool Point::operator==(Point& r) const
+{
+	if (r.m_x == m_x && r.m_y == m_y)
+		return true;
+	else
+		return false;
+}
+
 Point& Point::operator+=(const Point& r)
 {
 	m_x += r.m_x;
@@ -65,42 +74,23 @@ Point& Point::operator+=(const Point& r)
 	return *this;
 }
 
-Point& Point::operator+(const Point& r)
-{
-	m_x += r.m_x;
-	m_y += r.m_y;
-
-	return *this;
-}
-/*
-Point& Point::operator-(const Point& r)
-{
-	m_x -= r.m_x;
-	m_y -= r.m_y;
-
-	return *this;
-}//*/
-
-Point& Point::operator+(int i)
-{
-	m_x += i;
-	m_y += i;
-
-	return *this;
+Point Point::operator+(const Point& r)
+{	
+	return Point(m_x + r.m_x, m_y + r.m_y);
 }
 
-Point& Point::operator+() 
+Point Point::operator+(int i)
 {
-	m_x += 1;
-	m_y += 1;
-	return *this;
+	return Point(m_x + i, m_y + i);
 }
 
-Point& Point::operator-()
-{
-	m_x -= 1;
-	m_y -= 1;
+Point Point::operator+() 
+{//сам себя 
 	return *this;
+}
+Point operator-(const Point& r)
+{
+	return Point(-r.m_x,-r.m_y);
 }
 
 void Point::print()

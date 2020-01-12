@@ -1,21 +1,14 @@
-#include "Circle.h"
 #include <iostream>
+#include "Circle.h"
 
-Circle::Circle(COLOR c):Shape(c)
-{
-	m_D = 0;
-	m_x0 = 0;
-	m_y0 = 0;
-}
-
-Circle::Circle(int x, int y, int D,COLOR c):Shape(c)
+Circle::Circle(int x, int y, int D):m_Point(x, y)
 {
 	m_D = D;
 	m_x0 = x;
 	m_y0 = y;
 }
 
-Circle::Circle(const Circle& r):Shape(r)//где Shape(r) - указание компилятору вызвать констр. копирование базового кл.
+Circle::Circle(const Circle& r):m_Point(r.m_x0,r.m_y0)
 {
 	m_D = r.m_D;
 	m_x0 = r.m_x0;
@@ -39,6 +32,21 @@ void Circle::Inflate(int d)
 	m_D += d;
 }
 
+bool Circle::operator==(Circle& c) const
+{
+	if (c.m_D == m_D && c.m_x0 == m_x0 && c.m_y0 == m_y0  &&   m_Point == c.m_Point)
+		return true;
+	else
+		return false;
+}
+
+bool Circle::operator>(const Circle& r) 
+{
+	if (m_D > r.m_D)
+		return true;
+	else return false;
+}
+
 void Circle::print()
 {
 	std::cout << "\nCircle:\n";
@@ -46,25 +54,10 @@ void Circle::print()
 	std::cout << "D = " << m_D << "";
 }
 
-Circle::Circle(const Rect& rr):Shape(rr)
-{ 
-	int l, t, r, b, H, W;
-	l = r = t = b = H = W = 0;
-	
-	rr.GetAll(&l,&r,&t,&b);
+std::ostream& operator<<( std::ostream& os, const Circle& c)
+{
+	os << "x = " << c.m_x0 << " y = " << c.m_y0 << " ";
+	os << "D = " << c.m_D << "";
+	return os;
+}
 
-	H = b - t;
-	W = r - l;
-
-	if (W > H)
-	{ 
-		m_D = H;
-	}
-	else 
-	{ 
-		m_D = W; 
-	}
-
-	m_x0 = W / 2.;
-	m_y0 = H / 2.;
-};
