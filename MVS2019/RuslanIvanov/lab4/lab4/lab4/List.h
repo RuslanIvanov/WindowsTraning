@@ -1,9 +1,28 @@
 #pragma once
-#include "Node.h"
-class Node;
+
+#include "Circle.h"
 class List
 {
 	//встроенное объ€вление класса Node
+	class Node
+	{
+		//ƒанные:
+		Node* pPrev;		//указатель на предыдущий элемент
+		Node* pNext;		//указатель на следующий элемент
+		Circle m_Data;		//«амечание: здесь может быть встроенный объект или указатель на свою (динамическую) копию данных
+
+	//ћетоды:
+		Node();//скорее всего понадобитс€ дл€ создани€ вспомогательных оберток Ц Ђстражейї (Head, Tail)
+	//	Node(/*Е,*/ const Circle*);	//конструктор, посредством которого создаваемый Node Ђподключаетс€ї в список.
+		Node(const Circle&, Node* next, Node* prev);
+		~Node();//деструктор должен Ђисключатьї уничтожаемый Node из списка
+
+		friend class List; //все методы класса List имеют права доступа к Node
+		friend std::ostream& operator<<(std::ostream& os, const Node& n) {
+			os << n.m_Data;
+			return os;
+		}
+	};
 
 	//данные
 	Node Head;	// фиктивный элемент, который €вл€етс€ признаком начала списка
@@ -24,7 +43,6 @@ public:
 	void Sort();
 
 	friend std::ostream& operator<<(std::ostream& os, const List& l);
-
 	};
 
 std::ostream& operator<<(std::ostream& os, const List& l);

@@ -1,7 +1,30 @@
 #include <iostream>
 #include "List.h"
 
-List::List() 
+List::Node::Node() : pPrev(nullptr), pNext(nullptr) {}
+List::Node::Node(const Circle& с, Node* next, Node* prev)
+{//если prev = &Head
+	pPrev = prev;//для нового элемента pPrev дается &Head
+	pNext = prev->pNext;//следующий стал хвостом т.е. &Tail
+
+	prev->pNext = this; //в голове присваивается pNext адрес вставл. элемента
+	pNext->pPrev = this; // хвосту дается адрес встраиваемого эл.
+}
+List::Node::~Node()
+{
+	//если есть сосед права
+	if (pPrev)
+	{//соседу справав уст  адрес следующего то который у удаляемого прописан был
+		pPrev->pNext = this->pNext;
+	}
+
+	if (pNext)
+	{// соседу слева уст. адресс предыдущего , который был прописан у удуляемого
+		pNext->pPrev = this->pPrev;
+	}
+}
+
+List::List()
 {
 	m_size = 0; // список пуст
 	pHead = nullptr;
@@ -40,7 +63,10 @@ void List::AddHead(const Circle& c)
 	new Node(c, NULL, &Head); // &Head - указатель наначало списка
 	m_size++;
 }
-void List::AddTail(const Circle&) {}
+void List::AddTail(const Circle& c) 
+{
+	new Node(c, NULL, &Head);
+}
 bool List::RemoveOne(const Circle& c) 
 {
 	// установка на начало списка

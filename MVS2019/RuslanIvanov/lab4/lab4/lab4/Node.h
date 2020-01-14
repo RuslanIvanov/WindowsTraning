@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Circle.h"
 #include "List.h"
+
 class Node
 {
 	//Данные:
