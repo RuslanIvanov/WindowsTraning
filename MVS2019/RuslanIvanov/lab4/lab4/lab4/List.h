@@ -18,9 +18,10 @@ class List
 		~Node();//деструктор должен «исключать» уничтожаемый Node из списка
 
 		friend class List; //все методы класса List имеют права доступа к Node
-		friend std::ostream& operator<<(std::ostream& os, const Node& n) {
-			os << n.m_Data;
-			return os;
+		friend std::ostream& operator<<(std::ostream& os, const Node& n)
+		{
+		os << n.m_Data;
+		return os;
 		}
 	};
 
@@ -37,8 +38,8 @@ public:
 	void AddHead(const Circle&);
 	void AddTail(const Circle&);
 	bool RemoveOne(const Circle&);
-	bool Cleaning();
-	int  RemoveAll(const Circle&);
+	int Cleaning();
+	int RemoveAll(const Circle&);
 	int  Size();
 	void Sort();
 

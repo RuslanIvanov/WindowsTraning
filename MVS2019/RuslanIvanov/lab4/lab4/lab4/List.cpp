@@ -2,13 +2,31 @@
 #include "List.h"
 
 List::Node::Node() : pPrev(nullptr), pNext(nullptr) {}
-List::Node::Node(const Circle& с, Node* next, Node* prev)
-{//если prev = &Head
-	pPrev = prev;//дл€ нового элемента pPrev даетс€ &Head
-	pNext = prev->pNext;//следующий стал хвостом т.е. &Tail
+List::Node::Node(const Circle& r, Node* tail, Node* head): m_Data(r)
+{//если head = &Head
 
-	prev->pNext = this; //в голове присваиваетс€ pNext адрес вставл. элемента
-	pNext->pPrev = this; // хвосту даетс€ адрес встраиваемого эл.
+	if (head && tail == nullptr)
+	{
+		pPrev = head;//дл€ нового элемента pPrev даетс€ &Head
+		pNext = head->pNext;//следующий стал хвостом т.е. &Tail
+
+		head->pNext = this; //в голове присваиваетс€ pNext адрес вставл. элемента
+		pNext->pPrev = this; // хвосту даетс€ адрес встраиваемого эл.
+	}
+	else if (head == nullptr && tail)
+	{
+		pNext = tail;// хвост след
+		pPrev = tail->pPrev;/// то что  было у хвоста предыдущим
+		pPrev->pNext = this;// tail->pPrev->pNext = this;// тому у кого был  хвост следующим
+		
+		tail->pPrev = this;// у хвоста стал предыдущим
+
+	}
+	else
+	{
+		//?? 
+		//так как Node(конструкор) private можно не обрабатывать ветку
+	}
 }
 List::Node::~Node()
 {
@@ -60,12 +78,12 @@ List::List(const List& l)
 
 void List::AddHead(const Circle& c)
 {// так как вставл€ем в голову., то адрес головы
-	new Node(c, NULL, &Head); // &Head - указатель наначало списка
+	new Node(c, nullptr, &Head); // &Head - указатель наначало списка
 	m_size++;
 }
 void List::AddTail(const Circle& c) 
 {
-	new Node(c, NULL, &Head);
+	new Node(c, &Tail,nullptr);
 }
 bool List::RemoveOne(const Circle& c) 
 {
@@ -75,7 +93,7 @@ bool List::RemoveOne(const Circle& c)
 	{
 		if (c == p->m_Data)
 		{
-			delete p; 
+			delete p; //~Node () перекинул адреса
 			m_size--;
 
 			return true;
@@ -87,29 +105,84 @@ bool List::RemoveOne(const Circle& c)
 
 	return false;
 }
+int List::RemoveAll(const Circle& с) 
+{ 
+	int count = 0;
+	Node* p = Head.pNext;
+	while (p != &Tail) //пока текущий следующий не равен хвосту
+	{
+		if (с == p->m_Data)
+		{
+			delete p;
+			m_size--;
 
-bool List::Cleaning() { return false;  }
-int List::RemoveAll(const Circle&) { return 0; }
+			count++;
+		}
+
+		p = p->pNext;// следующий елемент в списке
+
+	}
+
+	return count;
+}
+
+int List::Cleaning()
+{ 
+	Node* p = Head.pNext;
+	int count = 0;
+	while (p != &Tail) //пока текущий следующий не равен хвосту
+	{
+		delete p;
+		m_size--;
+		p = p->pNext;
+		count++;
+	}
+	return count;  
+}
+
 
 int List::Size()
 {
-	size_t i = 0;
-	for (; i < m_size; i++)
-	{
-
-	}
-
-	return i;
+	return m_size;
 }
 
-void List::Sort(){}
+void List::Sort()
+{
+		Node* p = Head.pNext;
+		while (p != &Tail) 
+		{//ѕоиск минимального из оставшихс€ значений
+		
+			Node* pMin = p;// јдрес мин на данный момент
+			Node* p1 = p->pNext; // јдр следующего объекта
+			while (p1)// ѕока не конец списка
+			{// —равнение миним с тек 
+				if (p1->m_Data < pMin->m_Data)// —равнение D
+				{// минимальный элемент найден, запоминаем адрес его Node
+					pMin = p1; // ѕеренаправлени указ
+				}
+				p1 = p1->pNext;// Ѕерем след адр дл€ сравнени€
+			}
+			//ќбмен местами текущего с минимальным Circle
+			Circle tmp = pMin->m_Data;
+			pMin->m_Data = p->m_Data; 
+			p->m_Data = tmp; 
+	
+			p = p->pNext;
+		}
+
+}
 
 std::ostream& operator<<(std::ostream& os, const List& l)
-{
-	for (size_t i = 0; i < l.m_size; i++)
+{	
+
+/*	List::Node* p = l.Head;
+	
+	while (p != 0)
 	{
-		os << "#" << i + 1 << l.Head;
+		os << p->m_Data;
+		p = p->List::pNext;
 	}
 
+	*/
 	return os;
 }

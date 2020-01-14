@@ -40,9 +40,9 @@ bool Circle::operator==(Circle& c) const
 		return false;
 }
 
-bool Circle::operator>(const Circle& r) 
+bool Circle::operator<(const Circle& r) 
 {
-	if (m_D > r.m_D)
+	if (m_D < r.m_D)
 		return true;
 	else return false;
 }
