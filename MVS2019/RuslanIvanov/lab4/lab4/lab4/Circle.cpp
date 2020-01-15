@@ -34,7 +34,7 @@ void Circle::Inflate(int d)
 
 bool Circle::operator==( Circle& c) const
 {
-	if (c.m_D == m_D && c.m_x0 == m_x0 && c.m_y0 == m_y0  &&   m_Point == c.m_Point)
+	if (c.m_D == m_D && c.m_x0 == m_x0 && c.m_y0 == m_y0  &&  m_Point == c.m_Point)
 		return true;
 	else
 		return false;

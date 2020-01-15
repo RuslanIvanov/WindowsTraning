@@ -17,6 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << "\n---------------------------------";
 	std::cout << list;
 
+	list.AddTail(Circle(5, 5, 5));
 	list.AddTail(Circle(4, 4, 4));
 	list.AddHead(Circle(5, 5, 5));
 
@@ -33,6 +34,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	list.RemoveAll(Circle(5, 5, 5));
 	std::cout << "\n---------------------------------";
+	list.RemoveAll(Circle(1, 1, 1));
 	std::cout << list;
 
 	list.Cleaning();

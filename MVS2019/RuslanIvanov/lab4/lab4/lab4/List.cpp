@@ -84,6 +84,7 @@ void List::AddHead(const Circle& c)
 void List::AddTail(const Circle& c) 
 {
 	new Node(c, &Tail,nullptr);
+	m_size++;
 }
 bool List::RemoveOne(const Circle& c) 
 {
@@ -108,7 +109,7 @@ bool List::RemoveOne(const Circle& c)
 int List::RemoveAll(const Circle& с) 
 { 
 	int count = 0;
-	Node* p = Head.pNext;
+	List::Node* p = Head.pNext;
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
 		if (с == p->m_Data)
@@ -118,9 +119,10 @@ int List::RemoveAll(const Circle& с)
 			p = p->pNext;
 			delete p->pPrev;
 			count++;
+			//continue;
 		}
-
-		p = p->pNext;// следующий елемент в списке
+		else
+			p = p->pNext;// следующий елемент в списке
 
 	}
 
