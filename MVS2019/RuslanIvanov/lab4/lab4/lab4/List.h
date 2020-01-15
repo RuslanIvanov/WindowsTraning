@@ -37,6 +37,7 @@ public:
 	List(); //сформировать Head, Tail и m_size 
 	~List();
 	List(const List&);
+	List(List&&);
 	//	Е
 	void AddHead(const Circle&);
 	void AddTail(const Circle&);

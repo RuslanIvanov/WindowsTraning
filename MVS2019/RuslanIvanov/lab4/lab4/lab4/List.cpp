@@ -32,7 +32,7 @@ List::Node::~Node()
 {
 	//если есть сосед права
 	if (pPrev)
-	{//соседу справав уст  адрес следующего то который у удаляемого прописан был
+	{//соседу справа уст  адрес следующего то который у удаляемого прописан был
 		pPrev->pNext = this->pNext;
 	}
 
@@ -74,6 +74,25 @@ List::List(const List& l)
 		pOther = pOther->pNext; //взять адресс следующего для копирования и передачи в конструктор Node
 
 	}
+}
+
+List::List(List&& l)
+{//нужно пройтис по скоированным адресам
+	Head.pNext = &l.Tail;
+	Tail.pPrev = &l.Head;
+	pHead = l.pHead;
+	m_size = l.m_size;
+	/*Node* pN = l.Head.pNext;
+	Node* pT = l.Tail.pPrev;
+	for (size_t i = 0; i < m_size; i++)
+	{
+		Head.pNext = l.Head.pNext;
+		Tail.pPrev = l.Tail.pPrev;
+	}*/
+	l.Head = Node();
+	l.Tail = Node();
+	l.m_size = 0;
+	l.pHead = nullptr;
 }
 
 void List::AddHead(const Circle& c)

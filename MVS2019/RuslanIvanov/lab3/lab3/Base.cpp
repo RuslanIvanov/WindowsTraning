@@ -56,7 +56,7 @@ Base::Base(Base&& base)
 {
 	capacity = base.capacity;
 	count = base.count;
-	pBase = base.pBase;
+	pBase = base.pBase;  //
 
 	base.capacity = 0;
 	base.count = 0;
@@ -66,9 +66,10 @@ Base::Base(Base&& base)
 Base& Base::operator=(Base&& base) 
 {
 	if (&base == this) { return *this; }
-
+	
 	capacity = base.capacity;
 	count = base.count;
+	delete[] pBase;
 	pBase = base.pBase;
 
 	base.capacity = 0;

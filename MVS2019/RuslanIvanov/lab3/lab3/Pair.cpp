@@ -12,11 +12,11 @@ Pair::Pair(const Pair& r)
 
 Pair::Pair( Pair&& r) 
 {
-	data = r.data;
-	key = r.key;
+	data = std::move(r.data);
+	key = std::move(r.key);
 
-	r.data = Data();
-	r.key = MyString();
+	//r.data = Data();
+	//r.key = MyString();
 }
 
 bool Pair::operator == (const char* k) const 

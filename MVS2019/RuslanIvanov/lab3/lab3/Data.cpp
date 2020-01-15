@@ -31,15 +31,15 @@ Data& Data::operator=(const Data& r)
 Data::Data(Data&& r)
 {
 	m_job = r.m_job;
-	r.m_job = nullptr;
+	//r.m_job = nullptr;
 
 	tm_age = r.tm_age;
-	m_job = r.m_job;
+	m_job = std::move(r.m_job);
 	m_salary = r.m_salary;
 
-	r.sex = UNDEF;
-	r.tm_age = 0;
-	r.m_salary = 0;
+	//r.sex = UNDEF;
+	//r.tm_age = 0;
+	//r.m_salary = 0;
 }
 
 
@@ -47,7 +47,14 @@ Data& Data::operator=(Data&& r)
 {
 	if (this == &r) { return *this; }
 
-	sex = r.sex;
+	m_job = r.m_job;
+	//r.m_job = nullptr;
+
+	tm_age = r.tm_age;
+	m_job = std::move(r.m_job);
+	m_salary = r.m_salary;
+
+	/*sex = r.sex;
 	tm_age = r.tm_age;
 	m_job = r.m_job;
 	m_salary = r.m_salary;
@@ -55,7 +62,7 @@ Data& Data::operator=(Data&& r)
 	r.sex = UNDEF;
 	r.tm_age = 0;
 	r.m_job = nullptr;
-	r.m_salary = 0;
+	r.m_salary = 0;*/
 
 	return *this;
 }

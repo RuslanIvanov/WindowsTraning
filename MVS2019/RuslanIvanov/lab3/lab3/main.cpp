@@ -171,15 +171,20 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::cout << base;
 //*/
 	
-		Base db = base; // конструктор копирования
+		Base db = base; // конструктор  глубокого копир. копирования
 		std::cout << db;
 		db["Kirillov"] = Data(Data::MALE, 60, "Programmer", 600000);
 		std::cout << db;
 
-		base = db;
+		base = db;// глубоое присваивание
 		std::cout << base;
 		base["Kirillov"] = Data(Data::MALE, 20, "Saler", 15000);
 		std::cout << base;
+
+
+		Base db2 = std::move(db);// явный вызов move&&
+		std::cout << db2;
+		std::cout << db;
 
 		return 0;
 }//endmain

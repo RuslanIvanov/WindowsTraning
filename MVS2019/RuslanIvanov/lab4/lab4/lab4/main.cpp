@@ -10,6 +10,7 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	List list;
+
 	list.AddHead(Circle(1, 1, 1));
 	list.AddHead(Circle(2, 2, 2));
 	list.AddHead(Circle(3, 3, 3));
@@ -23,11 +24,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << "\n---------------------------------";
 	std::cout << list;
-		   	
+
 	list.Sort();
 	std::cout << "\nSort list:-----------------------";
 	std::cout << list;
-	
+
 	std::ofstream fout("list.txt");
 	fout << "\nsort list:\n" << list << std::endl;
 	fout.close();
@@ -41,6 +42,15 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << "\nCleaning:-------------------------";
 	std::cout << list;
+	{
+		List list2;
+		list2.AddTail(Circle(5, 5, 5));
+		list2.AddTail(Circle(4, 4, 4));
+		list2.AddHead(Circle(5, 5, 5));
+
+		List ll = std::move(list2);
+		std::cout << ll;
+	}
 
 	return 0;
 
