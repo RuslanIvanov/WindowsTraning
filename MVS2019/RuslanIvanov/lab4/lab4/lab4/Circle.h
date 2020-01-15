@@ -16,7 +16,7 @@ class Circle
 		void WhereAmI();
 		void Inflate(int);
 		void print();
-		bool operator==(Circle&) const;
+		bool operator==( Circle&) const;
 		bool operator<(const Circle&);
 		friend std::ostream& operator<<( std::ostream& os, const Circle& c);
 };

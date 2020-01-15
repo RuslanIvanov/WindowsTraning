@@ -113,9 +113,10 @@ int List::RemoveAll(const Circle& с)
 	{
 		if (с == p->m_Data)
 		{
-			delete p;
+			//delete p;
 			m_size--;
-
+			p = p->pNext;
+			delete p->pPrev;
 			count++;
 		}
 
@@ -132,9 +133,10 @@ int List::Cleaning()
 	int count = 0;
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
-		delete p;
+		//delete p;
 		m_size--;
 		p = p->pNext;
+		delete p->pPrev;
 		count++;
 	}
 	return count;  
@@ -154,7 +156,7 @@ void List::Sort()
 		
 			Node* pMin = p;// Адрес мин на данный момент
 			Node* p1 = p->pNext; // Адр следующего объекта
-			while (p1)// Пока не конец списка
+			while (p1 != &Tail)
 			{// Сравнение миним с тек 
 				if (p1->m_Data < pMin->m_Data)// Сравнение D
 				{// минимальный элемент найден, запоминаем адрес его Node
@@ -173,16 +175,16 @@ void List::Sort()
 }
 
 std::ostream& operator<<(std::ostream& os, const List& l)
-{	
-
-/*	List::Node* p = l.Head;
+{	//operator []
 	
-	while (p != 0)
-	{
-		os << p->m_Data;
-		p = p->List::pNext;
-	}
+	List::Node* p = l.Head.getNext();//// const ???
 
-	*/
+	while (p != &l.Tail)
+	{
+		os << "\n";
+		os << (*p);//Node ->m_Data;
+		p = p->getNext();
+	}
+		
 	return os;
 }

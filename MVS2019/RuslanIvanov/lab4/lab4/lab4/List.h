@@ -18,11 +18,14 @@ class List
 		~Node();//деструктор должен «исключать» уничтожаемый Node из списка
 
 		friend class List; //все методы класса List имеют права доступа к Node
+	public:
 		friend std::ostream& operator<<(std::ostream& os, const Node& n)
 		{
-		os << n.m_Data;
-		return os;
+			os << n.m_Data;
+			return os;
 		}
+	
+		Node* getNext() const { return pNext; }
 	};
 
 	//данные

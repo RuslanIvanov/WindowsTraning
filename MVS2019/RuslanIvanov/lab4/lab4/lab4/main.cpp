@@ -1,4 +1,5 @@
 #include<iostream>
+#include <fstream>
 #include <tchar.h>
 
 #include "Circle.h"
@@ -13,7 +14,32 @@ int _tmain(int argc, _TCHAR* argv[])
 	list.AddHead(Circle(2, 2, 2));
 	list.AddHead(Circle(3, 3, 3));
 
-	//std::cout<<list;
+	std::cout << "\n---------------------------------";
+	std::cout << list;
+
+	list.AddTail(Circle(4, 4, 4));
+	list.AddHead(Circle(5, 5, 5));
+
+	std::cout << "\n---------------------------------";
+	std::cout << list;
+		   	
+	list.Sort();
+	std::cout << "\nSort list:-----------------------";
+	std::cout << list;
+	
+	std::ofstream fout("list.txt");
+	fout << "\nsort list:\n" << list << std::endl;
+	fout.close();
+
+	list.RemoveAll(Circle(5, 5, 5));
+	std::cout << "\n---------------------------------";
+	std::cout << list;
+
+	list.Cleaning();
+
+	std::cout << "\nCleaning:-------------------------";
+	std::cout << list;
+
 	return 0;
 
 }

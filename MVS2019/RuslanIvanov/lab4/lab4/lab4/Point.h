@@ -17,7 +17,7 @@ class Point
 
 		Point operator+();
 
-		bool operator==(Point& ) const;
+		bool operator==( Point&) const;
 		
 		friend Point& operator+=(Point&, int);
 		friend Point operator-(Point& rl, int i);
