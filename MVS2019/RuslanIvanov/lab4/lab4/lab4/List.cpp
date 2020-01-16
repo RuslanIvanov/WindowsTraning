@@ -97,21 +97,21 @@ List::List(List&& l)
 
 	pHead = l.pHead;
 	m_size = l.m_size;
+/*
+	Node* pN = l.Head.pNext;
+	Node* pT = l.Tail.pPrev;
+	Node* pN_new = Head.pNext;
+	Node* pT_new = Tail.pPrev;
 
-	//Node* pN = l.Head.pNext;
-	//Node* pT = l.Tail.pPrev;
-	//Node* pN_new = Head.pNext;
-	//Node* pT_new = Tail.pPrev;
-
-	/*for (size_t i = 0; i < m_size; i++)
+	for (size_t i = 0; i < m_size-; i++)
 	{
-		pN_new->pNext = pN;
-		pT_new->pPrev = pT;
+		pN_new->pNext = pN->pNext;
+		pN_new->pPrev = pN->pPrev;
 
 		pN=pN->pNext;
-		pT = pN->pPrev;
+		//pT = pN->pPrev;
 
-		//pN_new = pN_new->pNext;
+		pN_new = pN_new->pNext;
 		//pT_new = pT_new->pPrev;
 
 		//delete l.Head.pNext;// удалить используемый
@@ -259,7 +259,7 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 	
 	const List::Node* p =  l.Head.getNext();//// const ???
 
-	while (p->getNext()/*!= &l.Tail*/)
+	while (p/*->getNext()*/ != &l.Tail)
 	{
 		os << "\n";
 		os << (*p);//Node ->m_Data;

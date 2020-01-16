@@ -6,7 +6,8 @@
 #include "List.h"
 
 #define	  stop __asm nop
-
+#define TEST
+List test();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	List list;
@@ -42,6 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << "\nCleaning:-------------------------";
 	std::cout << list;
+#ifndef TEST
 	{
 		List list2;
 		list2.AddTail(Circle(5, 5, 5));
@@ -54,9 +56,34 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::cout << "\nList after move--------------";
 		std::cout << ll;
 
+		List lll;
+		List list3;
+		list3.AddTail(Circle(5, 5, 55));
+		list3.AddTail(Circle(4, 4, 44));
+		list3.AddHead(Circle(5, 5, 33));
+		list3.AddHead(Circle(4, 4, 22));
+		list3.AddHead(Circle(5, 5, 11));
+		lll = std::move(list3);
+		std::cout << "\nList after move--------------";
+		std::cout << lll;
 		stop
 	}
-
+#else
+	std::cout << "\nList after move--------------";
+	std::cout << test();
+#endif
 	return 0;
 
+}
+
+List test()
+{	
+	List list4;
+	list4.AddTail(Circle(5, 5, 555));
+	list4.AddTail(Circle(4, 4, 444));
+	list4.AddHead(Circle(5, 5, 333));
+	list4.AddHead(Circle(4, 4, 222));
+	list4.AddHead(Circle(5, 5, 111));
+	//List list5 = list4;
+	return list4;
 }
