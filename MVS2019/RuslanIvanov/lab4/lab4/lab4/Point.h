@@ -7,6 +7,7 @@ class Point
 	public:
 		Point(int x = 0, int y = 0);
 		Point(const Point& r);
+		//Point( Point&& r);
 		Point& operator=(const Point&);
 		
 		Point operator+(const Point&); // копию объекта должен возвр, т.т. исменять самого себя не надо

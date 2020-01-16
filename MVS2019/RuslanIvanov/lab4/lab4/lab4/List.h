@@ -15,6 +15,7 @@ class List
 		Node();//скорее всего понадобитс€ дл€ создани€ вспомогательных оберток Ц Ђстражейї (Head, Tail)
 	//	Node(/*Е,*/ const Circle*);	//конструктор, посредством которого создаваемый Node Ђподключаетс€ї в список.
 		Node(const Circle&, Node* next, Node* prev);
+		Node(Node&&);
 		~Node();//деструктор должен Ђисключатьї уничтожаемый Node из списка
 
 		friend class List; //все методы класса List имеют права доступа к Node
@@ -38,6 +39,7 @@ public:
 	~List();
 	List(const List&);
 	List(List&&);
+	List& operator=(List&&);
 	//	Е
 	void AddHead(const Circle&);
 	void AddTail(const Circle&);

@@ -47,6 +47,14 @@ Point::Point(const Point& r)
 	m_x = r.m_x;
 	m_y = r.m_y;
 }
+/*
+Point::Point(Point&& r)
+{
+	m_x = r.m_x;
+	m_y = r.m_y;
+
+	r.m_x = r.m_y = 0;
+}*/
 
 Point& Point::operator=(const Point& r)
 {

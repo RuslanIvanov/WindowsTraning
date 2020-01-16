@@ -46,10 +46,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		List list2;
 		list2.AddTail(Circle(5, 5, 5));
 		list2.AddTail(Circle(4, 4, 4));
-		list2.AddHead(Circle(5, 5, 5));
+		list2.AddHead(Circle(5, 5, 3));
+		list2.AddHead(Circle(4, 4, 2));
+		list2.AddHead(Circle(5, 5, 1));
 
 		List ll = std::move(list2);
+		std::cout << "\nList after move--------------";
 		std::cout << ll;
+
+		stop
 	}
 
 	return 0;

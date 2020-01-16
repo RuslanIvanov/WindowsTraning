@@ -28,6 +28,17 @@ List::Node::Node(const Circle& r, Node* tail, Node* head): m_Data(r)
 		//так как Node(конструкор) private можно не обрабатывать ветку
 	}
 }
+
+List::Node::Node(Node&& r)
+{
+	m_Data = r.m_Data;
+	pNext = r.pNext;
+	pPrev = r.pPrev;
+
+	r.pNext = nullptr;
+	r.pPrev = nullptr;
+}
+
 List::Node::~Node()
 {
 	//если есть сосед права
@@ -78,21 +89,69 @@ List::List(const List& l)
 
 List::List(List&& l)
 {//нужно пройтис по скоированным адресам
-	Head.pNext = &l.Tail;
-	Tail.pPrev = &l.Head;
+
+	Head.pNext = l.Head.pNext;
+	Head.pPrev = l.Head.pPrev;
+	Tail.pNext = l.Tail.pNext;
+	Tail.pPrev = l.Tail.pPrev;
+
 	pHead = l.pHead;
 	m_size = l.m_size;
-	/*Node* pN = l.Head.pNext;
-	Node* pT = l.Tail.pPrev;
-	for (size_t i = 0; i < m_size; i++)
+
+	//Node* pN = l.Head.pNext;
+	//Node* pT = l.Tail.pPrev;
+	//Node* pN_new = Head.pNext;
+	//Node* pT_new = Tail.pPrev;
+
+	/*for (size_t i = 0; i < m_size; i++)
 	{
-		Head.pNext = l.Head.pNext;
-		Tail.pPrev = l.Tail.pPrev;
-	}*/
-	l.Head = Node();
-	l.Tail = Node();
+		pN_new->pNext = pN;
+		pT_new->pPrev = pT;
+
+		pN=pN->pNext;
+		pT = pN->pPrev;
+
+		//pN_new = pN_new->pNext;
+		//pT_new = pT_new->pPrev;
+
+		//delete l.Head.pNext;// удалить используемый
+	}//*/
+
+	l.Head.pNext = nullptr;
+	l.Head.pPrev = nullptr;
+	l.Tail.pPrev = nullptr;
+	l.Tail.pNext = nullptr;
 	l.m_size = 0;
 	l.pHead = nullptr;
+}
+
+List& List::operator=(List&& l) 
+{
+	if (this == &l) 
+	{ 
+		return *this; 
+	}
+
+	for (size_t i = 0; i < m_size; i++)
+	{
+		delete Head.pNext;
+	}
+
+	Head.pNext = l.Head.pNext;
+	Head.pPrev = l.Head.pPrev;
+	Tail.pNext = l.Tail.pNext;
+	Tail.pPrev = l.Tail.pPrev;
+	pHead = l.pHead;
+	m_size = l.m_size;
+
+	l.Head.pNext = nullptr;
+	l.Head.pPrev = nullptr;
+	l.Tail.pPrev = nullptr;
+	l.Tail.pNext = nullptr;
+	l.m_size = 0;
+	l.pHead = nullptr;
+
+	return *this;
 }
 
 void List::AddHead(const Circle& c)
@@ -198,9 +257,9 @@ void List::Sort()
 std::ostream& operator<<(std::ostream& os, const List& l)
 {	//operator []
 	
-	List::Node* p = l.Head.getNext();//// const ???
+	const List::Node* p =  l.Head.getNext();//// const ???
 
-	while (p != &l.Tail)
+	while (p->getNext()/*!= &l.Tail*/)
 	{
 		os << "\n";
 		os << (*p);//Node ->m_Data;
