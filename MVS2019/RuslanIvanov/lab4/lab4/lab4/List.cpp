@@ -91,7 +91,22 @@ List& List::operator=(const List& l)
 {
 	if (this == &l) { return *this; }
 
+	m_size = l.m_size;
 
+	Cleaning();
+
+	Head.pNext = &Tail;
+	Tail.pPrev = &Head;
+
+	Node* pOther = l.Head.pNext;
+	Node* pThis = &Head;
+
+	for (size_t i = 0; i < m_size; i++)
+	{
+		pThis = new Node(pOther->m_Data, nullptr, pThis);
+		pOther = pOther->pNext;
+
+	}
 
 	return *this;
 }

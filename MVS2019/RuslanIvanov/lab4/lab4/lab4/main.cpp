@@ -73,6 +73,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	test().out();
 	std::cout << test();
 #endif
+	List list7;
+	list7.AddTail(Circle(5, 5, 5555));
+	list7.AddTail(Circle(4, 4, 4444));
+	list7.AddHead(Circle(5, 5, 3333));
+
+	List list6;
+	list6 = list7;
+	std::cout << "\nList after copy--------------";
+	std::cout << list6;
+	stop
 	return 0;
 
 }
