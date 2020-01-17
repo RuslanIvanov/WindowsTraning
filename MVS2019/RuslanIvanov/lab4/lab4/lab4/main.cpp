@@ -70,6 +70,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 #else
 	std::cout << "\nList after move--------------";
+	test().out();
 	std::cout << test();
 #endif
 	return 0;

@@ -254,12 +254,23 @@ void List::Sort()
 
 }
 
+void List::out()
+{
+	Node* p = Head.pNext;
+	while (p != &Tail)
+	{
+		std::cout << "\nout: ";
+		std::cout << p->m_Data;
+		p = p->pNext;
+	}
+}
+
 std::ostream& operator<<(std::ostream& os, const List& l)
-{	//operator []
+{	//в Release версии работате (?)
 	
 	const List::Node* p =  l.Head.getNext();//// const ???
 
-	while (p/*->getNext()*/ != &l.Tail)
+	while (p != &l.Tail)
 	{
 		os << "\n";
 		os << (*p);//Node ->m_Data;

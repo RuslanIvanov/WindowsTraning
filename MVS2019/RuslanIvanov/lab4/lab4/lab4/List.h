@@ -25,7 +25,7 @@ class List
 			os << n.m_Data;
 			return os;
 		}
-	
+		
 		Node* getNext() const { return pNext; }
 	};
 
@@ -48,7 +48,7 @@ public:
 	int RemoveAll(const Circle&);
 	int  Size();
 	void Sort();
-
+	void out();
 	friend std::ostream& operator<<(std::ostream& os, const List& l);
 	};
 
