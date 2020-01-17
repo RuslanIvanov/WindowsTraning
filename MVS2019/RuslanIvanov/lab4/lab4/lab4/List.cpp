@@ -87,6 +87,15 @@ List::List(const List& l)
 	}
 }
 
+List& List::operator=(const List& l)
+{
+	if (this == &l) { return *this; }
+
+
+
+	return *this;
+}
+
 List::List(List&& l)
 {//нужно пройтис по скоированным адресам
 
@@ -280,7 +289,7 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 	while (p != &l.Tail)
 	{
 		os << "\n";
-		os << (*p);//Node ->m_Data;
+		os << (*p);//Node.m_Data;
 		p = p->getNext();
 	}
 		
