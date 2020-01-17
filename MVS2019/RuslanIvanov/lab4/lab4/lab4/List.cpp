@@ -92,9 +92,9 @@ List& List::operator=(const List& l)
 	if (this == &l) { return *this; }
 
 	m_size = l.m_size;
-
+	//////////////////////////////
 	Cleaning();
-
+	/////////////////////////////
 	Head.pNext = &Tail;
 	Tail.pPrev = &Head;
 
