@@ -97,8 +97,9 @@ List::List(List&& l)
 
 	pHead = l.pHead;
 	m_size = l.m_size;
-/*
-	Node* pN = l.Head.pNext;
+
+	//l.Tail.pPrev->pNext = &Tail;
+	/*Node* pN = l.Head.pNext;
 	Node* pT = l.Tail.pPrev;
 	Node* pN_new = Head.pNext;
 	Node* pT_new = Tail.pPrev;
