@@ -97,8 +97,10 @@ List::List(List&& l)
 
 	pHead = l.pHead;
 	m_size = l.m_size;
-
-	//l.Tail.pPrev->pNext = &Tail;
+	/////////////////////////////////
+	l.Head.pNext->pPrev = &Head;
+	l.Tail.pPrev->pNext = &Tail;
+	/////////////////////////////////
 	/*Node* pN = l.Head.pNext;
 	Node* pT = l.Tail.pPrev;
 	Node* pN_new = Head.pNext;
@@ -142,6 +144,10 @@ List& List::operator=(List&& l)
 	Head.pPrev = l.Head.pPrev;
 	Tail.pNext = l.Tail.pNext;
 	Tail.pPrev = l.Tail.pPrev;
+
+	l.Head.pNext->pPrev = &Head;
+	l.Tail.pPrev->pNext = &Tail;
+
 	pHead = l.pHead;
 	m_size = l.m_size;
 

@@ -6,7 +6,7 @@
 #include "List.h"
 
 #define	  stop __asm nop
-#define TEST
+//#define TEST
 List test();
 int _tmain(int argc, _TCHAR* argv[])
 {
