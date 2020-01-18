@@ -87,7 +87,63 @@ List::List(const List& l)
 	}
 }
 
-List& List::operator=(const List& l)
+List& List::operator=(const List& l)//  эффект.
+{
+	if (this == &l) { return *this; }
+
+	//так как не чистим свой список
+	//Head.pNext = &Tail;
+	//Tail.pPrev = &Head;
+
+	Node* pOther = l.Head.pNext;
+	Node* pThis = Head.pNext;
+
+	if (m_size >= l.m_size)
+	{
+		for (size_t ii = 0; ii < m_size; ii++)
+		{			
+			if (ii < l.m_size)
+			{
+				pThis->m_Data = pOther->m_Data;		
+				pThis = pThis->pNext;
+				pOther = pOther->pNext;
+			}
+			else 
+			{
+				pThis = pThis->pNext;
+				delete pThis->pPrev;
+			}	
+			
+		}
+	}
+	else 
+	{//m_size < l.m_size
+		
+		for (size_t ii = 0; ii < l.m_size; ii++)
+		{
+			if (ii < m_size)
+			{
+				pThis->m_Data = pOther->m_Data;
+				pThis = pThis->pNext;
+				pOther = pOther->pNext;
+			}
+			else
+			{
+				AddTail(pOther->m_Data);
+				//pThis = new Node(pOther->m_Data, pOther, nullptr);//??
+				pOther = pOther->pNext;
+			}
+
+		}
+	}
+		
+	m_size = l.m_size;
+	
+	return *this;
+}
+
+/*
+List& List::operator=(const List& l)// не эффект.
 {
 	if (this == &l) { return *this; }
 
@@ -109,7 +165,7 @@ List& List::operator=(const List& l)
 	}
 
 	return *this;
-}
+}*/
 
 List::List(List&& l)
 {//нужно пройтис по скоированным адресам
@@ -125,26 +181,8 @@ List::List(List&& l)
 	l.Head.pNext->pPrev = &Head;
 	l.Tail.pPrev->pNext = &Tail;
 	/////////////////////////////////
-	/*Node* pN = l.Head.pNext;
-	Node* pT = l.Tail.pPrev;
-	Node* pN_new = Head.pNext;
-	Node* pT_new = Tail.pPrev;
-
-	for (size_t i = 0; i < m_size-; i++)
-	{
-		pN_new->pNext = pN->pNext;
-		pN_new->pPrev = pN->pPrev;
-
-		pN=pN->pNext;
-		//pT = pN->pPrev;
-
-		pN_new = pN_new->pNext;
-		//pT_new = pT_new->pPrev;
-
-		//delete l.Head.pNext;// удалить используемый
-	}//*/
-
-	l.Head.pNext = nullptr;
+	
+	l.Head.pNext = nullptr;//&l.Tail;
 	l.Head.pPrev = nullptr;
 	l.Tail.pPrev = nullptr;
 	l.Tail.pNext = nullptr;
@@ -159,7 +197,7 @@ List& List::operator=(List&& l)
 		return *this; 
 	}
 
-	for (size_t i = 0; i < m_size; i++)
+	for (size_t i = 0; i < m_size; i++)//OK
 	{
 		delete Head.pNext;
 	}
@@ -216,22 +254,22 @@ bool List::RemoveOne(const Circle& c)
 	return false;
 }
 int List::RemoveAll(const Circle& с) 
-{ 
+{ // удаляет все дубли Circle !!! 
 	int count = 0;
 	List::Node* p = Head.pNext;
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
+		Node* pnext = p->pNext;
 		if (с == p->m_Data)
 		{
-			//delete p;
+			delete p;//оставить NN
 			m_size--;
-			p = p->pNext;
-			delete p->pPrev;
-			count++;
-			//continue;
+			//p = p->pNext;//RR
+			//delete p->pPrev;//RR
+			count++;		
 		}
-		else
-			p = p->pNext;// следующий елемент в списке
+		p=pnext;//NN
+		//else p = p->pNext;// следующий елемент в списке//RR
 
 	}
 
@@ -276,7 +314,7 @@ void List::Sort()
 				p1 = p1->pNext;// Берем след адр для сравнения
 			}
 			//Обмен местами текущего с минимальным Circle
-			Circle tmp = pMin->m_Data;
+			Circle tmp = pMin->m_Data;//не эффект, надо менять узлы
 			pMin->m_Data = p->m_Data; 
 			p->m_Data = tmp; 
 	
@@ -297,9 +335,9 @@ void List::out()
 }
 
 std::ostream& operator<<(std::ostream& os, const List& l)
-{	//в Release версии работате (?)
+{
 	
-	const List::Node* p =  l.Head.getNext();//// const ???
+	const List::Node* p =  l.Head.getNext();
 
 	while (p != &l.Tail)
 	{
