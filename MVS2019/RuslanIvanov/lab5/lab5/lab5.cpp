@@ -10,6 +10,10 @@ int main()
 {
     std::cout << "Hello World!\n";
     MyString2 str("ABC");
+    MyString2 str2("ABC2");
+    MyString2 str3("ABC3");
+    MyString2 str4("ABC3");
+    MyString2 str5("ABC3");
 
     stop
 

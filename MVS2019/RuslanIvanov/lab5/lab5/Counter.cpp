@@ -10,19 +10,29 @@ Counter::Counter(const char* str) :m_nOwners(1)
 	strcpy(m_pStr,str);
 
 	m_curCounters++;
-	if (m_curCounters == 1) 
+	if (m_curCounters == 1)
 	{
 		Head = this;
 	}
+	else 
+		Head->pNext = this;
 }
 
 Counter::~Counter() 
 { 
-	delete[] m_pStr;
-	if (m_curCounters == 0) 
-			delete Head;  //???
-	m_curCounters--; 
+	//delete[] m_pStr;
+
+	if (m_curCounters > 0)
+	{
+		m_curCounters--;
+		delete[] m_pStr;
 	}
+
+	if (m_curCounters == 1) 
+			delete Head;  
+	
+	
+}
 
 void Counter::AddUser()
 {

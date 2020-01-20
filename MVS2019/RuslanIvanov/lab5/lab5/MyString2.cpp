@@ -8,6 +8,7 @@ MyString2::MyString2(const char* s)
 MyString2::~MyString2() 
 {
 	m_pMyCounter->RemoveUser();
+	
 }
 MyString2::MyString2(const MyString2& s)
 {
