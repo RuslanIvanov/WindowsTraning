@@ -2,10 +2,18 @@
 //
 
 #include <iostream>
+#include "MyString2.h"
+
+#define stop __asm nop;
 
 int main()
 {
     std::cout << "Hello World!\n";
+    MyString2 str("ABC");
+
+    stop
+
+        
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

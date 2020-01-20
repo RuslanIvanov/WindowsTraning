@@ -3,10 +3,10 @@ class Counter
 {
 	char* m_pStr;
 	size_t m_nOwners;
-	Counter* pNextCounter;
+	Counter* pNext;
 
 	static Counter* Head;
-	static unsigned int m_curCounters;
+	static unsigned int m_curCounters;//счетчик указателей
 
 	Counter(const char*);
 	~Counter();
