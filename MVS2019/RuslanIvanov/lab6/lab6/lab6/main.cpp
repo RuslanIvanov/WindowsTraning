@@ -15,6 +15,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	list.AddHead(&Rect(2,2,2,2,GREEN));
 	list.AddTail(&Rect(3, 3, 3, 3, GREEN));
+
+	std::cout<<list;
 	return 0;
 }//endmain
 

@@ -19,7 +19,7 @@ class Circle:public Shape
 		void WhereAmI();
 		void Inflate(int);
 		//void print();
-		//std::ostream& print(std::ostream& os);
+		std::ostream& print(std::ostream& os);
 		Shape* clone() const;
 		bool operator==(const Shape&) const;
 		bool operator!=(const  Shape&) const;

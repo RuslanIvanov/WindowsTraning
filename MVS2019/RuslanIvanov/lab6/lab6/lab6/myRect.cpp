@@ -154,15 +154,15 @@ Rect Rect::BoundingRect(const Rect& r1)
 	return Rect(l,r,t,b,RED);
 }
 
-//std::ostream& Rect::print(std::ostream& os)
-////void Rect::print()
-//{
-//	os << "\nRect:\n";
-//	os << "left = " << m_left << " right = " << m_right << "\n";
-//	os << "top = " << m_top << " bottom = " << m_bottom << "\n";
-//
-//	return os
-//}
+std::ostream& Rect::print(std::ostream& os)
+//void Rect::print()
+{
+	os << "\nRect:\n";
+	os << "left = " << m_left << " right = " << m_right << "\n";
+	os << "top = " << m_top << " bottom = " << m_bottom << "\n";
+
+	return os;
+}
 
 void Rect::WhereAmI()
 {

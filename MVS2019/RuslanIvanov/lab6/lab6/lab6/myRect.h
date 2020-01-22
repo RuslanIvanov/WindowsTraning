@@ -29,7 +29,7 @@ public:
 	int RemoveOne(const Shape*);
 	Rect BoundingRect(const Rect& r1);
 	//void print();
-	//std::ostream& print(std::ostream& os);
+	std::ostream& print(std::ostream& os);
 	void WhereAmI();
 	void Inflate(int);
 	int square();

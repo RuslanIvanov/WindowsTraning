@@ -65,14 +65,15 @@ bool Circle::operator !=(const Shape& c) const
 	return	!operator==(c);
 }
 
-//std::ostream& Circle::print(std::ostream& os)
-//{
-//	os<< "\nCircle:\n";
-//	os << "x = " << m_x0 << " y = " << m_y0 << "\n";
-//	os << "D = " << m_D << "";
-//	return os;
-//
-//}
+std::ostream& Circle::print(std::ostream& os)
+{
+	os<< "\nCircle:\n";
+	os << "x = " << m_x0 << " y = " << m_y0 << "\n";
+	os << "D = " << m_D << "";
+	return os;
+
+}
+
 /*void Circle::print()
 {
 	std::cout << "\nCircle:\n";

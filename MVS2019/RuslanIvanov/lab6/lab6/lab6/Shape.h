@@ -14,11 +14,11 @@ class Shape
 		virtual int square() = 0;
 			
 		virtual void WhereAmI();
-		virtual void print() = 0; // использовать &os
+		//virtual void print() = 0; // использовать &os
 		virtual Shape* clone()  const = 0;
 		virtual bool operator == (const Shape& s) const = 0 { /*сравнить цвет*/ return s.m_color == m_color; };
 		virtual bool operator != (const Shape& s) const = 0 { return s.m_color != m_color; };
-		//virtual std::ostream& print(std::ostream& os)=0;
+		virtual std::ostream& print(std::ostream& os)=0;
 		bool operator<(const Shape& s) const { return m_S < s.m_S;  };
 
 		//virtual int RemoveAll(const Shape* с) = 0;
