@@ -11,10 +11,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	List list;
 
-	list.AddHead(&Circle(1,1,1,RED));
-
-	list.AddHead(&Rect(2,2,2,2,GREEN));
-	list.AddTail(&Rect(3, 3, 3, 3, GREEN));
+	//list.AddHead();
 	return 0;
 }//endmain
 

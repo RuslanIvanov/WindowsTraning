@@ -1,16 +1,14 @@
-#include <iostream>
 #include "Shape.h"
+#include <iostream>
 
 Shape::Shape(COLOR c)
 {
-	m_S = 0;
 	m_color = c;
 	std::cout << "\nI am in Shape's constr!";
 }
 
 Shape::Shape(const Shape& r)
 {
-	m_S = 0;
 	m_color = r.m_color; //доступ к privat того же тип объекта разрешен
 	//r.m_color = RED; - нельзя т.к. const
 	std::cout << "\nI am in Shape's constr copy!";

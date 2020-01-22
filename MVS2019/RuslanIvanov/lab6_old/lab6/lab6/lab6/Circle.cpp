@@ -39,13 +39,13 @@ bool Circle::operator==( Circle& c) const
 	else
 		return false;
 }*/
-/*
-bool Circle::operator<(const Shape& r)  const
+
+bool Circle::operator<(const Circle& r) 
 {
 	if (m_D < r.m_D)
 		return true;
 	else return false;
-}*/
+}
 
 bool Circle::operator == (const Shape& c) const
 {
@@ -65,26 +65,16 @@ bool Circle::operator !=(const Shape& c) const
 	return	!operator==(c);
 }
 
-//std::ostream& Circle::print(std::ostream& os)
-//{
-//	os<< "\nCircle:\n";
-//	os << "x = " << m_x0 << " y = " << m_y0 << "\n";
-//	os << "D = " << m_D << "";
-//	return os;
-//
-//}
-/*void Circle::print()
+void Circle::print()
 {
 	std::cout << "\nCircle:\n";
 	std::cout << "x = " << m_x0 << " y = " << m_y0 << "\n";
 	std::cout << "D = " << m_D << "";
-}*/
+}
 
 int Circle::square() 
 {
-	std::cout << "\nCircle S = ";
-	m_S = 3.14 * (m_D / 2);
-	std::cout << m_S;
+	std::cout << "\nCircle square:\n";
 	return 0;
 }
 

@@ -7,7 +7,6 @@ class Circle:public Shape
 	int m_D;
 	int m_x0;
 	int m_y0;
-	
 	Point m_Point;
 
 	public:
@@ -18,12 +17,11 @@ class Circle:public Shape
 		int square();
 		void WhereAmI();
 		void Inflate(int);
-		//void print();
-		//std::ostream& print(std::ostream& os);
+		void print();
 		Shape* clone() const;
 		bool operator==(const Shape&) const;
 		bool operator!=(const  Shape&) const;
-	//	bool operator<(const Shape&) const;
+		bool operator<(const Circle&);
 		friend std::ostream& operator<<( std::ostream& os, const Circle& c);
 };
 

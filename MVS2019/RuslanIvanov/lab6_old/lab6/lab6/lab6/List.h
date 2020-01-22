@@ -22,7 +22,6 @@ class List
 		friend std::ostream& operator<<(std::ostream& os, const Node& n)
 		{ // virtual prinf() или RTTI
 		//	os << n.m_Date; //??
-			//os << n.m_Data->print(os);
 			return os;
 		}
 		

@@ -25,10 +25,8 @@ List::Node::Node(const Shape* r, Node* tail, Node* head)
 		tail->pPrev = this;// у хвоста стал предыдущим
 
 		const Rect* pR = dynamic_cast<const Rect*>(r);
-		if(pR!=0)	
-		{ m_Data = new Rect(*pR); }
-		else 
-			{ m_Data = new Circle(*(dynamic_cast<const Circle*>(r))); }
+		if(pR!=0)	{ m_Data = new Rect(*pR); }
+		else { m_Data = new Circle(*(dynamic_cast<const Circle*>(r))); }
 	}
 	else
 	{
@@ -52,13 +50,11 @@ List::Node::~Node()
 	//если есть сосед права
 	if (pPrev)
 	{//соседу справа уст  адрес следующего то который у удаляемого прописан был
-		delete pPrev->pNext->m_Data;
 		pPrev->pNext = this->pNext;
 	}
 
 	if (pNext)
 	{// соседу слева уст. адресс предыдущего , который был прописан у удуляемого
-		delete pNext->pPrev->m_Data;
 		pNext->pPrev = this->pPrev;
 	}
 }
@@ -110,7 +106,7 @@ List& List::operator=(const List& l)//  эффект.
 		{			
 			if (ii < l.m_size)
 			{
-				*pThis->m_Data = *pOther->m_Data;	//копируются объекты одинк типа
+				pThis->m_Data = pOther->m_Data;		
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
 			}
@@ -129,13 +125,14 @@ List& List::operator=(const List& l)//  эффект.
 		{
 			if (ii < m_size)
 			{
-				*pThis->m_Data = *pOther->m_Data;
+				pThis->m_Data = pOther->m_Data;
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
 			}
 			else
 			{
 				AddTail(pOther->m_Data);
+				//pThis = new Node(pOther->m_Data, pOther, nullptr);//??
 				pOther = pOther->pNext;
 			}
 
@@ -219,7 +216,7 @@ bool List::RemoveOne(const Shape* c)
 	Node* p = Head.pNext;
 	while (p!=&Tail) //пока текущий следующий не равен хвосту
 	{
-		if (*c == *p->m_Data)
+		if (c == p->m_Data)
 		{
 			delete p; //~Node () перекинул адреса
 			m_size--;
@@ -240,7 +237,7 @@ int List::RemoveAll(const Shape* с)
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
 		Node* pnext = p->pNext;
-		if (*с == *p->m_Data)
+		if (с == p->m_Data)
 		{
 			delete p;//оставить NN
 			m_size--;
@@ -283,16 +280,14 @@ void List::Sort()
 			Node* p1 = p->pNext; // Адр следующего объекта
 			while (p1 != &Tail)
 			{// Сравнение миним с тек 
-				if (*p1->m_Data < *pMin->m_Data)// Сравнение по S
+				if (p1->m_Data < pMin->m_Data)// Сравнение D
 				{// минимальный элемент найден, запоминаем адрес его Node
 					pMin = p1; // Перенаправлени указ
 				}
 				p1 = p1->pNext;// Берем след адр для сравнения
 			}
 			//Обмен местами текущего с минимальным 
-			
-			//меняем адреса в узлах
-			Shape *tmp = pMin->m_Data;//не эффект, надо менять узлы
+			Shape* tmp = pMin->m_Data;//не эффект, надо менять узлы
 			pMin->m_Data = p->m_Data; 
 			p->m_Data = tmp; 
 	

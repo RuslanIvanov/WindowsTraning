@@ -28,15 +28,13 @@ public:
 	int RemoveAll(const Shape*);
 	int RemoveOne(const Shape*);
 	Rect BoundingRect(const Rect& r1);
-	//void print();
-	//std::ostream& print(std::ostream& os);
+	void print();
 	void WhereAmI();
 	void Inflate(int);
 	int square();
 	Shape* clone() const;
 	virtual bool operator == (const Shape&) const;
 	virtual bool operator !=(const Shape&) const;
-	//bool operator<(const Shape&) const;
 	};
 
 /////////////////////////////////////////////////

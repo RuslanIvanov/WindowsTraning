@@ -1,5 +1,5 @@
-#include <iostream>
 #include "myRect.h"
+#include <iostream>
 
 Rect::Rect():Shape(RED)
 {
@@ -154,15 +154,12 @@ Rect Rect::BoundingRect(const Rect& r1)
 	return Rect(l,r,t,b,RED);
 }
 
-//std::ostream& Rect::print(std::ostream& os)
-////void Rect::print()
-//{
-//	os << "\nRect:\n";
-//	os << "left = " << m_left << " right = " << m_right << "\n";
-//	os << "top = " << m_top << " bottom = " << m_bottom << "\n";
-//
-//	return os
-//}
+void Rect::print()
+{
+	std::cout << "\nRect:\n";
+	std::cout << "left = " << m_left << " right = " << m_right << "\n";
+	std::cout << "top = " << m_top << " bottom = " << m_bottom << "\n";
+}
 
 void Rect::WhereAmI()
 {
@@ -180,9 +177,8 @@ void Rect::Inflate(int d)
 
 int Rect::square()
 {
-	std::cout << "\nRect S= ";
-	m_S = (m_right - m_left) * (m_bottom - m_top);
-	std::cout << m_S;
+	std::cout << "\nRect:\n";
+
 	return 0;
 }
 
@@ -205,11 +201,6 @@ bool Rect::operator !=(const Shape&  c) const
 {
 	return  !operator==(c);	
 }
-
-/*bool Rect ::operator<(const Shape& c) const
-{
-	const Rect* pR = dynamic_cast<const Rect*>(&c);
-}*/
 /*
 int  Rect::RemoveAll(const Shape*c) 
 {
