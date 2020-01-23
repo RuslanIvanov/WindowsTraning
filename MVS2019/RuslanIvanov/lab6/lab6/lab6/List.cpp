@@ -49,6 +49,21 @@ List::Node::Node(Node&& r)
 	r.m_Data = nullptr;
 }
 
+List::Node& List::Node::operator=(Node&& r)
+{
+	if (this == &r) return *this;
+
+	delete m_Data;
+
+	m_Data = r.m_Data;
+	pNext = r.pNext;
+	pPrev = r.pPrev;
+
+	r.pNext = nullptr;
+	r.pPrev = nullptr;
+	r.m_Data = nullptr;
+}
+
 List::Node::~Node()
 {
 	delete this->m_Data;

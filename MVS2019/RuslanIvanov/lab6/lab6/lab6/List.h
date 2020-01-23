@@ -15,6 +15,7 @@ class List
 		Node();//скорее всего понадобитс€ дл€ создани€ вспомогательных оберток Ц Ђстражейї (Head, Tail)
 		Node(const Shape*, Node* next, Node* prev);
 		Node(Node&&);
+		Node& operator=(Node&&);
 		~Node();//деструктор должен Ђисключатьї уничтожаемый Node из списка
 
 		friend class List; //все методы класса List имеют права доступа к Node
