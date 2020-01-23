@@ -3,7 +3,7 @@
 
 Rect::Rect():Shape(RED)
 {
-	m_left = m_top = m_right = m_bottom = 0;
+	m_left = m_top = m_right = m_bottom = m_S = 0;
 	std::cout << "\nRect::def constructor";
 }
 
@@ -15,7 +15,7 @@ Rect::Rect(int left, int right, int top, int bottom,COLOR c):Shape(c)
 		m_bottom = bottom;
 
 		this->Normalize();
-
+		square();
 		std::cout << "\nRect::constructor, param";
 }
 
@@ -155,12 +155,12 @@ Rect Rect::BoundingRect(const Rect& r1)
 }
 
 std::ostream& Rect::print(std::ostream& os)
-//void Rect::print()
 {
-	os << "\nRect:\n";
+	os << "\nRect:"; os << " color " << getColorName()<<"\n";
 	os << "left = " << m_left << " right = " << m_right << "\n";
 	os << "top = " << m_top << " bottom = " << m_bottom << "\n";
-
+	os << "S = " << m_S << "\n";
+	
 	return os;
 }
 
@@ -180,9 +180,9 @@ void Rect::Inflate(int d)
 
 int Rect::square()
 {
-	std::cout << "\nRect S= ";
+	//std::cout << "\nRect S= ";
 	m_S = (m_right - m_left) * (m_bottom - m_top);
-	std::cout << m_S;
+	//std::cout << m_S;
 	return 0;
 }
 
@@ -205,19 +205,6 @@ bool Rect::operator !=(const Shape&  c) const
 {
 	return  !operator==(c);	
 }
-
-/*bool Rect ::operator<(const Shape& c) const
-{
-	const Rect* pR = dynamic_cast<const Rect*>(&c);
-}*/
-/*
-int  Rect::RemoveAll(const Shape*c) 
-{
-
-}
-
-int  Rect::RemoveOne(const Shape*c ) 
-{}*/
 
 //=================================================================
 Rect BoundingRect(Rect r1, Rect r2)

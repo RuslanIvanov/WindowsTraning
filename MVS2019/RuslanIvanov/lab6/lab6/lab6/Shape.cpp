@@ -10,7 +10,7 @@ Shape::Shape(COLOR c)
 
 Shape::Shape(const Shape& r)
 {
-	m_S = 0;
+	m_S = r.m_S;
 	m_color = r.m_color; //доступ к privat того же тип объекта разрешен
 	//r.m_color = RED; - нельзя т.к. const
 	std::cout << "\nI am in Shape's constr copy!";
@@ -21,20 +21,17 @@ Shape::~Shape()
 	std::cout << "\nNow I am in Shape's destructor!";
 }
 
-void Shape::printColor()
+const char* Shape::getColorName() 
 {
-	std::cout << "\nmy color is: ";
 	switch (m_color)
 	{
-	case RED:
-		std::cout << "RED";
-	break;
-	case GREEN:
-		std::cout << "GREEN";
-	break;
-	case BLUE:
-		std::cout << "BLUE";
-	break;
+		case RED:return		"RED";
+		case GREEN:return	"GREEN";
+		case BLUE:return	"BLUE";
+		case YELLOW:return	"YELLOW";
+		case BLACK:return	"BLACK";
+		case WHITE: return  "WHITE";
+		default: return "";
 	}
 }
 

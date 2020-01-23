@@ -1,0 +1,42 @@
+
+sort list:
+
+
+Rect: color GREEN
+left = 2 right = 2
+top = 2 bottom = 2
+S = 0
+
+
+Circle: color RED
+x = 1 y = 1D = 1
+S = 0
+
+
+Rect: color BLUE
+left = 3 right = 3
+top = 3 bottom = 3
+S = 0
+
+
+Rect: color BLACK
+left = 3 right = 3
+top = 3 bottom = 3
+S = 0
+
+
+Rect: color BLACK
+left = 3 right = 3
+top = 3 bottom = 3
+S = 0
+
+
+Circle: color RED
+x = 10 y = 10D = 10
+S = 15
+
+
+Circle: color GREEN
+x = 10 y = 10D = 100
+S = 157
+

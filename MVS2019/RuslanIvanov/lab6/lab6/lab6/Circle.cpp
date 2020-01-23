@@ -6,6 +6,8 @@ Circle::Circle(int x, int y, int D,COLOR c):m_Point(x, y),Shape(c)
 	m_D = D;
 	m_x0 = x;
 	m_y0 = y;
+
+	square();
 }
 
 Circle::Circle(const Circle& r):m_Point(r.m_x0,r.m_y0),Shape(r)
@@ -13,6 +15,7 @@ Circle::Circle(const Circle& r):m_Point(r.m_x0,r.m_y0),Shape(r)
 	m_D = r.m_D;
 	m_x0 = r.m_x0;
 	m_y0 = r.m_y0;
+	m_S = r.m_S;
 	std::cout << "\nI am in Circle's constr copy!";
 }
 
@@ -31,21 +34,6 @@ void Circle::Inflate(int d)
 	std::cout << "\nCircle::Inflate";
 	m_D += d;
 }
-/*
-bool Circle::operator==( Circle& c) const
-{
-	if (c.m_D == m_D && c.m_x0 == m_x0 && c.m_y0 == m_y0  &&  m_Point == c.m_Point)
-		return true;
-	else
-		return false;
-}*/
-/*
-bool Circle::operator<(const Shape& r)  const
-{
-	if (m_D < r.m_D)
-		return true;
-	else return false;
-}*/
 
 bool Circle::operator == (const Shape& c) const
 {
@@ -67,25 +55,18 @@ bool Circle::operator !=(const Shape& c) const
 
 std::ostream& Circle::print(std::ostream& os)
 {
-	os<< "\nCircle:\n";
-	os << "x = " << m_x0 << " y = " << m_y0 << "\n";
-	os << "D = " << m_D << "";
+	os << "\nCircle:";  os << " color " << getColorName() << "\n";
+	os << "x = " << m_x0 << " y = " << m_y0 << "";
+	os << "D = " << m_D << "\nS = " << m_S << "\n";
 	return os;
 
 }
 
-/*void Circle::print()
-{
-	std::cout << "\nCircle:\n";
-	std::cout << "x = " << m_x0 << " y = " << m_y0 << "\n";
-	std::cout << "D = " << m_D << "";
-}*/
-
 int Circle::square() 
 {
-	std::cout << "\nCircle S = ";
+	//std::cout << "\nCircle S = ";
 	m_S = 3.14 * (m_D / 2);
-	std::cout << m_S;
+	//std::cout << m_S;
 	return 0;
 }
 

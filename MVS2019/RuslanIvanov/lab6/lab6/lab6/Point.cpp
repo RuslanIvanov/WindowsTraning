@@ -4,7 +4,7 @@
 //Globals:///////////////////////////////////////////////////////////
 std::ostream& operator<<(std::ostream& os, const Point& p)
 {
-	os << "m_x = " << p.m_x << " m_y = " << p.m_y;
+	os <<"Point: "<< "m_x = " << p.m_x << " m_y = " << p.m_y;
 	
 	return os;
 }

@@ -25,10 +25,9 @@ public:
 	void setLeft(int);
 	void setRight(int);
 	void setBottom(int);
-	int RemoveAll(const Shape*);
-	int RemoveOne(const Shape*);
+	
 	Rect BoundingRect(const Rect& r1);
-	//void print();
+	
 	std::ostream& print(std::ostream& os);
 	void WhereAmI();
 	void Inflate(int);
@@ -36,7 +35,6 @@ public:
 	Shape* clone() const;
 	virtual bool operator == (const Shape&) const;
 	virtual bool operator !=(const Shape&) const;
-	//bool operator<(const Shape&) const;
 	};
 
 /////////////////////////////////////////////////

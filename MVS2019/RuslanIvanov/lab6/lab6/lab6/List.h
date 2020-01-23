@@ -11,7 +11,7 @@ class List
 		Node* pNext;		//указатель на следующий элемент
 		Shape* m_Data;		//указатель на свою (динамическую) копию данных
 
-	//ћетоды:
+		//ћетоды:
 		Node();//скорее всего понадобитс€ дл€ создани€ вспомогательных оберток Ц Ђстражейї (Head, Tail)
 		Node(const Shape*, Node* next, Node* prev);
 		Node(Node&&);
@@ -21,7 +21,7 @@ class List
 	public:
 		friend std::ostream& operator<<(std::ostream& os, const Node& n)
 		{ // virtual prinf() или RTTI
-		//	os << n.m_Date; //??
+			//	os << n.m_Date; //??
 			//os <<
 			n.m_Data->print(os);
 			return os;

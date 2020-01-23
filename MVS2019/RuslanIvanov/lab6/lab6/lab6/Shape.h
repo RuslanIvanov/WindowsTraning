@@ -1,5 +1,5 @@
 #pragma once
-enum COLOR { RED, GREEN, BLUE };
+enum COLOR { RED, GREEN, BLUE, YELLOW, BLACK, WHITE };
 class Shape
 {
 	protected:
@@ -12,21 +12,15 @@ class Shape
 		//  т.к. создаем его объекты , то чисто вирт функцию не вводим  что б не был абстрактным,
 		virtual void Inflate(int) = 0 ; 
 		virtual int square() = 0;
-			
 		virtual void WhereAmI();
-		//virtual void print() = 0; // использовать &os
 		virtual Shape* clone()  const = 0;
 		virtual bool operator == (const Shape& s) const = 0 { /*сравнить цвет*/ return s.m_color == m_color; };
 		virtual bool operator != (const Shape& s) const = 0 { return s.m_color != m_color; };
 		virtual std::ostream& print(std::ostream& os)=0;
 		bool operator<(const Shape& s) const { return m_S < s.m_S;  };
 
-		//virtual int RemoveAll(const Shape* с) = 0;
-		//virtual int RemoveOne(const Shape* с) = 0;
-
-		virtual 
 		COLOR getColor() { return m_color; };
-		void printColor();
+		const char* getColorName();
 		
 };
 

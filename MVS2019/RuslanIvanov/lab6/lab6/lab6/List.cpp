@@ -24,6 +24,8 @@ List::Node::Node(const Shape* r, Node* tail, Node* head)
 		
 		tail->pPrev = this;// у хвоста стал предыдущим
 
+		// RTTI:
+
 		const Rect* pR = dynamic_cast<const Rect*>(r);
 		if(pR!=0)	
 		{ m_Data = new Rect(*pR); }
@@ -32,7 +34,6 @@ List::Node::Node(const Shape* r, Node* tail, Node* head)
 	}
 	else
 	{
-		//?? 
 		//так как Node(конструкор) private можно не обрабатывать ветку
 	}
 }
@@ -45,20 +46,23 @@ List::Node::Node(Node&& r)
 
 	r.pNext = nullptr;
 	r.pPrev = nullptr;
+	r.m_Data = nullptr;
 }
 
 List::Node::~Node()
 {
+	delete this->m_Data;
+
 	//если есть сосед права
 	if (pPrev)
 	{//соседу справа уст  адрес следующего то который у удаляемого прописан был
-		delete pPrev->pNext->m_Data;
+		
 		pPrev->pNext = this->pNext;
 	}
 
 	if (pNext)
 	{// соседу слева уст. адресс предыдущего , который был прописан у удуляемого
-		delete pNext->pPrev->m_Data;
+		
 		pNext->pPrev = this->pPrev;
 	}
 }
@@ -221,6 +225,7 @@ bool List::RemoveOne(const Shape* c)
 	{
 		if (*c == *p->m_Data)
 		{
+
 			delete p; //~Node () перекинул адреса
 			m_size--;
 
