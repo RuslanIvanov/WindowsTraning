@@ -1,7 +1,7 @@
 #include <iostream>
 #include "List.h"
 
-List::Node::Node() : pPrev(nullptr), pNext(nullptr) {}
+List::Node::Node() : pPrev(nullptr), pNext(nullptr),m_Data(nullptr) {}
 List::Node::Node(const Shape* r, Node* tail, Node* head)
 {//если head = &Head
 
