@@ -5,7 +5,7 @@ class Counter
 	size_t m_nOwners;
 	Counter* pNext;
 
-	static Counter* Head;
+	static Counter* pHead;
 	static unsigned int m_curCounters;//счетчик указателей
 
 	Counter(const char*);
