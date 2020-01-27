@@ -9,7 +9,8 @@ S = 0
 
 
 Circle: color RED
-x = 1 y = 1D = 1
+x = 1 y = 1
+D = 1
 S = 0
 
 
@@ -32,11 +33,13 @@ S = 0
 
 
 Circle: color RED
-x = 10 y = 10D = 10
+x = 10 y = 10
+D = 10
 S = 15
 
 
 Circle: color GREEN
-x = 10 y = 10D = 100
+x = 10 y = 10
+D = 100
 S = 157
 

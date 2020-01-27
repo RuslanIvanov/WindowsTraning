@@ -57,9 +57,20 @@ std::ostream& Circle::print(std::ostream& os)
 {
 	os << "\nCircle:";  os << " color " << getColorName() << "\n";
 	os << "x = " << m_x0 << " y = " << m_y0 << "";
-	os << "D = " << m_D << "\nS = " << m_S << "\n";
+	os << "\nD = " << m_D << "\nS = " << m_S << "\n";
 	return os;
 
+}
+
+std::istream& Circle::read(std::istream& in) 
+{
+	//in >> m_color; 
+	in >> m_x0;
+	in >> m_y0;
+	in >> m_D;
+	in >> m_S;
+
+	return in;
 }
 
 int Circle::square() 

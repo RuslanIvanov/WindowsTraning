@@ -13,5 +13,7 @@ class Counter
 	void AddUser();
 	void RemoveUser();
 	friend class MyString2;
+public:
+	const char* getString() { return m_pStr; }
 };
 

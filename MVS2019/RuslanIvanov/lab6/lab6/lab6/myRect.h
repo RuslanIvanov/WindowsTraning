@@ -29,6 +29,7 @@ public:
 	Rect BoundingRect(const Rect& r1);
 	
 	std::ostream& print(std::ostream& os);
+	std::istream& read(std::istream& in);
 	void WhereAmI();
 	void Inflate(int);
 	int square();

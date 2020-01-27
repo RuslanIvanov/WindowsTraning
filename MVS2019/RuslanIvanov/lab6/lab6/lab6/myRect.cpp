@@ -164,6 +164,17 @@ std::ostream& Rect::print(std::ostream& os)
 	return os;
 }
 
+ std::istream& Rect::read(std::istream& in) 
+{
+	// in >> m_color;
+	 in >> m_left;
+	 in >> m_right;
+	 in >> m_top;
+	 in >> m_bottom;
+	 in >> m_S;
+	 return in;
+}
+
 void Rect::WhereAmI()
 {
 	std::cout << "\nNow I am in class Rect";

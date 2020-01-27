@@ -17,10 +17,13 @@ class Shape
 		virtual bool operator == (const Shape& s) const = 0 { /*сравнить цвет*/ return s.m_color == m_color; };
 		virtual bool operator != (const Shape& s) const = 0 { return s.m_color != m_color; };
 		virtual std::ostream& print(std::ostream& os)=0;
+		virtual std::istream& read(std::istream& in) = 0;
 		bool operator<(const Shape& s) const { return m_S < s.m_S;  };
 
 		COLOR getColor() { return m_color; };
+		COLOR setColor(COLOR color) {  m_color = color; };
 		const char* getColorName();
+		void setColorName(const char*);
 		
 };
 

@@ -346,3 +346,18 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 		
 	return os;
 }
+
+std::istream& operator>>(std::istream& in, const List& l)
+{
+
+	const List::Node* p = l.Head.getNext();
+
+	/*while (p != &l.Tail)
+	{
+		os << "\n";
+		os << (*p);//Node.m_Data;
+		p = p->getNext();
+	}*/
+
+	return in;
+}

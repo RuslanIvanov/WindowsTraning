@@ -9,11 +9,20 @@
 int main()
 {
     std::cout << "Hello World!\n";
-    MyString2 str("ABC");
+
+    MyString2 str1("ABC");
     MyString2 str2("ABC2");
     MyString2 str3("ABC3");
     MyString2 str4("ABC3");
     MyString2 str5("ABC3");
+
+    stop
+
+    std::cout << str1;
+    std::cout << str2;
+    std::cout << str3;
+    std::cout << str4;
+    std::cout << str5;
 
     stop
 

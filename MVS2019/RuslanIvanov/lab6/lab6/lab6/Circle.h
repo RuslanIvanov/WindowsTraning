@@ -20,6 +20,7 @@ class Circle:public Shape
 		void Inflate(int);
 		//void print();
 		std::ostream& print(std::ostream& os);
+		std::istream& read(std::istream& in);
 		Shape* clone() const;
 		bool operator==(const Shape&) const;
 		bool operator!=(const  Shape&) const;
