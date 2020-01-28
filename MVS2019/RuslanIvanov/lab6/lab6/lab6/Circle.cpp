@@ -36,6 +36,20 @@ void Circle::Inflate(int d)
 	m_D += d;
 }
 
+Circle& Circle::operator=(const Circle& c)
+{
+	Shape::operator=(c);
+
+	if (this == &c) return *this;
+
+	m_D = c.m_D;
+	m_x0 = c.m_x0;
+	m_y0 = c.m_y0;
+	m_S = c.m_S;
+
+	return *this;
+}
+
 bool Circle::operator == (const Shape& c) const
 {
 	const Circle* pR = dynamic_cast<const Circle*>(&c);
@@ -56,33 +70,54 @@ bool Circle::operator !=(const Shape& c) const
 
 std::ostream& Circle::print(std::ostream& os)
 {
-	os << "\nCircle:";  os << " color " << getColorName() << "\n";
-	os << "x = " << m_x0 << " y = " << m_y0 << "";
-	os << "\nD = " << m_D << "\nS = " << m_S << "\n";
+	os << "\nCircle:";  os << "\ncolor " << getColorName();
+	os << "\nx = " << m_x0 << "\ny = " << m_y0;
+	os << "\nD = " << m_D << "\nS = " << m_S;
 	return os;
 
 }
 
 std::ifstream& Circle::read(std::ifstream& in)
 {
-	char buf[100];
+	char buf[BUFSIZ];
+	in >> buf; 
 	in >> buf;
 	setColorName(buf);
-	
+	in >> buf; in >> buf;
 	in >> m_x0;
+	in >> buf; in >> buf;
 	in >> m_y0;
+	in >> buf; in >> buf;
 	in >> m_D;
+	in >> buf; in >> buf;
 	in >> m_S;
 
 	return in;
 }
+/*
+std::ifstream& operator>>(std::ifstream& in, const Circle& c)
+{
+	char buf[100];
+	in >> buf;
+	c.setColorName(buf);
+	in >> buf;
+	in >> c.m_x0;
+	in >> buf;
+	in >> c.m_y0;
+	in >> buf;
+	in >> c.m_D;
+	in >> buf;
+	in >> c.m_S;
+
+	return in;
+}*/
 
 int Circle::square() 
 {
 	//std::cout << "\nCircle S = ";
-	m_S = 3.14 * (m_D / 2);
+	m_S = static_cast<int>(3.14) * (m_D / 2.);
 	//std::cout << m_S;
-	return 0;
+	return 	m_S;
 }
 
 Shape* Circle::clone() const

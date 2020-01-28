@@ -123,14 +123,31 @@ List& List::operator=(const List& l)//  эффект.
 
 	Node* pOther = l.Head.pNext;
 	Node* pThis = Head.pNext;
-
+	// цикл по наименьш. size , исп typeid
 	if (m_size >= l.m_size)
 	{
 		for (size_t ii = 0; ii < m_size; ii++)
-		{			
+		{///надо понимать какого типаобъект и  если тако уже есть, то вставл€ть в подобный			
 			if (ii < l.m_size)
 			{
-				*pThis->m_Data = *pOther->m_Data;	//копируютс€ объекты одинк типа
+				//*pThis->m_Data = *pOther->m_Data;	//oper=
+				/*pThis = pThis->pNext;
+				pOther = pOther->pNext;*/
+
+				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
+				{
+					if (typeid(*pOther->m_Data) == typeid(Rect)) 
+					{
+						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data)  ;
+					}
+
+					if (typeid(*pOther->m_Data) == typeid(Circle))
+					{
+						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
+					}
+				}
+				else { delete pThis->m_Data;  AddHead(pOther->m_Data); }
+
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
 			}
@@ -149,7 +166,23 @@ List& List::operator=(const List& l)//  эффект.
 		{
 			if (ii < m_size)
 			{
-				*pThis->m_Data = *pOther->m_Data;
+				//*pThis->m_Data = *pOther->m_Data;
+				//pThis = pThis->pNext;
+				//pOther = pOther->pNext;
+				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
+				{
+					if (typeid(*pOther->m_Data) == typeid(Rect))
+					{
+						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data);
+					}
+
+					if (typeid(*pOther->m_Data) == typeid(Circle))
+					{
+						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
+					}
+				}
+				else { delete pThis->m_Data; AddHead(pOther->m_Data); }
+
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
 			}
@@ -314,7 +347,7 @@ void List::Sort()
 			
 			//мен€ем адреса в узлах
 			Shape *tmp = pMin->m_Data;//не эффект, надо мен€ть узлы
-			pMin->m_Data = p->m_Data; 
+			pMin->m_Data = p->m_Data;  //мен€ю адреса узлов
 			p->m_Data = tmp; 
 	
 			p = p->pNext;
@@ -348,16 +381,48 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 	return os;
 }
 
-std::ifstream& operator>>(std::ifstream& in, const List& l)
+std::ifstream& operator>>(std::ifstream& in, /*const*/ List& l)
 {
 
 	const List::Node* p = l.Head.getNext();
-	//??? путой!
-	while (p != &l.Tail)
+	
+	static const char* names[] = { "Rect:", "Circle:" };
+
+	char buf[BUFSIZ] = "";
+	in >> buf;
+
+	for (int i = 0; i < (sizeof(names) / sizeof(names[0])); i++) 
 	{
-		in >> (*p);//Node.m_Data;
-		p = p->getNext();
-	}//*/
+		if (strstr(buf, names[i]))
+		{
+			if (i == 0)
+			{
+				Rect r;		
+				r.read(in);
+				l.AddHead(&r);
+			}
+
+			if (i == 1) 
+			{
+				Circle c;
+				c.read(in);
+				l.AddHead(&c);
+			}
+		}
+	}
+	/*
+	if (strstr(buf, "Rect:"))
+	{
+		 Rect r;		//создаl
+		 r.read(in);	//заполнил 
+		 l.AddHead(&r);	//добавил
+	}
+	else if(strstr(buf, "Circle:"))
+	{
+		Circle c;
+		c.read(in);
+		l.AddHead(&c);
+	}*/
 
 	return in;
 }

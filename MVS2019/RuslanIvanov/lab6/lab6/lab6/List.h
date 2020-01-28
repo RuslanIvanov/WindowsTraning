@@ -28,9 +28,8 @@ class List
 			return os;
 		}
 
-		friend std::ifstream& operator>>(std::ifstream& in, const Node& n)
-		{ 
-			
+		friend std::ifstream& operator>>(std::ifstream& in, /*const*/ Node& n)
+		{ 			
 			n.m_Data->read(in);
 			return in;
 		}
@@ -60,8 +59,8 @@ public:
 	void Sort();
 	void out();
 	friend std::ostream& operator<<(std::ostream& os, const List& l);
-	friend std::ifstream& operator>>(std::ifstream& in, const List& l);
+	friend std::ifstream& operator>>(std::ifstream& in,/* const*/ List& l);
 	};
 
 std::ostream& operator<<(std::ostream& os, const List& l);
-std::ifstream& operator>>(std::ifstream& in, const List& l);
+std::ifstream& operator>>(std::ifstream& in,/* const*/ List& l);

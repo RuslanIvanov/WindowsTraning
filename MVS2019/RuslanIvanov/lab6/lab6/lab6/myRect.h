@@ -36,8 +36,13 @@ public:
 	Shape* clone() const;
 	virtual bool operator == (const Shape&) const;
 	virtual bool operator !=(const Shape&) const;
+
+	Rect& operator=(const Rect& r);
+	
+	//friend  std::ifstream& operator>>(std::ifstream& in, const Rect& r);
 	};
 
 /////////////////////////////////////////////////
 Rect BoundingRect2(Rect& r1, Rect& r2);
 Rect BoundingRect(Rect r1, Rect r2);
+//std::ifstream& operator>>(std::ifstream& in, const Rect& r);

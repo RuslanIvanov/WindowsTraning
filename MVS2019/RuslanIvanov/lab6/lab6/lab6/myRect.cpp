@@ -157,28 +157,51 @@ Rect Rect::BoundingRect(const Rect& r1)
 
 std::ostream& Rect::print(std::ostream& os)
 {
-	os << "\nRect:"; os << " color " << getColorName()<<"\n";
-	os << "left = " << m_left << " right = " << m_right << "\n";
-	os << "top = " << m_top << " bottom = " << m_bottom << "\n";
-	os << "S = " << m_S << "\n";
+	os << "\nRect:\n"; os << "color " << getColorName();
+	os << "\nleft = " << m_left << "\nright = " << m_right;
+	os << "\ntop = " << m_top << "\nbottom = " << m_bottom;
+	os << "\nS = " << m_S;
 	
 	return os;
 }
 
  std::ifstream& Rect::read(std::ifstream& in)
 {
-	 char buf[100];
-	 in >> buf;
+	 char buf[BUFSIZ];
+	 in >> buf; in >> buf;
 	 setColorName(buf);
-
+	 in >> buf; in >> buf;
 	 in >> m_left;
+	 in >> buf; in >> buf;
 	 in >> m_right;
+	 in >> buf; in >> buf;
 	 in >> m_top;
+	 in >> buf; in >> buf;
 	 in >> m_bottom;
+	 in >> buf; in >> buf;
 	 in >> m_S;
 
 	 return in;
 }
+ /*
+ std::ifstream& operator>>(std::ifstream& in, const Rect& r) 
+ {
+	 char buf[100];
+	 in >> buf;
+	 r.setColorName(buf);
+	 in >> buf;
+	 in >> r.m_left;
+	 in >> buf;
+	 in >> r.m_right;
+	 in >> buf;
+	 in >> r.m_top;
+	 in >> buf;
+	 in >> r.m_bottom;
+	 in >> buf;
+	 in >> r.m_S;
+
+	 return in;
+ }*/
 
 void Rect::WhereAmI()
 {
@@ -207,6 +230,18 @@ Shape* Rect::clone() const
 	return new Rect(*this);
 }
 
+Rect& Rect::operator=(const Rect& r)
+{
+	Shape::operator=(r);
+	if (this == &r) return *this;
+
+	m_bottom = r.m_bottom;
+	m_top = r.m_bottom;
+	m_left = r.m_left;
+	m_right = r.m_right;
+
+	return *this;
+}
 bool Rect::operator == (const Shape& c) const
 {
 	const Rect* pR = dynamic_cast<const Rect*>(&c);

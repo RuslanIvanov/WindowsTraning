@@ -16,6 +16,16 @@ class Shape
 		virtual Shape* clone()  const = 0;
 		virtual bool operator == (const Shape& s) const = 0 { /*сравнить цвет*/ return s.m_color == m_color; };
 		virtual bool operator != (const Shape& s) const = 0 { return s.m_color != m_color; };
+		virtual Shape& operator=(const Shape& s)
+		{
+			if (this == &s)return *this;
+
+			m_color = s.m_color; 
+			m_S = s.m_S;
+
+			return *this;
+		}
+
 		virtual std::ostream& print(std::ostream& os)=0;
 		virtual std::ifstream& read(std::ifstream& in) = 0;
 		bool operator<(const Shape& s) const { return m_S < s.m_S;  };

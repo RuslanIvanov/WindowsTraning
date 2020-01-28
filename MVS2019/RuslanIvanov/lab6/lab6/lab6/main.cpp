@@ -72,7 +72,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (fin.is_open())
 	{
 		std::cout << "\nfile is opened";
-		fin >> l;
+		while (!fin.eof())
+		{			
+			fin >> l;			
+		}
 	}
 	else std::cout << "\nfile open is error";
 
@@ -80,6 +83,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout <<"\nList read--------------------\n";
 	std::cout << l << "";
 
+	l = list5;
+	std::cout << "\nList copy--------------------\n";
+	std::cout << l << "";
 	return 0;
 }//endmain
 
