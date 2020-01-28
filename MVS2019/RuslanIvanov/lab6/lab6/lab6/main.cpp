@@ -65,15 +65,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << "\nlist6 after copy move:--------------------------";
 	std::cout << list6;
 
-	//std::ifstream f1;
-	//f1.open("..\\lab6\\list.txt");
-	//std::cout << "\nf1: ";
-	//List l;
-	//if /*while*/(f1.good())
-	//{
-	//	f1 >> l;		
-	//}
-	//std::cout << l << " ";
+	List l;
+	std::ifstream fin;
+	fin.open("..\\lab6\\list.txt");
+
+	if (fin.is_open())
+	{
+		std::cout << "\nfile is opened";
+		fin >> l;
+	}
+	else std::cout << "\nfile open is error";
+
+	fin.close();
+	std::cout <<"\nList read--------------------\n";
+	std::cout << l << "";
+
 	return 0;
 }//endmain
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "List.h"
 
 List::Node::Node() : pPrev(nullptr), pNext(nullptr),m_Data(nullptr) {}
@@ -347,17 +348,16 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 	return os;
 }
 
-std::istream& operator>>(std::istream& in, const List& l)
+std::ifstream& operator>>(std::ifstream& in, const List& l)
 {
 
 	const List::Node* p = l.Head.getNext();
-
-	/*while (p != &l.Tail)
+	//??? путой!
+	while (p != &l.Tail)
 	{
-		os << "\n";
-		os << (*p);//Node.m_Data;
+		in >> (*p);//Node.m_Data;
 		p = p->getNext();
-	}*/
+	}//*/
 
 	return in;
 }

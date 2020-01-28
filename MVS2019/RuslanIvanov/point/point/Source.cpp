@@ -28,7 +28,7 @@ public:
 std::ostream& operator<< (std::ostream& out, const Point& point)
 {
     // Поскольку operator<< является другом класса Point, то мы имеем прямой доступ к членам Point
-    out << "Point(" << point.m_x << ", " << point.m_y << ", " << point.m_z << ")";
+    out << "Point(" << point.m_x << ", " << point.m_y << ", " << point.m_z << " )";
 
     return out;
 }
@@ -36,7 +36,7 @@ std::ostream& operator<< (std::ostream& out, const Point& point)
 std::ofstream& operator<< (std::ofstream& out, const Point& point)
 {
  
-    out << "Point: m_x =" << point.m_x << ",m_y = " << point.m_y << ", m_z = " << point.m_z << ")";
+    out << "Point: m_x =" << point.m_x << ",m_y = " << point.m_y << ",m_z = " << point.m_z << " )";
 
     return out;
 }
@@ -55,9 +55,18 @@ std::istream& operator>> (std::istream& in, Point& point)
 std::ifstream& operator>> (std::ifstream& in, Point& point)
 {
     
+    std::cout<<"\nifstream";
+
+    char buff[100]="";
+    
+    in >> buff;
+    in >> buff;
     in >> point.m_x;
+    in >> buff;
     in >> point.m_y;
+    in >> buff;
     in >> point.m_z;
+    in >> buff;
 
     return in;
 }
@@ -81,7 +90,7 @@ int main()
     if (fin.is_open())
     {
         std::cout << "\nfile is opened";
-    	fin >> p;		
+    	fin >> p;
     } else std::cout << "\nfile open is error";
 
     fin.close();
@@ -89,4 +98,5 @@ int main()
     std::cout<<"\n"<< p << ";";
     stop
     return 0;
+
 }

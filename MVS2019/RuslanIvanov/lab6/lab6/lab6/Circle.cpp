@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Circle.h"
 
 Circle::Circle(int x, int y, int D,COLOR c):m_Point(x, y),Shape(c)
@@ -62,9 +63,12 @@ std::ostream& Circle::print(std::ostream& os)
 
 }
 
-std::istream& Circle::read(std::istream& in) 
+std::ifstream& Circle::read(std::ifstream& in)
 {
-	//in >> m_color; 
+	char buf[100];
+	in >> buf;
+	setColorName(buf);
+	
 	in >> m_x0;
 	in >> m_y0;
 	in >> m_D;

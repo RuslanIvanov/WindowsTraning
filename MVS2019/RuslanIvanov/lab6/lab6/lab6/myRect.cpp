@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "myRect.h"
 
 Rect::Rect():Shape(RED)
@@ -164,14 +165,18 @@ std::ostream& Rect::print(std::ostream& os)
 	return os;
 }
 
- std::istream& Rect::read(std::istream& in) 
+ std::ifstream& Rect::read(std::ifstream& in)
 {
-	// in >> m_color;
+	 char buf[100];
+	 in >> buf;
+	 setColorName(buf);
+
 	 in >> m_left;
 	 in >> m_right;
 	 in >> m_top;
 	 in >> m_bottom;
 	 in >> m_S;
+
 	 return in;
 }
 
