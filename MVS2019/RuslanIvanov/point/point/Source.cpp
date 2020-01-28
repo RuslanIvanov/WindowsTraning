@@ -1,5 +1,13 @@
 
 #include <iostream>
+#include <fstream>
+void mystop()
+{
+    std::cout << "\nPause\n";
+    getchar();
+}
+
+#define  stop  {mystop();}
 
 class Point
 {
@@ -12,13 +20,23 @@ public:
     }
 
     friend std::ostream& operator<< (std::ostream& out, const Point& point);
+    friend std::ofstream& operator<< (std::ofstream& out, const Point& point);
     friend std::istream& operator>> (std::istream& in, Point& point);
+    friend std::ifstream& operator>> (std::ifstream& in, Point& point);
 };
 
 std::ostream& operator<< (std::ostream& out, const Point& point)
 {
     // Поскольку operator<< является другом класса Point, то мы имеем прямой доступ к членам Point
     out << "Point(" << point.m_x << ", " << point.m_y << ", " << point.m_z << ")";
+
+    return out;
+}
+
+std::ofstream& operator<< (std::ofstream& out, const Point& point)
+{
+ 
+    out << "Point: m_x =" << point.m_x << ",m_y = " << point.m_y << ", m_z = " << point.m_z << ")";
 
     return out;
 }
@@ -34,14 +52,41 @@ std::istream& operator>> (std::istream& in, Point& point)
     return in;
 }
 
+std::ifstream& operator>> (std::ifstream& in, Point& point)
+{
+    
+    in >> point.m_x;
+    in >> point.m_y;
+    in >> point.m_z;
+
+    return in;
+}
+
 int main()
 {
-    std::cout << "Enter a point: \n";
+    //std::cout << "Enter a point: \n";
+    //Point point;
+    //std::cin >> point;
+    //std::cout << "You entered: " << point << '\n';
 
-    Point point;
-    std::cin >> point;
+    Point point2(1.,2.,3.);
+    std::ofstream fout("point.txt");
+    fout << "\npoint:\n" << point2 << std::endl;
+    fout.close();
+    stop
+    std::ifstream fin;
+    fin.open("..\\point\\point.txt");
+    
+    Point p;
+    if (fin.is_open())
+    {
+        std::cout << "\nfile is opened";
+    	fin >> p;		
+    } else std::cout << "\nfile open is error";
 
-    std::cout << "You entered: " << point << '\n';
-
+    fin.close();
+    stop
+    std::cout<<"\n"<< p << ";";
+    stop
     return 0;
 }
