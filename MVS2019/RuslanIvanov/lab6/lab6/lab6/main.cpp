@@ -83,8 +83,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout <<"\nList read--------------------\n";
 	std::cout << l << "";
 
+	std::cout << "\nList source: size ="<< list5.Size() <<"";
+	std::cout << list5 << "";
 	l = list5;
-	std::cout << "\nList copy--------------------\n";
+	std::cout << "\nList copy: size =" << l.Size() << "";
 	std::cout << l << "";
 	return 0;
 }//endmain
@@ -95,8 +97,10 @@ List test()
 	list4.AddTail(&Circle(5, 5, 555));
 	list4.AddTail(&Circle(4, 4, 444));
 	list4.AddHead(&Rect(5, 5,5, 5));
+	list4.AddHead(&Rect(5, 5, 5, 5,BLACK));
 	list4.AddHead(&Rect(4, 4, 4, 4));
 	list4.AddHead(&Circle(5, 5, 111));
+	list4.AddHead(&Circle(5, 5, 111,GREEN));
 
 	return list4;
 }

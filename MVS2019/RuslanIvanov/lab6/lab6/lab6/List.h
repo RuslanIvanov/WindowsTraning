@@ -58,6 +58,7 @@ public:
 	int  Size();
 	void Sort();
 	void out();
+	bool compare(const Shape*, const Shape*);
 	friend std::ostream& operator<<(std::ostream& os, const List& l);
 	friend std::ifstream& operator>>(std::ifstream& in,/* const*/ List& l);
 	};

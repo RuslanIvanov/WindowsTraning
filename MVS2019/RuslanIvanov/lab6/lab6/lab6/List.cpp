@@ -116,7 +116,32 @@ List::List(const List& l)
 
 	}
 }
+bool List::compare(const Shape* a, const Shape* b)
+{
+	if (typeid(*a) == typeid(*b))
+	{
+		if (typeid(*a) == typeid(Rect))
+		{
+			if (*static_cast<const Rect*>(a) == *static_cast<const Rect*>(b)) 
+			{
+				return true;
+			}
+			else return false;
+		}
+		else
+			if (typeid(*a) == typeid(Circle))
+			{
+				if (*static_cast<const Circle*>(a) == *static_cast<const Circle*>(b))
+				{
+					return true;
+				}
+				else return false;
+			}
+			else return false;
+	}
+	else return false;
 
+}
 List& List::operator=(const List& l)//  эффект.
 {
 	if (this == &l) { return *this; }
@@ -140,13 +165,17 @@ List& List::operator=(const List& l)//  эффект.
 					{
 						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data)  ;
 					}
-
+					else
 					if (typeid(*pOther->m_Data) == typeid(Circle))
 					{
 						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
 					}
 				}
-				else { delete pThis->m_Data;  AddHead(pOther->m_Data); }
+				else 
+				{ 
+					delete pThis->m_Data; 
+					pThis->m_Data = pOther->m_Data->clone();
+				}
 
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
@@ -174,14 +203,17 @@ List& List::operator=(const List& l)//  эффект.
 					if (typeid(*pOther->m_Data) == typeid(Rect))
 					{
 						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data);
-					}
-
+					}else
 					if (typeid(*pOther->m_Data) == typeid(Circle))
 					{
 						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
 					}
 				}
-				else { delete pThis->m_Data; AddHead(pOther->m_Data); }
+				else
+				{
+					delete pThis->m_Data;
+					pThis->m_Data = pOther->m_Data->clone();
+				}
 
 				pThis = pThis->pNext;
 				pOther = pOther->pNext;
@@ -272,7 +304,9 @@ bool List::RemoveOne(const Shape* c)
 	Node* p = Head.pNext;
 	while (p!=&Tail) //пока текущий следующий не равен хвосту
 	{
-		if (*c == *p->m_Data)
+		//if (*c == *p->m_Data)//??? вызов базового == только
+		//if (typeid(*c) == typeid(*p->m_Data))
+		if(compare(c,p->m_Data))
 		{
 
 			delete p; //~Node () перекинул адреса
@@ -287,14 +321,15 @@ bool List::RemoveOne(const Shape* c)
 
 	return false;
 }
-int List::RemoveAll(const Shape* с) 
+int List::RemoveAll(const Shape* c) 
 { // удаляет все дубли Circle !!! 
 	int count = 0;
 	List::Node* p = Head.pNext;
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
 		Node* pnext = p->pNext;
-		if (*с == *p->m_Data)
+		//if (*с == *p->m_Data)
+		if (compare(c, p->m_Data))
 		{
 			delete p;//оставить NN
 			m_size--;
