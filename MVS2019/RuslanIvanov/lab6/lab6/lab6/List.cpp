@@ -122,7 +122,7 @@ bool List::compare(const Shape* a, const Shape* b)
 	{
 		if (typeid(*a) == typeid(Rect))
 		{
-			if (*static_cast<const Rect*>(a) == *static_cast<const Rect*>(b)) 
+			if (*dynamic_cast<const Rect*>(a) == *dynamic_cast<const Rect*>(b)) 
 			{
 				return true;
 			}
@@ -131,7 +131,7 @@ bool List::compare(const Shape* a, const Shape* b)
 		else
 			if (typeid(*a) == typeid(Circle))
 			{
-				if (*static_cast<const Circle*>(a) == *static_cast<const Circle*>(b))
+				if (*dynamic_cast<const Circle*>(a) == *dynamic_cast<const Circle*>(b))
 				{
 					return true;
 				}
@@ -163,12 +163,12 @@ List& List::operator=(const List& l)//  ύττεκς.
 				{
 					if (typeid(*pOther->m_Data) == typeid(Rect)) 
 					{
-						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data)  ;
+						*dynamic_cast<Rect*>(pThis->m_Data) = *dynamic_cast<Rect*>(pOther->m_Data)  ;
 					}
 					else
 					if (typeid(*pOther->m_Data) == typeid(Circle))
 					{
-						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
+						*dynamic_cast<Circle*>(pThis->m_Data) = *dynamic_cast<Circle*>(pOther->m_Data);
 					}
 				}
 				else 
@@ -202,11 +202,11 @@ List& List::operator=(const List& l)//  ύττεκς.
 				{
 					if (typeid(*pOther->m_Data) == typeid(Rect))
 					{
-						*static_cast<Rect*>(pThis->m_Data) = *static_cast<Rect*>(pOther->m_Data);
+						*dynamic_cast<Rect*>(pThis->m_Data) = *dynamic_cast<Rect*>(pOther->m_Data);
 					}else
 					if (typeid(*pOther->m_Data) == typeid(Circle))
 					{
-						*static_cast<Circle*>(pThis->m_Data) = *static_cast<Circle*>(pOther->m_Data);
+						*dynamic_cast<Circle*>(pThis->m_Data) = *dynamic_cast<Circle*>(pOther->m_Data);
 					}
 				}
 				else
