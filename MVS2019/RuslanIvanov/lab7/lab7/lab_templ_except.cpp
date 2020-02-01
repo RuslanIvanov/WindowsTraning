@@ -62,7 +62,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			//С помощью шаблона MyStack создайте стек из 5 элементов int - iStack и
 			//стек из 10 элементов MyString - strStack и поэкспериментируйте с функциями
 			//push() и pop(), operator[]
-	{
+	/*{
 		MyStack <int>st;
 		try
 		{
@@ -90,14 +90,17 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 		try
 		{
-			st[0] = 0;
-			st[12] = 12;
+			//st[0] = 0;
+			//st[12] = 12;
+			std::cout << "\noper[]:\n";
+			std::cout << "\n#0: " << st[0];
+			std::cout << "\n#12: " << st[12];
 		}
 		catch (ErrorStack & e)
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
-	}
+	}*/
 	stop
 
 	{
@@ -135,15 +138,19 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		try
 		{
-			st[0] = "AAA";
-			st[12] = "BBB";
+			//st[0] = "AAA";
+			//st[12] = "BBB";
+			std::cout << "\noper[]:\n";
+			std::cout << "\n#0: " << st[0];
+			std::cout << "\n#12: " << st[12];
 		}
 		catch (ErrorStack & e)
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
+		stop
 	}
-
+	stop
 
 
 	//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
