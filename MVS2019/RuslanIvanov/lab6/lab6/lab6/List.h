@@ -56,7 +56,7 @@ public:
 	int Cleaning();
 	int RemoveAll(const Shape*);
 	int  Size();
-	void Sort();
+	void Sort(SORT sortType=SQ);
 	void out();
 	bool compare(const Shape*, const Shape*);
 	friend std::ostream& operator<<(std::ostream& os, const List& l);

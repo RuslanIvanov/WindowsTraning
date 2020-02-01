@@ -35,7 +35,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << list2;
 
 	list2.Sort();
-	std::cout << "\nSort list:-----------------------";
+	std::cout << "\nSort list by square:-----------------------";
 	std::cout << list2;
 
 	std::ofstream fout("list.txt");
@@ -88,6 +88,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	l = list5;
 	std::cout << "\nList copy: size =" << l.Size() << "";
 	std::cout << l << "";
+
+	l.Sort(COL);
+	std::cout << "\nSort list by color:-----------------------";
+	std::cout << l;
+
 	return 0;
 }//endmain
 

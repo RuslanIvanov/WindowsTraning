@@ -362,9 +362,13 @@ int List::Size()
 	return m_size;
 }
 
-void List::Sort()
+void List::Sort(SORT typeSort)
 {
+		Shape::setTypeSort(typeSort);
+		std::cout<<"\n"<<Shape::getTypeSort();
+
 		Node* p = Head.pNext;
+
 		while (p != &Tail) 
 		{//Поиск минимального из оставшихся значений
 		
@@ -393,6 +397,7 @@ void List::Sort()
 void List::out()
 {
 	Node* p = Head.pNext;
+
 	while (p != &Tail)
 	{
 		std::cout << "\nout: ";
@@ -405,7 +410,7 @@ std::ostream& operator<<(std::ostream& os, const List& l)
 {
 	
 	const List::Node* p =  l.Head.getNext();
-
+	
 	while (p != &l.Tail)
 	{
 		os << "\n";
@@ -445,6 +450,7 @@ std::ifstream& operator>>(std::ifstream& in, /*const*/ List& l)
 			}
 		}
 	}
+
 	/*
 	if (strstr(buf, "Rect:"))
 	{
