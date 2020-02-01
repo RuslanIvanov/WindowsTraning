@@ -1,164 +1,232 @@
-//#include <string>
-#include "myString.h"
-using namespace std;
-//---------------------------------------------------------------------------
-// конструктор с параметром
-MyString::MyString(const char*	pStr )
-{
-	// Динамически выделить требуемое количество памяти.
-	m_pStr = new char[strlen( pStr ) + 1];	// + 1, так как нулевой байт тоже нужно скопировать
-	// Если память выделена, скопировать строку-аргумент в строку-член класса
-	strcpy( m_pStr, pStr );
-}
-//-----------------------------------------------------------------------------
-//Конструктор по умолчанию
+
+#include "MyString.h"
+//using namespace std;
+
+// Определение конструктора.
+
 MyString::MyString()
 {
-	// Динамически выделить требуемое количество памяти.    А КАК ЛУЧШЕ?????????????????????
 	m_pStr = new char[1];
-	m_pStr[0]='\0';
-//m_pStr = new char(0);//если 0, то везде проверять!!!   При печати  и в деструкторе не требует проверки
-	
-//возможные неприятности !!!!!!!!!!!!
-//m_pStr = 0;	  //??????  при выводе на печать 0 указатель даст ошибку
-//m_pStr = "Default";  //в деструкторе попытаемся удалить m_pStr и будет ошибка, т.к. там адрес строкового литерала
+	*m_pStr = 0;
+	//cout << "\nMyString::def constructor";
 }
-//-----------------------------------------------------------------------------
-//конструктор копирования
-MyString::MyString(const MyString& other )
+
+MyString::MyString(const char* pstr) 
 {
-	// выделение памяти под копию строки
-	m_pStr= new char [strlen (other.m_pStr)+1]; 
-	//копирование строки
-	strcpy (m_pStr,other.m_pStr);
+	if (pstr == nullptr) 
+	{
+		m_pStr = new char[1];
+		*m_pStr = 0;
+		return;
+	}
+
+	int n = strlen(pstr) + 1;
+	m_pStr = new char[n];
+	///////////////////////////////////////////////
+	strcpy(m_pStr, pstr);
+	//strcpy_s(m_pStr, n ,pstr);//где  n размер принимающего буффера
+	///////////////////////////////////////////////
+	//cout << "\nMyString::constructor, param";
 }
-//-----------------------------------------------------------------------------
-// Деструктор
+
+MyString::MyString(const MyString& r) 
+{
+	int n = strlen(r.m_pStr) + 1;
+	m_pStr = new char[n];
+	strcpy(m_pStr, r.m_pStr);
+
+	//std::cout << "\nMyString::constructor copy";
+}
+
+// Определение деструктора.
 MyString::~MyString()
 {
-	// Освобождение памяти, занятой в конструкторе для строки-члена класса
 	delete[] m_pStr;
-	m_pStr=0;
+	std::cout << "\nNow I am in nMyString's destructor!";
 }
-//-----------------------------------------------------------------------------
- void MyString::SetNewString (const char* pStr)
- {
-	 int len1,len2;
-	 //определяем какая из строк длиннее, старая или новая
-	 len1=strlen (this->m_pStr)+1;
-	 len2=strlen (pStr)+1;
-	 //новая строка помещается на место старой
-	 if (len2<=len1)
-		 strcpy(m_pStr,pStr);
-	 else
-	 {	//для новой строки требуется места больше
-		 //удаление указателя на старую строку
-		 delete []m_pStr;
-		 //распределение памяти под новую строку
-		 m_pStr=new char[len2];
-		 //копирование одной строки в другую
-		 strcpy(m_pStr,pStr);
-	 }
- }
-//--------------------------------------------------------------------------
-//правильный оператор присваивания =
- MyString& MyString::operator=(const MyString& s)
- {
-	// m_pStr=s.m_pStr; //это не корректно, т.к при разрушении объектов возникнет ошибка
-	 //надо выделить новую память
-	 if (this!=&s)//проверяем, не один ли это объект  
-	 {
-		 delete m_pStr; //удаляется старый адрес
-		 m_pStr= new char[strlen(s.m_pStr)+1];
-		 strcpy(m_pStr,s.m_pStr);
-	 }
-	 return *this;
- }
-//------------------------------------------------------------------------------
- MyString& MyString::operator=(const char* str)
- {
-	delete m_pStr; //удаляется старый адрес
-	m_pStr= new char[strlen(str)+1];
-	strcpy(m_pStr,str);
+
+
+const char* MyString::GetString() 
+{
+	return m_pStr;
+}
+
+
+void MyString::SetNewString(const char* pstr) 
+{
+	int n_new = strlen(pstr) + 1;
+	int n = strlen(m_pStr) + 1;
+
+	if (n_new <= n) 
+	{
+		strcpy(m_pStr, pstr);
+		return;
+	}
+
+	delete[] m_pStr;
+
+	m_pStr = new char[n_new];
+	strcpy(m_pStr, pstr);
+
+}
+
+void MyString::ConcatString(const char* pstr)
+{
+	if (pstr == nullptr) return ;
+
+	int n_new = strlen(pstr) + 1;
+	int n_current = strlen(m_pStr) + 1;
+
+	char* p_new = new char[n_new + n_current];
+	strcpy(p_new, m_pStr);
+	strcpy(p_new + n_current-1, pstr);
+	//strcat(p_new, pstr);
+
+	delete[] m_pStr;
+
+	m_pStr = p_new;
+}
+
+MyString& MyString::operator=(const MyString& r)
+{
+	//cout << "\nMyString::operator=()";
+
+	if (this == &r)
+	{ return *this; }
+
+	int n_cur = strlen(m_pStr)+1;
+	int n_copy = strlen(r.m_pStr) + 1;
+
+	if (n_cur < n_copy)
+	{
+		delete[] m_pStr;
+		m_pStr = new char[n_copy];
+	}
+
+	strcpy(m_pStr, r.m_pStr);
+	
 	return *this;
- }
- //-----------------------------------------------------------------------------
-//// оператор присваивания (move semantics)
-  MyString& MyString::operator=( MyString&& s)
-  {
-	  delete m_pStr; //удаляется старый адрес 
-	  m_pStr=s.m_pStr;  // отняли у s
-	   s.m_pStr= nullptr;//обнулили у s
-	   return *this;
-  }
-//------------------------------------------------------------------------------
+}
+
+MyString::MyString(MyString&& MoveSource) 
+{/*Когда он доступен, компилятор C++11 автоматически выбирает конструктор перемещения 
+ для временного “перемещения” ресурса, а следовательно, избегает этапа глубокого копирования!!!*/
+	if (MoveSource.m_pStr != nullptr) // не надо так как в дефолтофом констр *m_pStr = 0;
+	{
+		//взять собственнеость и переместить
+		m_pStr = MoveSource.m_pStr;
+		MoveSource.m_pStr = nullptr;
+	}
+	//cout << "\nMyString::move constructor";
+}
+
+MyString& MyString::operator= ( MyString&& MoveResource) 
+{
+	//cout << "\nMyString::move operator=()";
+
+	if (this == &MoveResource)
+	{
+		return *this;
+	}
+
+	delete[] m_pStr;// освобожление собственного ресурса
+	m_pStr = MoveResource.m_pStr; // взять в сообственность - начало перемещения
+	MoveResource.m_pStr = nullptr; // освободить источник перемещения от собственности
+
+	return *this;
+}
+
+/////////////////////////////////////////////////////////////////////
+MyString ApplyString(const char *p1, ...)
+{
+	MyString strConcat;
+	int count = 0;
+	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
+	va_list p;// универсальынй указатель
+	va_start(p, p1);//направл. универсального указ. на первый необяхат парам.
+
+	while (pstr!=nullptr)
+	{
+		//std::cout << "\n#" << count << ": " << pstr;
+		strConcat.ConcatString(pstr);
+		pstr = va_arg(p, char*);
+		count++;
+		
+	}
+
+	return strConcat; //для оптимизаци move копирование для MyString
+}
 MyString MyString::operator+(const MyString& s)
- {
-	//создается новый объект  (возврат по значению)
-	 int len= strlen(m_pStr)+strlen(s.m_pStr)+1;
-	 char* ptr=new char[len];
-	 strcpy(ptr,m_pStr);
-	 strcat(ptr,s.m_pStr);
-	 //создаем временный объект
-	 MyString temp (ptr); 
-	 //Возвращаем копию !!! НО НЕ ССЫЛКУ!!!
-	 //уничтожаем вспомогательный массив
-	 delete[] ptr; 
-	 return(temp);	//будет вызван move-конструктор копирования !!!
- }
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-MyString MyString::operator+(const MyString& s)const //предлагает Элджер
- {
-	//создается новый объект  (возврат по значению)
-	 int len= strlen(m_pStr)+strlen(s.m_pStr)+1;
-	 char* ptr=new char[len];
-	 strcpy(ptr,m_pStr);
-	 strcat(ptr,s.m_pStr);
-	 //создаем временный объект
-	 MyString temp (ptr);
-	 //уничтожаем вспомогательный массив
-	 delete[] ptr; 
-	 return(temp);
- }
-//------------------------------------------------------------------------------
-MyString& MyString::operator+=(const MyString& s)//можно возвратить адрес, т.к. объект существует
- {
-	 //изменяется существующий	(возврат по ссылке)
-	 MyString temp= *this;
-	 delete m_pStr; //удаляется старый адрес
-	 m_pStr= new char[strlen(temp.m_pStr)+strlen(s.m_pStr)+1];
-	 strcpy(m_pStr,temp.m_pStr);
-	 strcat(m_pStr,s.m_pStr);
-	 return *this;
- }
-//------------------------------------------------------------------------------
-bool MyString::operator==(const MyString& other)
 {
-	return(strcmp(this->m_pStr,other.m_pStr)==0);
+	int n_cur = strlen(m_pStr) + 1;
+	int n_new = strlen(s.m_pStr) + 1;
+	char* p = new char[n_cur + n_new];
+	
+	strcpy(p, m_pStr);
+	strcat(p, s.m_pStr);
 
+	MyString tmp(p);
+	return tmp;
 }
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-bool MyString::operator==(const char* other)
-{
-	return(strcmp(this->m_pStr,other)==0);
 
-}
-//------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-// конструктор копирования (move semantics)
- MyString::MyString(MyString&& other ) //&&- указывает на то, что это временный объект
- {
-	 m_pStr=other.m_pStr;  // отняли у временного
-	 other.m_pStr= nullptr;//обнулили у временного
- }
- //-----------------------------------------------------------------------------
- //глобальные функции
- //-----------------------------------------------------------------------------
-ostream& operator<<(ostream& os, const MyString& s)
+MyString& MyString::operator+=(const MyString& s) 
 {
-//	os<<"contents:  "<<s.m_pStr;
-	os<<s.m_pStr;
+	//this->operator=(this->operator+(s));
+	(*this) = (*this) + s;
+	return *this;
+}
+
+bool MyString::operator == (const char* k) const
+{
+	if (strcmp(m_pStr,k) == 0) 
+		return true;
+	else 
+		return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool operator == (const char* k,const MyString& r) 
+{	
+	if (strcmp(r.m_pStr, k) == 0) 
+		return true;
+	else 
+		return false;
+}
+std::ostream& operator<<(std::ostream& os, const MyString& s) 
+{
+	os << s.m_pStr;
 	return os;
 }
+
+MyString Concat(const char* p1, ...) 
+{
+	int count = 0;
+	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
+	va_list p;// универсальынй указатель
+	va_start(p, p1);//направл. универсального указ. на первый необх. парам.
+
+	int len = 0;
+	
+	while (pstr != nullptr)
+	{
+		//std::cout << "\n#" << count << ": " << pstr;
+		len += strlen(pstr) + 1;
+		pstr = va_arg(p, char*);
+		count++;
+	}
+	//std::cout << "\n#LEN ALL " << count << ": " << len;
+	char* ppp = new char[len];
+	*ppp = 0;
+	const char* pstr2 = p1;
+	va_start(p, p1);
+	for (int i = 0; i < count; i++)
+	{
+		strcat(ppp, pstr2);
+		pstr2 = va_arg(p, char*);
+	
+	}
+	MyString strConcat(ppp);
+	delete[] ppp;
+	return strConcat; // работает move!!!
+}
+

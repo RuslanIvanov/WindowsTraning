@@ -5,6 +5,7 @@
 	//		шаблоны классов,
 
 #include <tchar.h>
+#include <iostream>
 //#include <stdexcept>
 #include "templ.h"
 #include "MyString.h"
@@ -37,6 +38,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//			не только корректно, но и эффективно
 	MyString str1("One"), str2("Two");
 	Swap(str1, str2);
+
+	std::cout<<"\ns1 = "<< str1<<" s2 = " << str2;
 	stop
 		//*/
 		/////////////////////////////////////////////////////////////////////
@@ -59,15 +62,87 @@ int _tmain(int argc, _TCHAR* argv[])
 			//С помощью шаблона MyStack создайте стек из 5 элементов int - iStack и
 			//стек из 10 элементов MyString - strStack и поэкспериментируйте с функциями
 			//push() и pop(), operator[]
+	{
+		MyStack <int>st;
+		try
+		{
+			for (int i = 0; i < 11; i++)
+				st.push(i);
+		}
+		catch (const char* e)
+		{
+			std::cout << e;
+		}
+	
+		std::cout << "\nstack:";
+		for (int i = 0; i < st.size(); i++)
+			std::cout << "\n#"<<i <<": "<<st.pop();
+		stop
+		try
+		{
+			for (int i = 0; ; i++)
+				std::cout << "\n#"<<i<<" : "<< st.pop();
+		}
+		catch (const char* e) 
+		{
+			std::cout << e;
+		}
+		
+		try
+		{
+			st[0] = 0;
+			st[12] = 12;
+		}
+		catch (ErrorStack & e)
+		{
+			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
+		}
+	}
+	stop
 
-		MyStack <int>st(5);
-		st.pop(1);
-		st.pop(2);
-		st.pop(4);
-		st.pop(3);
+	{
+		MyStack <MyString>st;
+		try
+		{
 
-		int i;
-		st.push(i)
+			for (int i = 0; i < 11; i++)
+			{
+				char str[2];
+				
+				str[0] = i + 'A';
+				str[1] = 0;
+				st.push(str);
+			}
+		}
+		catch (const char* e)
+		{
+			std::cout << e;
+		}
+
+		std::cout << "\nstack:";
+		for (int i = 0; i < st.size(); i++)
+			std::cout << "\n#" << i << ": " << st.pop();
+		stop
+		try
+		{
+			for (int i = 0; ; i++)
+				std::cout << "\n#" << i << " : " << st.pop();
+		}
+		catch (const char* e)
+		{
+			std::cout << e;
+		}
+
+		try
+		{
+			st[0] = "AAA";
+			st[12] = "BBB";
+		}
+		catch (ErrorStack & e)
+		{
+			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
+		}
+	}
 
 
 

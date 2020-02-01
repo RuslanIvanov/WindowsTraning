@@ -1,33 +1,33 @@
 #pragma once
-template <typename T> class MyStack
+
+struct ErrorStack
 {
-	T* m_p;
 	size_t m_n;
-	size_t m_cap;
-	size_t m_index;
-	size_t m_size;
+	size_t m_i;
+
+	ErrorStack(size_t i, size_t n) 
+	{
+		m_n = n;
+		m_i = i;
+	}
+
+};
+
+
+template <typename T> class MyStack
+{	
+	static const size_t m_n=10;
+	T m_p[m_n];
+
+	size_t m_index;// кол объектов в екторе до m_n
 
 public:
 
-	MyStack() 
+	MyStack()
 	{
-		m_p = nullptr;
-		m_n = 0;
-		m_cap = 0;
 		m_index = 0;
-		m_size=0;
-	}
 
-	MyStack(size_t n)
-	{
-		m_n = n;
-		m_cap = n + 10;
-		m_index = 0;
-		m_size=0;
-
-		m_p = new T[n + m_cap]; //malloc
-
-		for (size_t  i=0; i < n; i++)
+		for (size_t  i=0; i < m_n; i++)
 		{
 			m_p[i] = T();
 		}
@@ -35,28 +35,51 @@ public:
 	}
 
 	~MyStack()
-	{		
-		delete [] m_p;
+	{	
+		for (size_t i = 0; i < m_n; i++)
+			m_p[i].~T();
 	}
 
-	void pop(const T& p) 
+	T& operator[](size_t i) //для стека
 	{
-		if (m_index < m_n) 
+		if (i < m_n)
+		{
+			return m_p[i];
+		}
+		else throw ErrorStack(i, m_n);// throw std::out_of_range;
+		
+	}
+
+	void push(const T& p) // вставялть
+	{		
+		if (m_index < m_n)
 		{
 			m_p[m_index] = p;
 			m_index++;
 		}
-	}
-
-	bool push(T& t) 
-	{
-		if (m_index > m_n)
+		else 
 		{
-			t = m_p[m_index];
-			m_index--;
-			return true;
+			m_index = m_n;
+			throw "\nError push";
 		}
-		else return false;
+	}
+
+	T pop() // выталкивать
+	{
+		
+		if (m_index > 0 && m_index <= m_n)
+		{
+			//T tmp = m_p[m_index];
+			m_index--;
+			return  m_p[m_index];
+		}
+		else
+		{
+			throw "\nError pop";
+		}
 
 	}
+
+	bool empty() { return (m_index == 0);  }
+	size_t size() { return m_n; }
 };
