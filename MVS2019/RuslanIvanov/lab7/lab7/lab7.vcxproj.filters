@@ -32,5 +32,8 @@
     <ClInclude Include="MyStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyStack2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

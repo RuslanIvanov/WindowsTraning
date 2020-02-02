@@ -45,32 +45,32 @@ public:
 	//1.	template <class ElementType>
 	//2.	Array<ElementType>::Array(Array<ElementType> && array)
 	///???
-	template <typename T,size_t m_n=10>  MyStack( MyStack&& st)
-	{
-		m_index = st.m_index;
+	//template <typename T,size_t m_n=10>  MyStack( MyStack&& st)
+	//{
+	//	m_index = st.m_index;
 
-		static_cast<T*>(m_p) = (st.m_p);// для st.m_p деструктор отработает по m_n
-		st.m_index = 0;
-	}
+	//	static_cast<T*>(m_p) = (st.m_p);// для st.m_p деструктор отработает по m_n
+	//	st.m_index = 0;
+	//}
 	//цель семантики перемещения состоит в том, чтобы переместить владение ресурсами из одного объекта в другой
 	//(что менее затратно, чем выполнение копирования)
 	//???
-	template <typename T,size_t m_n = 10> MyStack& operator=(MyStack&& st)
-	{
-		if (this == &st)
-		{
-			return *this;
-		}
+	//template <typename T,size_t m_n = 10> MyStack& operator=(MyStack&& st)
+	//{
+	//	if (this == &st)
+	//	{
+	//		return *this;
+	//	}
 
-		for (size_t i = 0; i < m_n; i++)
-			m_p[i].~T();
+	//	for (size_t i = 0; i < m_n; i++)
+	//		m_p[i].~T();
 
-		m_index = st.m_index;
-		m_p = st.m_p; // для st.m_p деструктор отработает по m_n
-		st.m_index = 0;
+	//	m_index = st.m_index;
+	//	m_p = st.m_p; // для st.m_p деструктор отработает по m_n
+	//	st.m_index = 0;
 
-		return *this;
-	}
+	//	return *this;
+	//}
 
 	MyStack& operator=(const MyStack& st)
 	{

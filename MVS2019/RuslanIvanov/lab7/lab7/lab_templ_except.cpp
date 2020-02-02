@@ -10,6 +10,7 @@
 #include "templ.h"
 #include "MyString.h"
 #include "MyStack.h"
+#include "MyStack2.h"
 
 #define stop __asm nop
 
