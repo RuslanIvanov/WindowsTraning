@@ -22,10 +22,10 @@ template <typename T, size_t m_n = 10> class MyStack2
         Node(const T& t) : m_t(t), m_next(nullptr) { }
         ~Node()
         {
-           /* if (pNext)
+           if (m_next)
             {
-                pNext->pPrev = this->pPrev;
-            }*/
+               m_next->m_next = this->m_next;
+            }
 
         }
         // Значение узла
@@ -42,7 +42,7 @@ template <typename T, size_t m_n = 10> class MyStack2
 
 public:
 
-    MyStack2(): m_head(nullptr) { }
+    MyStack2(): m_head(nullptr) 
     {
         m_index = 0;
     }
@@ -60,14 +60,21 @@ public:
 
     void push(const T& p) // вставялть
     {
-        if (m_index < m_n)
+        if (m_index < m_n)//голова - это последний который вставили
         {
-            if (Node* node = new Node(p))
+            //try{
+            Node* node = new Node(p);
+            if (m_head)
             {
-                node->m_next = m_head;
-                m_head = node;
+                node->m_next = m_head;// вставка перед головой
+                m_head = node;// текущий становится головой
             }
+            else m_head = node;
+
             m_index++;
+
+            //}catch(std::bad_alloc) {throw "\nError push. Bad alloc new!";}
+           
         }
         else
         {
@@ -79,16 +86,16 @@ public:
     {
         if (m_index > 0 && m_index <= m_n)
         {
-            m_index--;
-
-            if (m_head)
+            if (m_head)// удалять с головы, потом прерназначить новую голову
             {
-           
-                Node* newHead = m_head->m_next;
+                m_index--;
+                Node* p = m_head->m_next;
                 delete m_head;
-                m_head = newHead;
+                m_head = p;
+                return m_head->m_t;
             }
-            return  m_p[m_index]; return m_node->m_t;
+            throw "\nError pop. Stack is empty!";
+           
         }
         else
         {
