@@ -14,9 +14,12 @@ struct ErrorStack
 };
 
 
-template <typename T, size_t m_n = 10> class MyStack
+template <typename T, size_t m_n = 0> class MyStack
 {	
+	//static const size_t m_n=10;
 	T m_p[m_n];
+
+	//size_t m_countElem;
 	size_t m_index;// кол объектов в екторе до m_n
 
 public:
@@ -24,74 +27,11 @@ public:
 	MyStack()
 	{
 		m_index = 0;
+		//m_countElem = 0;
 		for (size_t  i=0; i < m_n; i++)
 		{
 			m_p[i] = T();
 		}
-
-	}
-
-	MyStack(const MyStack& st )
-	{		
-		size_t i = 0;
-		for (; i < st.m_index && i<m_n; i++)// скопировать то что можно
-		{
-			m_p[i] = st.m_p[i];
-		}
-
-		m_index = i;
-
-	}
-
-	MyStack( MyStack&& st)
-	{
-		m_index = st.m_index;
-		m_p = st.m_p;
-		st.m_index = 0;
-	}
-
-	MyStack& operator=(MyStack&& st)
-	{
-		if (this == &st)
-		{
-			return *this;
-		}
-
-		for (size_t i = 0; i < m_n; i++)
-			m_p[i].~T();
-
-		m_index = st.m_index;
-		m_p = st.m_p;
-		st.m_index = 0;
-
-		return *this;
-	}
-
-	MyStack& operator=(const MyStack& st)
-	{
-		if (this == &st) return *this;
-
-		size_t i = 0;
-		for (; i < st.m_index && i < m_n; i++)// скопировать то что можно
-		{	
-			if(i<m_index)
-				m_p[i] = st.m_p[i];
-			else
-			{
-				try 
-				{
-					push(st.m_p[i]);
-				}
-				catch (const char* e)
-				{
-					std::cout << e;
-				}
-			}
-
-		}
-		m_index = i;
-		
-		return *this;
 
 	}
 
@@ -105,6 +45,7 @@ public:
 	{
 		if (i < m_index) // только сколько внесено
 		{
+
 			return m_p[i];
 		}
 		else throw ErrorStack(i, m_index);// throw std::out_of_range;
@@ -120,20 +61,43 @@ public:
 		
 	}
 
+	//T& operator[](size_t i) //дл€ стека _ вставл€ть по индексу, но будут дыры, но если будут, то дыры будут проиниц. по дефолту
+	//{
+	//	if (i < m_n)
+	//	{
+	//		if (i >= m_index)
+	//		{
+	//			m_index++;
+	//			if (m_index > m_countElem)
+	//				m_countElem = m_index;// внес больше, чем было до этого, если i  шагнул на 2 и более от m_index, 
+	//										//то в промежутках будут дефолтовые значени€
+	//		}
+	//		return m_p[i];
+	//	}
+	//	else throw ErrorStack(i, m_n);// throw std::out_of_range;
+	//	
+	//}
+
 	void push(const T& p) // встав€лть
 	{		
 		if (m_index < m_n)
 		{
 			m_p[m_index] = p;
+			 
 			m_index++;
+
+			//if(m_index > m_countElem)
+			//	m_countElem = m_index;//что бы удалит все элемены, если меньше вставили Ёлемнтов в тек стек
 		}
 		else 
 		{
-			throw "\nError push. Exit  of size stack!";
+			//m_index = m_n;
+		//	m_countElem = m_n;
+			throw "\nError push";
 		}
 	}
 
-	T& pop() // выталкивать
+	T pop() // выталкивать
 	{
 		
 		if (m_index > 0 && m_index <= m_n)
@@ -143,7 +107,7 @@ public:
 		}
 		else
 		{
-			throw "\nError pop. Exit  of size stack!";
+			throw "\nError pop";
 		}
 
 	}

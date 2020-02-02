@@ -62,8 +62,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			//С помощью шаблона MyStack создайте стек из 5 элементов int - iStack и
 			//стек из 10 элементов MyString - strStack и поэкспериментируйте с функциями
 			//push() и pop(), operator[]
-	/*{
-		MyStack <int>st;
+	{
+		MyStack <int,10>st;
 		try
 		{
 			for (int i = 0; i < 11; i++)
@@ -74,8 +74,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << e;
 		}
 	
-		std::cout << "\nstack:";
-		for (int i = 0; i < st.size(); i++)
+		std::cout << "\nread all stack:";
+		for (int i = 0; st.size()>0 ; i++)
 			std::cout << "\n#"<<i <<": "<<st.pop();
 		stop
 		try
@@ -90,8 +90,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 		try
 		{
-			//st[0] = 0;
-			//st[12] = 12;
+			st.push(33);
+			std::cout << "\n#0: " << st[0];
+			st[0] = 333;
+		
 			std::cout << "\noper[]:\n";
 			std::cout << "\n#0: " << st[0];
 			std::cout << "\n#12: " << st[12];
@@ -100,11 +102,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
-	}*/
+		catch (const char* e)
+		{
+			std::cout << e;
+		}
+	}
 	stop
 
 	{
-		MyStack <MyString>st;
+		MyStack <MyString,10>st;
 		try
 		{
 
@@ -114,7 +120,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				
 				str[0] = i + 'A';
 				str[1] = 0;
-				st.push(str);
+				st.push(str);//в MyStrin разрешено неявноне преобразование ,  а то иначе st.push(MyString(str))
 			}
 		}
 		catch (const char* e)
@@ -122,8 +128,23 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << e;
 		}
 
-		std::cout << "\nstack:";
-		for (int i = 0; i < st.size(); i++)
+		try
+		{
+			std::cout << "\noper[]:\n";
+			std::cout << "\n#0: " << st[1];
+			std::cout << "\n#2: " << st[2];
+			st[2] = MyString("CCC");
+			st[1] = MyString("BBB");
+			std::cout << "\n#1new: " << st[1];
+			std::cout << "\n#2new: " << st[2];
+		}
+		catch (ErrorStack & e)
+		{
+			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
+		}
+
+		std::cout << "\nread all stack:";
+		for (int i = 0;  st.size() > 0 ; i++)
 			std::cout << "\n#" << i << ": " << st.pop();
 		stop
 		try
@@ -138,8 +159,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		try
 		{
-			//st[0] = "AAA";
-			//st[12] = "BBB";
+			st.push("A");
+			std::cout << "\n#0: " << st[0];
+			st[0] = "AAA";//в MyStrin разрешено неявноне преобразование
+
 			std::cout << "\noper[]:\n";
 			std::cout << "\n#0: " << st[0];
 			std::cout << "\n#12: " << st[12];
@@ -148,9 +171,39 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
+		catch (const char* e)
+		{
+			std::cout << e;
+		}
 		stop
 	}
-	stop
+		stop
+		{
+			MyStack<MyString,10> st1;
+			st1.push(MyString("one"));
+			st1.push(MyString("two"));
+
+			MyStack<MyString, 10> st2 = st1;
+
+			std::cout << "\nread all stack:";
+
+			for (size_t i = 0; i < st2.size() ; i++)
+				std::cout << "\n#" << i << ": " << st2[i];
+
+			MyStack<MyString, 10> st3;
+			st3.push(MyString("SSS"));
+
+			st2.push(MyString("free"));
+			st2.push(MyString("four"));
+
+			st3 = st2;
+
+			for (size_t i = 0; i < st2.size(); i++)
+				std::cout << "\n#" << i << ": " << st2[i];
+			stop
+		}
+
+		stop
 
 
 	//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
