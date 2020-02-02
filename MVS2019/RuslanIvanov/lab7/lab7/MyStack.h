@@ -46,7 +46,7 @@ public:
 	MyStack( MyStack&& st)
 	{
 		m_index = st.m_index;
-		m_p = st.m_p;
+		m_p = st.m_p;// для st.m_p деструктор отработает по m_n
 		st.m_index = 0;
 	}
 
@@ -61,7 +61,7 @@ public:
 			m_p[i].~T();
 
 		m_index = st.m_index;
-		m_p = st.m_p;
+		m_p = st.m_p; // для st.m_p деструктор отработает по m_n
 		st.m_index = 0;
 
 		return *this;

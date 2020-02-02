@@ -178,7 +178,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		stop
 	}
 		stop
-		{
+		{//one two three four five six seven eight nine ten
 			MyStack<MyString,10> st1;
 			st1.push(MyString("one"));
 			st1.push(MyString("two"));
@@ -200,6 +200,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			for (size_t i = 0; i < st2.size(); i++)
 				std::cout << "\n#" << i << ": " << st2[i];
+			stop
+
+			MyStack<MyString, 10> st4= std::move(st2);
+
+			for (size_t i = 0; i < st4.size(); i++)
+				std::cout << "\n#" << i << ": " << st4[i];
 			stop
 		}
 
