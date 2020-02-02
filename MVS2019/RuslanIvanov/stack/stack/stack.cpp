@@ -21,12 +21,12 @@ int main()
 
     std::stack<int> c4;
   
-    c4.push(4);
+    c4.push(4444);
 
     std::stack<int> c5 = std::move(c4);
     std::cout << c5.size() << '\n';
     std::cout << c4.size() << '\n';
-
+    std::cout << c4.top() << '\n';
     int a = 0;
 }
 

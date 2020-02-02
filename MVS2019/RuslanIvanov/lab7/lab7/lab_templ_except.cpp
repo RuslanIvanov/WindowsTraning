@@ -198,14 +198,24 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			st3 = st2;
 
-			for (size_t i = 0; i < st2.size(); i++)
-				std::cout << "\n#" << i << ": " << st2[i];
+			for (size_t i = 0; i < st3.size(); i++)
+				std::cout << "\n#" << i << ": " << st3[i];
 			stop
 
-			MyStack<MyString, 10> st4= std::move(st2);
+			{
+				MyStack<MyString, 10> st33;
+				st33.push(MyString("3333"));
+				st33.push(MyString("4444"));
+				MyStack<MyString, 10> st4 = std::move(st33);
 
-			for (size_t i = 0; i < st4.size(); i++)
-				std::cout << "\n#" << i << ": " << st4[i];
+				for (size_t i = 0; i < st4.size(); i++)
+					std::cout << "\n#" << i << ": " << st4[i];
+
+				st4 = std::move(st2);
+
+				for (size_t i = 0; i < st4.size(); i++)
+					std::cout << "\n#" << i << ": " << st4[i];
+			}
 			stop
 		}
 

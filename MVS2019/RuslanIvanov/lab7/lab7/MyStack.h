@@ -42,15 +42,20 @@ public:
 		m_index = i;
 
 	}
-
-	MyStack( MyStack&& st)
+	//1.	template <class ElementType>
+	//2.	Array<ElementType>::Array(Array<ElementType> && array)
+	///???
+	template <typename T,size_t m_n=10>  MyStack( MyStack&& st)
 	{
 		m_index = st.m_index;
-		m_p = st.m_p;// для st.m_p деструктор отработает по m_n
+
+		static_cast<T*>(m_p) = (st.m_p);// для st.m_p деструктор отработает по m_n
 		st.m_index = 0;
 	}
-
-	MyStack& operator=(MyStack&& st)
+	//цель семантики перемещения состоит в том, чтобы переместить владение ресурсами из одного объекта в другой
+	//(что менее затратно, чем выполнение копирования)
+	//???
+	template <typename T,size_t m_n = 10> MyStack& operator=(MyStack&& st)
 	{
 		if (this == &st)
 		{
