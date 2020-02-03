@@ -234,7 +234,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			st21.push(2);
 			st21.push(3);
 			stop
-			std::cout << st22;
+			std::cout << st21;
 
 
 	

@@ -1,5 +1,9 @@
 #pragma once
 
+template <typename T,size_t> class MyStack2;
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T>& );
+
 struct ErrorStack2
 {
     size_t m_n;
@@ -85,11 +89,12 @@ public:
     {
         if (m_index < m_n)//голова - это последний который вставили
         {
+           Node* pNode = nullptr;
            try
            {
-                Node* pNode = new Node(p);
+                pNode = new Node(p);
            }
-           catch (std::bad_alloc) { throw std::bad_alloc; } //"\nError push. Bad alloc new!";
+           catch (std::bad_alloc) { /*throw std::bad_alloc;*/ } //"\nError push. Bad alloc new!";
 
            if (m_head)
            {
@@ -160,10 +165,11 @@ public:
 
     }*/
 
-  friend  std::ostream& operator<<(std::ostream& os, const MyStack2& s); //<T>
+  private:
+  friend  std::ostream& operator<< <>(std::ostream& os, const MyStack2& s); //<T>
 };
 
-template <typename T>
+template <typename T,size_t>
 std::ostream& operator<<(std::ostream& os, const MyStack2<T>& s)
 {
 
