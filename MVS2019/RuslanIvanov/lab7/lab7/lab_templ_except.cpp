@@ -231,7 +231,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			MyStack2<int> st21;
 			st21.push(1);
+			st21.push(2);
+			st21.push(3);
 			stop
+			std::cout << st22;
 
 
 	

@@ -22,14 +22,16 @@ template <typename T, size_t m_n = 10> class MyStack2
         Node(const T& t) : m_t(t), m_next(nullptr) { }
         ~Node()
         {
-           if (m_next)
-            {
+          /* if (m_next)//m_head     
+          {
                m_next->m_next = this->m_next;
-            }
+           }*/
+           m_t.~T();
 
         }
         // Значение узла
         T m_t;
+        // size_t m_numNode;
         // Указатель на следующий узел
         Node* m_next;
     };
@@ -51,30 +53,52 @@ public:
     {
         while (m_head)
         {
-                Node* newHead = m_head->m_next;
+                Node* p = m_head->m_next;
                 delete m_head;
-                m_head = newHead;
+                m_head = p;
                 m_index--;
         }
+    }
+
+    T& operator[](size_t i) 
+    {
+
+        if (i < m_index) // только сколько внесено
+        {
+            size_t ii = 1;
+            Node* p = m_head;
+            while (m_head)
+            { 
+                if (ii == m_index)
+                {
+                    return p->m_t;
+                }
+                else p = p->m_next;
+                ii++;
+            }
+            throw "\nError.  Stack is empty!";
+        }
+        else throw ErrorStack2(i, m_index);// throw std::out_of_range;
     }
 
     void push(const T& p) // вставялть
     {
         if (m_index < m_n)//голова - это последний который вставили
         {
-            //try{
-            Node* node = new Node(p);
-            if (m_head)
-            {
-                node->m_next = m_head;// вставка перед головой
-                m_head = node;// текущий становится головой
-            }
-            else m_head = node;
+           try
+           {
+                Node* pNode = new Node(p);
+           }
+           catch (std::bad_alloc) { throw std::bad_alloc; } //"\nError push. Bad alloc new!";
 
-            m_index++;
+           if (m_head)
+           {
+                pNode->m_next = m_head;// вставка перед головой
+                m_head = pNode;// текущий становится головой
+           }
+           else { m_head = pNode; }
 
-            //}catch(std::bad_alloc) {throw "\nError push. Bad alloc new!";}
-           
+           m_index++;
         }
         else
         {
@@ -82,20 +106,18 @@ public:
         }
     }
 
-    T& pop() // выталкивать
+    void pop() // выталкивать
     {
         if (m_index > 0 && m_index <= m_n)
         {
             if (m_head)// удалять с головы, потом прерназначить новую голову
             {
-                m_index--;
-                Node* p = m_head->m_next;
-                delete m_head;
-                m_head = p;
-                return m_head->m_t;
+               m_index--;
+              
+               Node* p = m_head->m_next;
+               delete m_head;
+               m_head = p;
             }
-            throw "\nError pop. Stack is empty!";
-           
         }
         else
         {
@@ -106,4 +128,44 @@ public:
 
     bool empty() { return (m_index == 0); }
     size_t size() { return m_index; }
+
+   /* T& pop() // выталкивать
+    {
+        if (m_index > 0 && m_index <= m_n)
+        {
+            if (m_head)// удалять с головы, потом прерназначить новую голову
+            {
+                m_index--;
+                Node* p = m_head;
+                size_t ii = 0;
+                while(m_head)
+                {
+                    p = m_head->m_next;
+                    ii++
+                }
+              //  Node* p = m_head->m_next;
+              //  T t = m_head->m_t;
+              //  delete m_head;
+              //  m_head = p;
+              //  return t;
+                return p->m_t;
+            }
+            throw "\nError pop. Stack is empty!";
+           
+        }
+        else
+        {
+            throw "\nError pop. Exit  of size stack!";
+        }
+
+    }*/
+
+  friend  std::ostream& operator<<(std::ostream& os, const MyStack2& s); //<T>
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T>& s)
+{
+
+    return os;
+}

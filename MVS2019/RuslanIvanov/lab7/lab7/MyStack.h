@@ -89,7 +89,8 @@ public:
 				}
 				catch (const char* e)
 				{
-					std::cout << e;
+					//std::cout << e;
+					throw e;
 				}
 			}
 
