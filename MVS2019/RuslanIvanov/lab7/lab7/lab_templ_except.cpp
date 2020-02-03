@@ -229,15 +229,38 @@ int _tmain(int argc, _TCHAR* argv[])
 				//пользователь
 
 
-			MyStack2<int> st21;
-			st21.push(1);
-			st21.push(2);
-			st21.push(3);
+			MyStack2<int,4> st21;
+			try {
+				st21.push(1);
+				st21.push(2);
+				st21.push(3);
+				st21.push(4);
+				st21.push(5);
+			}
+			catch (const char* e) { std::cout << e; }
+
 			stop
 			std::cout << st21;
 
+			try
+			{
+				st21.pop();
+				st21.pop();
+			}
+			catch (const char* e) { std::cout << e; }
+			std::cout << st21;
+			stop
 
-	
+				try {
+				std::cout<<"\n#0: "<< st21[0];
+				std::cout <<"\n#1: " << st21[1];
+			}
+			catch (const char* e) { std::cout << e; }
+			catch (ErrorStack2 & e)
+			{
+				std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
+			}
+	stop
 
 	return 0;
 }

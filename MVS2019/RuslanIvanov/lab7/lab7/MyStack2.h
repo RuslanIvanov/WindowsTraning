@@ -1,8 +1,9 @@
 #pragma once
 
 template <typename T,size_t> class MyStack2;
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const MyStack2<T>& );
+//declaration
+template <typename T,size_t m_n>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T,m_n>& );
 
 struct ErrorStack2
 {
@@ -169,9 +170,17 @@ public:
   friend  std::ostream& operator<< <>(std::ostream& os, const MyStack2& s); //<T>
 };
 
-template <typename T,size_t>
-std::ostream& operator<<(std::ostream& os, const MyStack2<T>& s)
+//definition
+template <typename T,size_t m_n>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T,m_n>& s)
 {
+    const MyStack2<T,m_n>::Node* p = s.m_head;
+    while (p)
+    {       
+         os<<"\n"<<p->m_t;
+        
+         p = p->m_next;
+    }
 
     return os;
 }
