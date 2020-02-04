@@ -136,6 +136,10 @@ public:
     bool empty() { return (m_index == 0); }
     size_t size() { return m_index; }
 
+    void print_reverse()
+    {
+    }
+
    /* T& pop() // выталкивать
     {
         if (m_index > 0 && m_index <= m_n)
