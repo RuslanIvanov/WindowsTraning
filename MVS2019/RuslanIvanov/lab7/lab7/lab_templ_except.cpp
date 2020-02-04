@@ -16,8 +16,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	
-	
+
+
 	////////////////////////////////////////////////////////////////////////////
 	//Тема. Шаблоны функций.
 	//Создайте шаблон функции перестановки местами двух
@@ -30,17 +30,17 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	stop
 
-	double dX = 0.5, dY = -5.5;
+		double dX = 0.5, dY = -5.5;
 	Swap(dX, dY);
 
 	stop
-	//Подсказка 2: подумайте, что нужно реализовать, для того,
-	//			чтобы следующий вызов работал с объектами MyString
-	//			не только корректно, но и эффективно
-	MyString str1("One"), str2("Two");
+		//Подсказка 2: подумайте, что нужно реализовать, для того,
+		//			чтобы следующий вызов работал с объектами MyString
+		//			не только корректно, но и эффективно
+		MyString str1("One"), str2("Two");
 	Swap(str1, str2);
 
-	std::cout<<"\ns1 = "<< str1<<" s2 = " << str2;
+	std::cout << "\ns1 = " << str1 << " s2 = " << str2;
 	stop
 		//*/
 		/////////////////////////////////////////////////////////////////////
@@ -74,27 +74,27 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			std::cout << e;
 		}
-	
+
 		std::cout << "\nread all stack:";
-		for (int i = 0; st.size()>0 ; i++)
-			std::cout << "\n#"<<i <<": "<<st.pop();
+		for (int i = 0; st.size() > 0; i++)
+			std::cout << "\n#" << i << ": " << st.pop();
 		stop
 		try
 		{
 			for (int i = 0; ; i++)
-				std::cout << "\n#"<<i<<" : "<< st.pop();
+				std::cout << "\n#" << i << " : " << st.pop();
 		}
-		catch (const char* e) 
+		catch (const char* e)
 		{
 			std::cout << e;
 		}
-		
+
 		try
 		{
 			st.push(33);
 			std::cout << "\n#0: " << st[0];
 			st[0] = 333;
-		
+
 			std::cout << "\noper[]:\n";
 			std::cout << "\n#0: " << st[0];
 			std::cout << "\n#12: " << st[12];
@@ -108,7 +108,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << e;
 		}
 	}
-	stop
+		stop
 
 	{
 		MyStack <MyString,10>st;
@@ -118,7 +118,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			for (int i = 0; i < 11; i++)
 			{
 				char str[2];
-				
+
 				str[0] = i + 'A';
 				str[1] = 0;
 				st.push(str);//в MyStrin разрешено неявноне преобразование ,  а то иначе st.push(MyString(str))
@@ -145,7 +145,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 
 		std::cout << "\nread all stack:";
-		for (int i = 0;  st.size() > 0 ; i++)
+		for (int i = 0; st.size() > 0; i++)
 			std::cout << "\n#" << i << ": " << st.pop();
 		stop
 		try
@@ -188,7 +188,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			std::cout << "\nread all stack:";
 
-			for (size_t i = 0; i < st2.size() ; i++)
+			for (size_t i = 0; i < st2.size(); i++)
 				std::cout << "\n#" << i << ": " << st2[i];
 
 			MyStack<MyString, 10> st3;
@@ -223,13 +223,13 @@ int _tmain(int argc, _TCHAR* argv[])
 			stop
 
 
-				//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
-				//для хранения элементов использовался ОДНОСВЯЗНЫЙ список.
-				//Реализуйте возможность распечатать элементы стека в том порядке, в котором их заносил (push())
-				//пользователь
+			//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
+			//для хранения элементов использовался ОДНОСВЯЗНЫЙ список.
+			//Реализуйте возможность распечатать элементы стека в том порядке, в котором их заносил (push())
+			//пользователь
 
-
-			MyStack2<int,4> st21;
+			{
+			MyStack2<int, 4> st21;
 			try {
 				st21.push(1);
 				st21.push(2);
@@ -237,29 +237,35 @@ int _tmain(int argc, _TCHAR* argv[])
 				st21.push(4);
 				st21.push(5);
 			}
-			catch (const char* e) { std::cout << e; }
+			catch (const char* e)
+			{ std::cout << e; }
 
-			stop
+			
+			std::cout << "\nafter push: ";
 			std::cout << st21;
-
+			stop
 			try
 			{
 				st21.pop();
 				st21.pop();
 			}
-			catch (const char* e) { std::cout << e; }
+			catch (const char* e)
+			{ std::cout << e; }
+			std::cout << "\nafter pop: ";
 			std::cout << st21;
 			stop
-
+				std::cout << "\nafter oper[i]: ";
 				try {
-				std::cout<<"\n#0: "<< st21[0];
-				std::cout <<"\n#1: " << st21[1];
+				std::cout << "\n#0: " << st21[0];
+				std::cout << "\n#1: " << st21[1];
 			}
 			catch (const char* e) { std::cout << e; }
 			catch (ErrorStack2 & e)
 			{
 				std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 			}
+			stop
+	}
 	stop
 
 	return 0;

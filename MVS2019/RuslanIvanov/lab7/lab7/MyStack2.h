@@ -28,9 +28,7 @@ template <typename T, size_t m_n = 10> class MyStack2
         ~Node()
         {
           /* if (m_next)//m_head     
-          {
-               m_next->m_next = this->m_next;
-           }*/
+          { m_next->m_next = this->m_next;}*/
            m_t.~T();
 
         }
@@ -70,18 +68,21 @@ public:
 
         if (i < m_index) // только сколько внесено
         {
-            size_t ii = 1;
+            size_t ii = 0;
             Node* p = m_head;
-            while (m_head)
+            while (p)
             { 
-                if (ii == m_index)
+                if (ii == i)
                 {
                     return p->m_t;
                 }
                 else p = p->m_next;
                 ii++;
             }
-            throw "\nError.  Stack is empty!";
+            if (p == nullptr)
+            {
+                throw "\nError.  Stack is empty!";
+            }
         }
         else throw ErrorStack2(i, m_index);// throw std::out_of_range;
     }
@@ -95,7 +96,7 @@ public:
            {
                 pNode = new Node(p);
            }
-           catch (std::bad_alloc) { /*throw std::bad_alloc;*/ } //"\nError push. Bad alloc new!";
+           catch (std::bad_alloc&  e) { std::cout << e.what(); throw ; } //перебрасывает объект исключения типа std :: length_error;
 
            if (m_head)
            {

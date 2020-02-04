@@ -41,13 +41,13 @@ MyString::MyString(const MyString& r)
 // Определение деструктора.
 MyString::~MyString()
 {
-	std::cout << "\nMyString's destructor: delete string ";
+	/*std::cout << "\nMyString's destructor: delete string ";
 
 	if (m_pStr != nullptr && (*m_pStr) != 0) 
 	{
 		std::cout << m_pStr;
 	}
-	else { std::cout << "N/A"; }
+	else { std::cout << "N/A"; }*/
 
 	delete [] m_pStr;
 	m_pStr = 0;///???
