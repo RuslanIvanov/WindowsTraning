@@ -9,7 +9,7 @@ Shape::Shape(COLOR c)
 	m_S = 0;
 	m_color = c;
 	
-	std::cout << "\nI am in Shape's constr!";
+	//std::cout << "\nI am in Shape's constr!";
 }
 
 Shape::Shape(const Shape& r)
@@ -17,12 +17,12 @@ Shape::Shape(const Shape& r)
 	m_S = r.m_S;
 	m_color = r.m_color; //доступ к privat того же тип объекта разрешен
 
-	std::cout << "\nI am in Shape's constr copy!";
+	//std::cout << "\nI am in Shape's constr copy!";
 }
 
 Shape::~Shape()
 {
-	std::cout << "\nNow I am in Shape's destructor!";
+	//std::cout << "\nNow I am in Shape's destructor!";
 }
 
 const char* Shape::getColorName() 

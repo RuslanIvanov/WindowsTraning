@@ -6,3 +6,5 @@ template <typename T> void Swap(T& a, T& b)
 	a = b;
 	b = tmp;
 }
+
+// swap для string

@@ -1,191 +1,339 @@
 #pragma once
-
-template <typename T,size_t> class MyStack2;
+#define GLOB
+#ifdef GLOB
+template <typename T, size_t> class MyStack2;
 //declaration
-template <typename T,size_t m_n>
-std::ostream& operator<<(std::ostream& os, const MyStack2<T,m_n>& );
+template <typename T, size_t m_n>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T, m_n>&);
+#endif
 
 struct ErrorStack2
 {
-    size_t m_n;
-    size_t m_i;
+	size_t m_n;
+	size_t m_i;
 
-    ErrorStack2(size_t i, size_t n)
-    {
-        m_n = n;
-        m_i = i;
-    }
+	ErrorStack2(size_t i, size_t n)
+	{
+		m_n = n;
+		m_i = i;
+	}
 
 };
 
 
 template <typename T, size_t m_n = 10> class MyStack2
 {
-    struct Node
-    {
-        Node() : m_next(nullptr) { }
-        Node(const T& t) : m_t(t), m_next(nullptr) { }
-        ~Node()
-        {
-          /* if (m_next)//m_head     
-          { m_next->m_next = this->m_next;}*/
-           m_t.~T();
-
-        }
-        // Значение узла
-        T m_t;
-        // size_t m_numNode;
-        // Указатель на следующий узел
-        Node* m_next;
-    };
+	struct Node
+	{
+		Node() : m_next(nullptr) { }
+		Node(const T& t) : m_t(t), m_next(nullptr) { }
+		~Node()
+		{
+			m_t.~T();
+		}
+		// Значение узла
+		T m_t;
+		// size_t m_numNode;
+		// Указатель на следующий узел
+		Node* m_next;
+	};
 
 
-    // Голова односвязного списка
-    Node* m_head;
+	// Голова односвязного списка
+	Node* m_head;
 
-    size_t m_index;// кол объектов в екторе до m_n
+	size_t m_index;// кол объектов в екторе до m_n
 
 public:
 
-    MyStack2(): m_head(nullptr) 
-    {
-        m_index = 0;
-    }
+	MyStack2() : m_head(nullptr),m_index(0)
+	{
+		//m_index = 0;
+	}
 
-    ~MyStack2()
-    {
-        while (m_head)
-        {
-                Node* p = m_head->m_next;
-                delete m_head;
-                m_head = p;
-                m_index--;
-        }
-    }
+	~MyStack2()
+	{
+		while (m_head)
+		{
+			Node* p = m_head->m_next;
+			delete m_head;
+			m_head = p;
+			m_index--;
+		}
+	}
 
-    T& operator[](size_t i) 
-    {
 
-        if (i < m_index) // только сколько внесено
-        {
-            size_t ii = 0;
-            Node* p = m_head;
-            while (p)
-            { 
-                if (ii == i)
-                {
-                    return p->m_t;
-                }
-                else p = p->m_next;
-                ii++;
-            }
-            if (p == nullptr)
-            {
-                throw "\nError.  Stack is empty!";
-            }
-        }
-        else throw ErrorStack2(i, m_index);// throw std::out_of_range;
-    }
+	MyStack2(const MyStack2& st)
+	{
+		Node* p = st.m_head;
+		size_t i = 0;
+		m_index = 0;//?? 
+		m_head = nullptr;
+		while (p)
+		{
+			if (i < st.m_index && i<m_n)
+			{
+				push(p->m_t);// созд новый узел
+				p = p->m_next;
+				i++;
+			}
+			else break;
+		}
 
-    void push(const T& p) // вставялть
-    {
-        if (m_index < m_n)//голова - это последний который вставили
-        {
-           Node* pNode = nullptr;
-           try
-           {
-                pNode = new Node(p);
-           }
-           catch (std::bad_alloc&  e) { std::cout << e.what(); throw ; } //перебрасывает объект исключения типа std :: length_error;
+	}
 
-           if (m_head)
-           {
-                pNode->m_next = m_head;// вставка перед головой
-                m_head = pNode;// текущий становится головой
-           }
-           else { m_head = pNode; }
+	MyStack2& operator=(const MyStack2& st)
+	{
+		if (this == &st) return *this;
 
-           m_index++;
-        }
-        else
-        {
-            throw "\nError push. Exit  of size stack!";
-        }
-    }
+		size_t i = 0;
+		Node* psource = st.m_head;
+		Node* pcopy = m_head;
+		Node* p = (m_index >= st.m_index) ? m_head : st.m_head;
+		size_t n = m_index;
+		while (p)//цикл по большей послед
+		{
+			if ((i < n) && (i < st.m_index))
+			{
+				pcopy->m_t = psource->m_t;
+				i++;
+				psource = psource->m_next;
+				pcopy = pcopy->m_next;
+				//m_index - остается прежним
+			}
+			else
+			{//end copy
+				if (i >= n)
+				{
+					try
+					{
+						push(psource->m_t);//m_index++
+						psource = psource->m_next;
+					}
+					catch (const char* e)
+					{
+						//std::cout << e;
+						throw e;
+					}
+				}
+				else
+				{
+					pop();//удаляет не то, надо что б точная копия была
+					//pcopy = pcopy->m_next;
+				/*	if (pcopy != nullptr)
+					{
+						MyStack2<T, m_n>::Node* pmem = pcopy->m_next;
+						delete pcopy;
+						if (pmem != nullptr)
+						pcopy = pmem;
+					}*/
+					
+				}
+			}
+						
+			p = p->m_next;
+		}	
+			
+		return *this;
 
-    void pop() // выталкивать
-    {
-        if (m_index > 0 && m_index <= m_n)
-        {
-            if (m_head)// удалять с головы, потом прерназначить новую голову
-            {
-               m_index--;
-              
-               Node* p = m_head->m_next;
-               delete m_head;
-               m_head = p;
-            }
-        }
-        else
-        {
-            throw "\nError pop. Exit  of size stack!";
-        }
+	}
+	/*
+	MyStack2& operator=(const MyStack2& st)
+	{
+		if (this == &st) return *this;
 
-    }
+		size_t i = 0;
+		Node* p = st.m_head;
+		Node* pc = m_head;
+		// нужен еще pop если в копируемомо места больше по index
+		while (p)
+		{
+			if(i<m_index)
+			{
+				//копия содержимого узла
+				pc->m_t=p->m_t;
 
-    bool empty() { return (m_index == 0); }
-    size_t size() { return m_index; }
+			}
+			else
+			{
+				try
+				{
+					push(p->m_t);
+				}
+				catch (const char* e)
+				{
+					//std::cout << e;
+					throw e;
+				}
+			}
+			p=p->m_next;
+			i++;
+		}
 
-    void print_reverse()
-    {
-    }
+		if(i<m_index) {  }
 
-   /* T& pop() // выталкивать
-    {
-        if (m_index > 0 && m_index <= m_n)
-        {
-            if (m_head)// удалять с головы, потом прерназначить новую голову
-            {
-                m_index--;
-                Node* p = m_head;
-                size_t ii = 0;
-                while(m_head)
-                {
-                    p = m_head->m_next;
-                    ii++
-                }
-              //  Node* p = m_head->m_next;
-              //  T t = m_head->m_t;
-              //  delete m_head;
-              //  m_head = p;
-              //  return t;
-                return p->m_t;
-            }
-            throw "\nError pop. Stack is empty!";
-           
-        }
-        else
-        {
-            throw "\nError pop. Exit  of size stack!";
-        }
+		m_index = i;
+		return *this;
 
-    }*/
+	}*/
 
-  private:
-  friend  std::ostream& operator<< <>(std::ostream& os, const MyStack2& s); //<T>
+	MyStack2(MyStack2&& st)
+	{
+		m_index = st.m_index;
+
+		m_head = st.m_head;
+		m_head->m_next = st.m_head->m_next;
+
+		st.m_head = nullptr;
+		//st.m_head->m_next = nullptr;
+		st.m_index = 0;
+		std::cout << "\nrun constr move&& ";
+
+		stop
+	}
+
+	MyStack2& operator=(MyStack2&& st)
+	{
+		if (this == &st)
+		{
+			return *this;
+		}
+
+		//dell all	
+		for (int i = 0; i < m_index && i<m_n; i++)
+		{
+			pop();
+		}
+
+		m_index = st.m_index;
+
+		m_head = st.m_head;
+		m_head->m_next = st.m_head->m_next;
+
+		st.m_head = nullptr;
+		//st.m_head->m_next = nullptr;
+		st.m_index = 0;
+
+		std::cout << "\nrun oper move&& ";
+		stop
+		return *this;
+	}
+	/*
+	MyStack2.h: In member function ‘T& MyStack2<T, <anonymous> >::operator[](size_t) [with T = int; unsigned int m_n = 4u; size_t = unsigned int]’:
+	MyStack2.h:87:5: warning: control reaches end of non-void function [-Wreturn-type]
+	*/
+	T& operator[](size_t i)
+	{
+
+		if (i < m_index) // только сколько внесено
+		{
+			size_t ii = 0;
+			Node* p = m_head;
+			while (p)
+			{
+				if (ii == i)
+				{
+					return p->m_t;
+				}
+				else p = p->m_next;
+				ii++;
+			}
+			if (p == nullptr)
+			{
+				throw "\nError.  Stack is empty!";
+			}
+		}
+		else { throw ErrorStack2(i, m_index); } // throw std::out_of_range;
+	}
+
+	void push(const T& p) // вставялть
+	{
+		if (m_index < m_n)//голова - это последний который вставили
+		{
+			Node* pNode = nullptr;
+			try
+			{
+				pNode = new Node(p);
+			}
+			catch (std::bad_alloc& e)
+			{ std::cout << e.what(); throw; } //перебрасывает объект исключения типа std :: length_error;
+
+			if (m_head)
+			{
+				pNode->m_next = m_head;// вставка перед головой
+				m_head = pNode;// текущий становится головой
+			}
+			else { m_head = pNode; }
+
+			m_index++;
+		}
+		else
+		{
+			throw "\nError push. Exit  of size stack!";
+		}
+	}
+
+	void pop() // выталкивать
+	{
+		if (m_index > 0 && m_index <= m_n)
+		{
+			if (m_head)// удалять с головы, потом прерназначить новую голову
+			{
+				m_index--;
+
+				Node* p = m_head->m_next;
+				delete m_head;
+				m_head = p;
+			}
+		}
+		else
+		{
+			throw "\nError pop. Exit  of size stack!";
+		}
+
+	}
+
+	bool empty() { return (m_index == 0); }
+	size_t size() { return m_index; }
+	Node* getHead() { return m_head; }
+
+	void print_reverse(struct Node* pHead)
+	{
+		if (pHead == nullptr) return;
+		print_reverse(pHead->m_next);
+		std::cout << "\n" << pHead->m_t;
+	}
+
+#ifdef GLOB
+	friend  std::ostream& operator<< <> (std::ostream& os, const MyStack2& s);
+#else
+	friend  std::ostream& operator<< (std::ostream& os, const MyStack2& s)
+	{
+		const  MyStack2::Node* p = s.m_head;
+		while (p)
+		{
+			os << "\n" << p->m_t;
+			p = p->m_next;
+		}
+		return os;
+	}
+#endif
 };
 
 //definition
-template <typename T,size_t m_n>
-std::ostream& operator<<(std::ostream& os, const MyStack2<T,m_n>& s)
-{
-    const MyStack2<T,m_n>::Node* p = s.m_head;
-    while (p)
-    {       
-         os<<"\n"<<p->m_t;
-        
-         p = p->m_next;
-    }
+#ifdef GLOB
 
-    return os;
+template <typename T, size_t m_n>
+std::ostream& operator<<(std::ostream& os, const MyStack2<T, m_n>& s)
+{
+	const class /*typename*/ MyStack2<T, m_n>::Node* p = s.m_head;
+
+	while (p)
+	{
+		os << "\n" << p->m_t;
+		p = p->m_next;
+	}
+
+	return os;
 }
+#endif

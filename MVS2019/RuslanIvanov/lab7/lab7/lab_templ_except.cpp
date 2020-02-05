@@ -7,12 +7,14 @@
 #include <tchar.h>
 #include <iostream>
 //#include <stdexcept>
+
+#define stop __asm nop
+
 #include "templ.h"
 #include "MyString.h"
 #include "MyStack.h"
 #include "MyStack2.h"
 
-#define stop __asm nop
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -30,7 +32,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	stop
 
-		double dX = 0.5, dY = -5.5;
+	double dX = 0.5, dY = -5.5;
 	Swap(dX, dY);
 
 	stop
@@ -99,7 +101,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << "\n#0: " << st[0];
 			std::cout << "\n#12: " << st[12];
 		}
-		catch (ErrorStack & e)
+		catch (ErrorStack& e)
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
@@ -139,7 +141,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << "\n#1new: " << st[1];
 			std::cout << "\n#2new: " << st[2];
 		}
-		catch (ErrorStack & e)
+		catch (ErrorStack& e)
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
@@ -168,7 +170,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << "\n#0: " << st[0];
 			std::cout << "\n#12: " << st[12];
 		}
-		catch (ErrorStack & e)
+		catch (ErrorStack& e)
 		{
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
@@ -208,12 +210,12 @@ int _tmain(int argc, _TCHAR* argv[])
 				st33.push(MyString("3333"));
 				st33.push(MyString("4444"));
 				MyStack<MyString, 10> st4 = std::move(st33);
-
+				std::cout << "\nafter move:";
 				for (size_t i = 0; i < st4.size(); i++)
 					std::cout << "\n#" << i << ": " << st4[i];
 
 				st4 = std::move(st2);
-
+				std::cout << "\nafter copy move:";
 				for (size_t i = 0; i < st4.size(); i++)
 					std::cout << "\n#" << i << ": " << st4[i];
 			}
@@ -223,12 +225,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			stop
 
 
-			//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
-			//для хранения элементов использовался ОДНОСВЯЗНЫЙ список.
-			//Реализуйте возможность распечатать элементы стека в том порядке, в котором их заносил (push())
-			//пользователь
+		//Задание 2. Реализуйте шаблон стека - MyStack2 таким образом, чтобы 
+		//для хранения элементов использовался ОДНОСВЯЗНЫЙ список.
+		//Реализуйте возможность распечатать элементы стека в том порядке, в котором их заносил (push())
+		//пользователь
 
-			{
+		{
 			MyStack2<int, 4> st21;
 			try {
 				st21.push(1);
@@ -238,35 +240,91 @@ int _tmain(int argc, _TCHAR* argv[])
 				st21.push(5);
 			}
 			catch (const char* e)
-			{ std::cout << e; }
+			{
+				std::cout << e;
+			}
 
-			
+
 			std::cout << "\nafter push: ";
 			std::cout << st21;
 			stop
 			try
 			{
-				st21.pop();
-				st21.pop();
+			st21.pop();
+			st21.pop();
 			}
+
 			catch (const char* e)
-			{ std::cout << e; }
+			{
+			std::cout << e;
+			}
 			std::cout << "\nafter pop: ";
 			std::cout << st21;
 			stop
-				std::cout << "\nafter oper[i]: ";
-				try {
-				std::cout << "\n#0: " << st21[0];
-				std::cout << "\n#1: " << st21[1];
+			std::cout << "\nafter oper[i]: ";
+			try 
+			{
+			std::cout << "\n#0: " << st21[0];
+			std::cout << "\n#1: " << st21[1];
 			}
 			catch (const char* e) { std::cout << e; }
-			catch (ErrorStack2 & e)
+			catch (ErrorStack2& e)
 			{
 				std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 			}
 			stop
-	}
-	stop
+
+			std::cout << "\nafter reverse: ";
+			st21.print_reverse(st21.getHead());
+
+			stop
+
+			MyStack2<int, 4> st22 = std::move(st21);
+			std::cout << "\nafter move constr st22: ";
+			std::cout << st22;
+
+			MyStack2<int, 4> st33;
+			st33.push(33);
+			st33.push(34);
+			stop
+			std::cout << "\nst33: ";
+			std::cout << st33;
+			stop
+			st22 = std::move(st33);
+
+			std::cout << "\nafter oper=() move st22: ";
+			std::cout << st22;
+			stop
+
+
+			MyStack2<int, 4> st35;
+			st35.push(35);
+			st35.push(36);
+			st35.push(37);
+			st35.push(38);
+			stop
+			MyStack2<int, 4>st36 = st35;
+			std::cout << "\nafter constr copy st36: ";
+			std::cout << st36;
+
+			stop
+			std::cout << "\n st22: ";
+			std::cout << st22;
+			st36 = st22;
+
+			std::cout << "\nafter copy st36: ";
+			std::cout << st36;
+			stop
+
+			std::cout << "\nst35: ";
+			std::cout << st35;
+
+			st36 = st35;
+			std::cout << "\nafter copy st36: ";
+			std::cout << st36;
+			stop
+		}
+		stop
 
 	return 0;
 }

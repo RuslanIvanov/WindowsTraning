@@ -5,7 +5,7 @@
 Rect::Rect():Shape(RED)
 {
 	m_left = m_top = m_right = m_bottom = m_S = 0;
-	std::cout << "\nRect::def constructor";
+	//std::cout << "\nRect::def constructor";
 }
 
 Rect::Rect(int left, int right, int top, int bottom,COLOR c):Shape(c)
@@ -17,12 +17,12 @@ Rect::Rect(int left, int right, int top, int bottom,COLOR c):Shape(c)
 
 		this->Normalize();
 		square();
-		std::cout << "\nRect::constructor, param";
+	//	std::cout << "\nRect::constructor, param";
 }
 
 Rect::~Rect()
 {
-	std::cout << "\nNow I am in Rect's destructor!";
+	//std::cout << "\nNow I am in Rect's destructor!";
 }
 
 Rect::Rect(const Rect& r):Shape(r)
@@ -32,7 +32,7 @@ Rect::Rect(const Rect& r):Shape(r)
 	m_left = r.m_left;
 	m_right = r.m_right;
 
-	std::cout << "\nI am in Rect's constr copy!";
+	//std::cout << "\nI am in Rect's constr copy!";
 }
 
 void Rect::Normalize()

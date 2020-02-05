@@ -152,13 +152,15 @@ List& List::operator=(const List& l)//  эффект.
 	if (m_size >= l.m_size)
 	{
 		for (size_t ii = 0; ii < m_size; ii++)
-		{///надо понимать какого типаобъект и  если тако уже есть, то вставлять в подобный			
+		{///надо понимать какого типа объект и  если тако уже есть, то вставлять в подобный			
 			if (ii < l.m_size)
 			{
-				//*pThis->m_Data = *pOther->m_Data;	//oper=
-				/*pThis = pThis->pNext;
-				pOther = pOther->pNext;*/
-
+				// *pThis->m_Data = *pOther->m_Data;	//oper=
+				/*
+				pThis = pThis->pNext;
+				pOther = pOther->pNext;
+				*/
+				// в классах прешрузить oper= () и сделать их virt
 				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{
 					if (typeid(*pOther->m_Data) == typeid(Rect)) 
@@ -304,9 +306,9 @@ bool List::RemoveOne(const Shape* c)
 	Node* p = Head.pNext;
 	while (p!=&Tail) //пока текущий следующий не равен хвосту
 	{
-		//if (*c == *p->m_Data)//??? вызов базового == только
+		if (*c == *p->m_Data)//??? вызов базового == только???  - работатет через virtual ==
 		//if (typeid(*c) == typeid(*p->m_Data))
-		if(compare(c,p->m_Data))
+		//if(compare(c,p->m_Data))
 		{
 
 			delete p; //~Node () перекинул адреса
@@ -328,8 +330,8 @@ int List::RemoveAll(const Shape* c)
 	while (p != &Tail) //пока текущий следующий не равен хвосту
 	{
 		Node* pnext = p->pNext;
-		//if (*с == *p->m_Data)
-		if (compare(c, p->m_Data))
+		if (*c == *p->m_Data)
+		//if (compare(c, p->m_Data))//так затратно
 		{
 			delete p;//оставить NN
 			m_size--;

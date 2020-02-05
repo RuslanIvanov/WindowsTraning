@@ -17,12 +17,12 @@ Circle::Circle(const Circle& r):m_Point(r.m_x0,r.m_y0),Shape(r)
 	m_x0 = r.m_x0;
 	m_y0 = r.m_y0;
 	m_S = r.m_S;
-	std::cout << "\nI am in Circle's constr copy!";
+	//std::cout << "\nI am in Circle's constr copy!";
 }
 
 Circle::~Circle()
 {
-	std::cout << "\nNow I am in Circle's destructor!";
+	//std::cout << "\nNow I am in Circle's destructor!";
 }
 
 void Circle::WhereAmI()
