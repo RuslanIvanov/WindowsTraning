@@ -93,6 +93,26 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << "\nSort list by color:-----------------------";
 	std::cout << l;
 
+	List l1;
+
+	l1.AddTail(&Circle(1, 1, 1, RED));
+	l1.AddTail(&Rect(10, 10, 10,10, RED));
+	l1.AddTail(&Circle(10, 10, 100, GREEN));
+
+	List l2;
+
+	l2.AddHead(&Circle(12, 12, 11, RED));
+	l2.AddHead(&Rect(11, 11,11, 11, RED));
+	l2.AddHead(&Rect(11, 11, 111,112, GREEN));
+	l2.AddHead(&Rect(11, 11, 111, 112, BLUE));
+	l2.AddHead(&Rect(11, 11, 111, 112, YELLOW));
+	std::cout << "\nl2 :-----------------------";
+	std::cout << l2;
+	l1 = l2;
+	std::cout << "\nl1 after copy:-----------------------";
+	std::cout << l1;
+
+
 	return 0;
 }//endmain
 

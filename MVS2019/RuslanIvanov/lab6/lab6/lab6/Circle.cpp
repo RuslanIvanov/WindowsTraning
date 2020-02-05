@@ -38,15 +38,18 @@ void Circle::Inflate(int d)
 
 Circle& Circle::operator=(const Circle& c)
 {
-	Shape::operator=(c);
+	///Shape::operator=(c);
 
 	if (this == &c) return *this;
 
+	const Circle* pR = dynamic_cast<const Circle*>(&c);
+	if (pR == 0) return *this;//иначе сам в себя скопирует
+	Shape::operator=(c);
 	m_D = c.m_D;
 	m_x0 = c.m_x0;
 	m_y0 = c.m_y0;
 	m_S = c.m_S;
-
+	std::cout << "\nrecopy Circle";
 	return *this;
 }
 

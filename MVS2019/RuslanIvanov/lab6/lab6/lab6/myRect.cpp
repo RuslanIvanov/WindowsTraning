@@ -232,14 +232,18 @@ Shape* Rect::clone() const
 
 Rect& Rect::operator=(const Rect& r)
 {
-	Shape::operator=(r);
+	//Shape::operator=(r);
 	if (this == &r) return *this;
 
+	const Rect* pR = dynamic_cast<const Rect*>(&r);
+	if (pR == 0) return *this;//иначе сам в себя скопирует
+
+	Shape::operator=(r);
 	m_bottom = r.m_bottom;
 	m_top = r.m_bottom;
 	m_left = r.m_left;
 	m_right = r.m_right;
-
+	std::cout << "\nrecopy Rect";
 	return *this;
 }
 bool Rect::operator == (const Shape& c) const
