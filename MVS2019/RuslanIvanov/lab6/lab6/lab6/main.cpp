@@ -98,14 +98,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	l1.AddTail(&Circle(1, 1, 1, RED));
 	l1.AddTail(&Rect(10, 10, 10,10, RED));
 	l1.AddTail(&Circle(10, 10, 100, GREEN));
+	l1.AddTail(&Circle(10, 10, 100, GREEN));
 
 	List l2;
 
-	l2.AddHead(&Circle(12, 12, 11, RED));
-	l2.AddHead(&Rect(11, 11,11, 11, RED));
-	l2.AddHead(&Rect(11, 11, 111,112, GREEN));
-	l2.AddHead(&Rect(11, 11, 111, 112, BLUE));
-	l2.AddHead(&Rect(11, 11, 111, 112, YELLOW));
+	l2.AddHead(&Circle(12, 12, 112, RED));
+	l2.AddHead(&Rect(11, 11,111, 111, RED));
+	l2.AddHead(&Rect(11, 11, 111,111, GREEN));
+	l2.AddHead(&Rect(11, 11, 111, 111, BLUE));
+	l2.AddHead(&Rect(11, 11, 111, 111, YELLOW));
 	std::cout << "\nl2 :-----------------------";
 	std::cout << l2;
 	l1 = l2;

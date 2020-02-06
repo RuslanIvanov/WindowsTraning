@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "List.h"
-
+#define COMPARE
 List::Node::Node() : pPrev(nullptr), pNext(nullptr),m_Data(nullptr) {}
 List::Node::Node(const Shape* r, Node* tail, Node* head)
 {//если head = &Head
@@ -155,7 +155,7 @@ List& List::operator=(const List& l)//  эффект.
 		{///надо понимать какого типа объект и  если тако уже есть, то вставлять в подобный			
 			if (ii < l.m_size)
 			{
-				
+#ifdef COMPARE
 				// в классах прегрузить oper= () и сделать их virt
 				//ниже метод не эффект
 				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
@@ -175,18 +175,20 @@ List& List::operator=(const List& l)//  эффект.
 					delete pThis->m_Data; 
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
-
-				/*if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
+#else
+				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{//совпадение типа - можно копировать
-					*pThis->m_Data = *pOther->m_Data;	//virtual oper=
-					pThis = pThis->pNext;
-					pOther = pOther->pNext;
+					//*pThis->m_Data = *pOther->m_Data;	//virtual oper=
+					pThis->m_Data->operator=(*pOther->m_Data);
+					//pThis = pThis->pNext;
+					//pOther = pOther->pNext;
 				}
 				else
 				{
 					delete pThis->m_Data;
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
+#endif
 			}
 			else 
 			{
@@ -203,7 +205,7 @@ List& List::operator=(const List& l)//  эффект.
 		{
 			if (ii < m_size)
 			{
-				
+#ifdef COMPARE				
 				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{//ниже метод не эффект
 					if (typeid(*pOther->m_Data) == typeid(Rect))
@@ -220,18 +222,20 @@ List& List::operator=(const List& l)//  эффект.
 					delete pThis->m_Data;
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
-
-				/*if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))//??
+#else
+				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{//совпадение типа - можно копировать
-					*pThis->m_Data = *pOther->m_Data; //virtual oper=
-					pThis = pThis->pNext;
-					pOther = pOther->pNext;
+					//*pThis->m_Data = *pOther->m_Data; //virtual oper=
+					pThis->m_Data->operator=(*pOther->m_Data);
+					//pThis = pThis->pNext;
+					//pOther = pOther->pNext;
 				}
 				else
 				{
 					delete pThis->m_Data;
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
+#endif
 			}
 			else
 			{

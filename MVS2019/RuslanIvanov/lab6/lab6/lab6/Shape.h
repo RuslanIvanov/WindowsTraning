@@ -25,7 +25,7 @@ class Shape
 
 			m_color = s.m_color; 
 			m_S = s.m_S;
-
+			std::cout << "\nrecopy Shape";
 			return *this;
 		}
 

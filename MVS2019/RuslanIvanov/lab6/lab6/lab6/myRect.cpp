@@ -230,13 +230,29 @@ Shape* Rect::clone() const
 	return new Rect(*this);
 }
 
+//Rect& Rect::operator=(const Shape& r)
+//{
+//	const Rect* pR = dynamic_cast<const Rect*>(&r);
+//	if (pR == 0) return *this;//иначе сам в себя скопирует
+//
+//	if (pR == &r) return *this;
+//
+//	Shape::operator=(r);
+//	m_bottom = pR->m_bottom;
+//	m_top = pR->m_bottom;
+//	m_left = pR->m_left;
+//	m_right = pR->m_right;
+//	std::cout << "\nvirt recopy Rect";
+//	return *this;
+//}
+
 Rect& Rect::operator=(const Rect& r)
 {
 	//Shape::operator=(r);
 	if (this == &r) return *this;
 
-	const Rect* pR = dynamic_cast<const Rect*>(&r);
-	if (pR == 0) return *this;//иначе сам в себя скопирует
+	//const Rect* pR = dynamic_cast<const Rect*>(&r);
+	//if (pR == 0) return *this;//иначе сам в себя скопирует
 
 	Shape::operator=(r);
 	m_bottom = r.m_bottom;
