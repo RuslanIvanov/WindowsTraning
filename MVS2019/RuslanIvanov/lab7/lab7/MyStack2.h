@@ -81,7 +81,7 @@ public:
 		}
 
 	}
-
+	/*
 	MyStack2& operator=(const MyStack2& st)
 	{
 		if (this == &st) return *this;
@@ -121,13 +121,13 @@ public:
 				{
 					pop();//удаляет не то, надо что б точная копия была
 					//pcopy = pcopy->m_next;
-				/*	if (pcopy != nullptr)
-					{
-						MyStack2<T, m_n>::Node* pmem = pcopy->m_next;
-						delete pcopy;
-						if (pmem != nullptr)
-						pcopy = pmem;
-					}*/
+					///if (pcopy != nullptr)
+					//{
+					//	MyStack2<T, m_n>::Node* pmem = pcopy->m_next;
+					//	delete pcopy;
+					///	if (pmem != nullptr)
+					//	pcopy = pmem;
+					//}
 					
 				}
 			}
@@ -137,8 +137,8 @@ public:
 			
 		return *this;
 
-	}
-	/*
+	}*/
+	
 	MyStack2& operator=(const MyStack2& st)
 	{
 		if (this == &st) return *this;
@@ -153,6 +153,7 @@ public:
 			{
 				//копия содержимого узла
 				pc->m_t=p->m_t;
+				i++;
 
 			}
 			else
@@ -168,15 +169,17 @@ public:
 				}
 			}
 			p=p->m_next;
-			i++;
+			
 		}
-
-		if(i<m_index) {  }
-
-		m_index = i;
+		if (i < m_index)
+		{
+			m_index = i;
+			for(size_t k=0;k<=(m_index-i);k++)
+			pop();
+		}
 		return *this;
 
-	}*/
+	}//*/
 
 	MyStack2(MyStack2&& st)
 	{
