@@ -36,10 +36,11 @@ public:
 	Shape* clone() const;
 	virtual bool operator == (const Shape&) const;
 	virtual bool operator !=(const Shape&) const;
-
-	//virtual Rect& operator=(const Shape& r);
+#ifdef COMPARE
+	virtual Rect& operator=(const Shape& r);
+#else
 	Rect& operator=(const Rect& r);
-	
+#endif	
 	//friend  std::ifstream& operator>>(std::ifstream& in, const Rect& r);
 	};
 

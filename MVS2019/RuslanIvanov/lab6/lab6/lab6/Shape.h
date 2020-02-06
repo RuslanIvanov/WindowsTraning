@@ -1,6 +1,7 @@
 #pragma once
 enum COLOR { RED, GREEN, BLUE, YELLOW, BLACK, WHITE };
 enum SORT { COL, SQ };
+#define COMPARE
 class Shape
 {
 	static SORT m_sortType;

@@ -229,23 +229,24 @@ Shape* Rect::clone() const
 {
 	return new Rect(*this);
 }
+#ifdef COMPARE
+Rect& Rect::operator=(const Shape& r)
+{
+	const Rect* pR = dynamic_cast<const Rect*>(&r);
+	if (pR == 0) return *this;//иначе сам в себя скопирует
 
-//Rect& Rect::operator=(const Shape& r)
-//{
-//	const Rect* pR = dynamic_cast<const Rect*>(&r);
-//	if (pR == 0) return *this;//иначе сам в себя скопирует
-//
-//	if (pR == &r) return *this;
-//
-//	Shape::operator=(r);
-//	m_bottom = pR->m_bottom;
-//	m_top = pR->m_bottom;
-//	m_left = pR->m_left;
-//	m_right = pR->m_right;
-//	std::cout << "\nvirt recopy Rect";
-//	return *this;
-//}
+	if (this == &r)
+		return *this;
 
+	Shape::operator=(r);
+	m_bottom = pR->m_bottom;
+	m_top = pR->m_bottom;
+	m_left = pR->m_left;
+	m_right = pR->m_right;
+	std::cout << "\nvirt recopy Rect";
+	return *this;
+}
+#else
 Rect& Rect::operator=(const Rect& r)
 {
 	//Shape::operator=(r);
@@ -262,6 +263,7 @@ Rect& Rect::operator=(const Rect& r)
 	std::cout << "\nrecopy Rect";
 	return *this;
 }
+#endif
 bool Rect::operator == (const Shape& c) const
 {
 	const Rect* pR = dynamic_cast<const Rect*>(&c);

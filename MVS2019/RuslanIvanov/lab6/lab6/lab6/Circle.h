@@ -24,8 +24,11 @@ class Circle:public Shape
 		Shape* clone() const;
 		bool operator==(const Shape&) const;
 		bool operator!=(const  Shape&) const;
-		//virtual Circle& operator=(const Shape&);
+#ifdef COMPARE
+		virtual Circle& operator=(const Shape&);
+#else
 		Circle& operator=(const Circle&);
+#endif
 	//	bool operator<(const Shape&) const;
 		friend std::ostream& operator<<( std::ostream& os, const Circle& c);
 		//friend std::ifstream& operator>>(std::ifstream& os, const Circle& c);
