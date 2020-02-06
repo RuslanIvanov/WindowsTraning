@@ -179,16 +179,16 @@ List& List::operator=(const List& l)//  эффект.
 				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{//совпадение типа - можно копировать
 					*pThis->m_Data = *pOther->m_Data;	//virtual oper=
-					//pThis->m_Data->operator=(*pOther->m_Data);
-					//pThis = pThis->pNext;
-					//pOther = pOther->pNext;
 				}
 				else
 				{
 					delete pThis->m_Data;
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
+
 #endif
+				pThis = pThis->pNext;
+				pOther = pOther->pNext;
 			}
 			else 
 			{
@@ -226,9 +226,7 @@ List& List::operator=(const List& l)//  эффект.
 				if (typeid(*pThis->m_Data) == typeid(*pOther->m_Data))
 				{//совпадение типа - можно копировать
 					*pThis->m_Data = *pOther->m_Data; //virtual oper=
-					//pThis->m_Data->operator=(*pOther->m_Data);
-					//pThis = pThis->pNext;
-					//pOther = pOther->pNext;
+			
 				}
 				else
 				{
@@ -236,6 +234,8 @@ List& List::operator=(const List& l)//  эффект.
 					pThis->m_Data = pOther->m_Data->clone();
 				}//*/
 #endif
+				pThis = pThis->pNext;
+				pOther = pOther->pNext;
 			}
 			else
 			{
