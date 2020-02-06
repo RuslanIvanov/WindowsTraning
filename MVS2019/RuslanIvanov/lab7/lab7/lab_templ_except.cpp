@@ -77,12 +77,13 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << e;
 		}
 
-		std::cout << "\nread all stack:";
-		for (int i = 0; st.size() > 0; i++)
-			std::cout << "\n#" << i << ": " << st.pop();
-		stop
 		try
 		{
+			std::cout << "\nread all stack:";
+			for (int i = 0; st.size() > 0; i++)
+			std::cout << "\n#" << i << ": " << st.pop();
+			stop
+		
 			for (int i = 0; ; i++)
 				std::cout << "\n#" << i << " : " << st.pop();
 		}
@@ -146,12 +147,13 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << "\nout of range: index " << e.m_i << " size " << e.m_n;
 		}
 
+		try
+		{
 		std::cout << "\nread all stack:";
 		for (int i = 0; st.size() > 0; i++)
 			std::cout << "\n#" << i << ": " << st.pop();
 		stop
-		try
-		{
+		
 			for (int i = 0; ; i++)
 				std::cout << "\n#" << i << " : " << st.pop();
 		}

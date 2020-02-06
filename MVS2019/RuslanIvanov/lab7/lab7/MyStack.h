@@ -146,6 +146,7 @@ public:
 		if (m_index > 0 && m_index <= m_n)
 		{
 			m_index--;
+			std::cout << "  index pop " << m_index;
 			return std::move(m_p[m_index]);// тогда при move можно возвр. по значению
 		}
 		else
