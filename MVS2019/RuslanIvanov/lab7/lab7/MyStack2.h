@@ -298,7 +298,7 @@ public:
 				m_index--;
 
 				//Node* p = m_head->m_next;
-				delete pLast;
+				delete pLast;//предыдущему надл перезаписать m_next=nullptr
 				//m_head = p; предыдущему  nullptr 
 			}
 		}
