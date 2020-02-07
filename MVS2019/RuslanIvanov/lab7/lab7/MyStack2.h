@@ -153,24 +153,20 @@ public:
 			if(i<m_index && !b)
 			{
 				//копия содержимого узла
-				Node* rps = get_reverse(ps);
-				if (rps) 
-				{
-					pc->m_t = rps->m_t;
-					i++;
-					pc = pc->m_next;//null
-				}
+			
+				pc->m_t = ps->m_t;
+				i++;
+				pc = pc->m_next;//null
+			
 
 			}
 			else
 			{
 				try
 				{
-					Node* rps = get_reverse(ps);
-					if (rps)
-					{
-						push(rps->m_t);
-					}
+					addTail(ps->m_t);
+					//push(ps->m_t);
+				
 					b = true;
 				}
 				catch (const char* e)
@@ -292,6 +288,26 @@ public:
 		}
 	}
 
+	void top() 
+	{
+		if (m_index > 0 && m_index <= m_n)
+		{
+			Node* pLast = get_last(m_head);
+			if (pLast)// удалять с головы, потом прерназначить новую голову
+			{
+				m_index--;
+
+				//Node* p = m_head->m_next;
+				delete pLast;
+				//m_head = p; предыдущему  nullptr 
+			}
+		}
+		else
+		{
+			throw "\nError pop. Exit  of size stack!";
+		}
+	}
+
 	void pop() // выталкивать
 	{
 		if (m_index > 0 && m_index <= m_n)
@@ -323,8 +339,8 @@ public:
 		std::cout << "\n" << pHead->m_t;
 	}
 
-	Node* get_reverse(struct Node* pHead)
-	{
+	Node* get_last(struct Node* pHead)
+	{// берет последний
 		while (pHead) 
 		{
 			if (pHead->m_next == nullptr) return pHead;
@@ -333,6 +349,36 @@ public:
 		
 		return pHead;
 		
+	}
+
+	void addTail(const T& p)
+	{
+		if (m_index < m_n)//голова - это последний который вставили
+		{
+		Node* pNode = nullptr;
+		try
+		{
+			pNode = new Node(p);
+		}
+		catch (std::bad_alloc & e)
+		{
+			std::cout << e.what(); throw;
+		}
+
+		Node* pNodeLast = get_last(m_head);
+		if (pNodeLast) 
+		{
+			pNodeLast->m_next = pNode;
+			pNode->m_next = nullptr;
+		}
+		else { m_head = pNode; }
+		m_index++;
+
+		}
+		else
+		{
+			throw "\nError add in tail. Exit  of size stack!";
+		}
 	}
 
 #ifdef GLOB
