@@ -144,23 +144,26 @@ public:
 		if (this == &st) return *this;
 
 		size_t i = 0;
-		Node* p = st.m_head;
+		Node* ps = st.m_head;
 		Node* pc = m_head;
 		// нужен еще pop если в копируемомо места больше по index
-		while (p)
+		bool b = false;
+		while (ps)
 		{
-			if(i<m_index)
+			if(i<m_index && !b)
 			{
 				//копия содержимого узла
-				pc->m_t=p->m_t;
+				pc->m_t=ps->m_t;
 				i++;
+				pc = pc->m_next;//null
 
 			}
 			else
 			{
 				try
 				{
-					push(p->m_t);
+					push(ps->m_t);
+					b = true;
 				}
 				catch (const char* e)
 				{
@@ -168,14 +171,18 @@ public:
 					throw e;
 				}
 			}
-			p=p->m_next;
+			ps=ps->m_next;
 			
 		}
-		if (i < m_index)
+		if (i < m_index && !b)
 		{
-			m_index = i;
-			for(size_t k=0;k<=(m_index-i);k++)
+			size_t n = m_index - i;
+			std::cout << "\n n del: " << n;
+			
+			for(size_t k=0; k < n && k<m_n;k++)
 			pop();
+
+			m_index = i;
 		}
 		return *this;
 

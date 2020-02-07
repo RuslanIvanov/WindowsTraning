@@ -304,7 +304,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			st35.push(36);
 			st35.push(37);
 			st35.push(38);
+			
 			stop
+
 			MyStack2<int, 4>st36 = st35;
 			std::cout << "\nafter constr copy st36: ";
 			std::cout << st36;
@@ -314,7 +316,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << st22;
 			st36 = st22;
 
-			std::cout << "\nafter copy st36: ";
+			std::cout << "\nafter copy st22 to st36: ";
 			std::cout << st36;
 			stop
 
@@ -322,7 +324,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			std::cout << st35;
 
 			st36 = st35;
-			std::cout << "\nafter copy st36: ";
+			std::cout << "\nafter copy st35 to st36 : ";
 			std::cout << st36;
 			stop
 		}
