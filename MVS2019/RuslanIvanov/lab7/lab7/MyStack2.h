@@ -153,16 +153,24 @@ public:
 			if(i<m_index && !b)
 			{
 				//копия содержимого узла
-				pc->m_t=ps->m_t;
-				i++;
-				pc = pc->m_next;//null
+				Node* rps = get_reverse(ps);
+				if (rps) 
+				{
+					pc->m_t = rps->m_t;
+					i++;
+					pc = pc->m_next;//null
+				}
 
 			}
 			else
 			{
 				try
 				{
-					push(ps->m_t);
+					Node* rps = get_reverse(ps);
+					if (rps)
+					{
+						push(rps->m_t);
+					}
 					b = true;
 				}
 				catch (const char* e)
@@ -313,6 +321,18 @@ public:
 		if (pHead == nullptr) return;
 		print_reverse(pHead->m_next);
 		std::cout << "\n" << pHead->m_t;
+	}
+
+	Node* get_reverse(struct Node* pHead)
+	{
+		while (pHead) 
+		{
+			if (pHead->m_next == nullptr) return pHead;
+			pHead = pHead->m_next;
+		}
+		
+		return pHead;
+		
 	}
 
 #ifdef GLOB
