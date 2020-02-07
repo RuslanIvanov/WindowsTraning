@@ -11,7 +11,14 @@
 
 using namespace std;	
 
-#define	  stop __asm nop
+//#define	  stop __asm nop
+void mystop()
+{
+	std::cout << "\nPause\n";
+	getchar();
+}
+
+#define  stop  {mystop();}
 
 
 int main()
@@ -26,8 +33,9 @@ int main()
 	//пустой вектор целых чисел - vInt и проверьте с помощью функции size(),
 	//что его размер нулевой. 
 
-	
-	
+	std::vector<int> vInt;
+	std::cout << "\nsize Vint: " << vInt.size();
+	stop
 	//Раскомментируйте следующий фрагмент, подумайте - все ли корректно
 	//Если есть некорректности, - исправьте
 

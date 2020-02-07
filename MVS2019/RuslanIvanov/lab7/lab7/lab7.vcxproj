@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="lab_templ_except.cpp" />
     <ClCompile Include="MyString.cpp" />
+    <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyStack.h" />
