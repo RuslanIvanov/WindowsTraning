@@ -125,17 +125,37 @@ int main(int arg, char** parg)
 		vector<Point> vPoint1;// вызван будет дефолтовый констр
 		printCont(vPoint1);
 		stop
-	//вектор указателей на Point - vpPoint с начальным размером 5
-	//Подумайте: как корректно заставить эти указатели "указывать" на объекты Point
-	{
 
-	//Подсказка: для вывода на печать значений скорее всего Вам понадобится
+		vector<Point> vPoint2(5, Point(1, 1));
+		printCont(vPoint2);
+		stop
+		//вектор указателей на Point - vpPoint с начальным размером 5
+		//Подумайте: как корректно заставить эти указатели "указывать" на объекты Point
+		{
+			vector<Point*> vpPoint(5,nullptr);
+			vector<Point*> vpPoint2(5,new Point(0,0));
+	
+			for (size_t i = 0; i < 5/*vpPoint.size()*/; i++)// с vpPoint.size() получается бесконечный цикл!!
+			{
+				vpPoint.insert(vpPoint.begin() + i,new Point(i,i));
+			}
+
+			printCont<>(vpPoint);
+			printCont(vpPoint2);
+		stop
+		//Подсказка: для вывода на печать значений скорее всего Вам понадобится
 		//а) специализация Вашей шаблонной функции
 		//б) или перегрузка operator<< для Point*
 
+			for (size_t i = 0; i < 5; i++)
+			{
+				delete vpPoint[i]; vpPoint[i] = nullptr;
+				delete vpPoint2[i]; vpPoint2[i] = nullptr;
+			}
+	
 	}//Какие дополнительные действия нужно предпринять для такого вектора?
 
-
+	stop
 	///////////////////////////////////////////////////////////////////////
 	//Резервирование памяти.
 	//Подумайте, всегда ли верны приведенные ниже проверки?

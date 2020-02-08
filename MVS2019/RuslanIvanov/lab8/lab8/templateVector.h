@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 template <typename T> void printParamCont(const T& t)
 {
 	std::cout << "\n------------------------------------------------";
@@ -23,4 +24,16 @@ template <typename P> void printCont(const P& p)
 	{
 		std::cout << "\n" << p[i];
 	}
+}
+
+class Point;
+
+template <typename T>
+ void printCont<Point*>(vector<T>& p)
+{
+	for (size_t i = 0; i < p.size(); i++)
+	{
+		std::cout << "\n" << *p[i];
+	}
+	
 }
