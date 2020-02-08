@@ -11,17 +11,32 @@
 
 using namespace std;	
 
-//#define	  stop __asm nop
+#ifdef _WIN64
+	#define _WINDOWS_
+#endif
+
+#ifdef _WIN32 
+
+#ifndef _WINDOWS_
+#define _WINDOWS_
+#endif
+
+#endif
+
+#ifdef _WINDOWS_ 
+#define	  stop __asm nop
+#else
+
 void mystop()
-{
+{//Linux
 	std::cout << "\nPause\n";
 	getchar();
 }
 
 #define  stop  {mystop();}
+#endif
 
-
-int main()
+int main(int arg, char** parg)
 {
 	// Контейнер стандартной библиотеки vector 
 
@@ -36,11 +51,13 @@ int main()
 	std::vector<int> vInt;
 	std::cout << "\nsize Vint: " << vInt.size();
 	stop
-	//Раскомментируйте следующий фрагмент, подумайте - все ли корректно
-	//Если есть некорректности, - исправьте
+		//Раскомментируйте следующий фрагмент, подумайте - все ли корректно
+		//Если есть некорректности, - исправьте
 
+		vInt.push_back(1);
+	std::cout << "front " << vInt.front();
 	//vInt.front()=1;
-
+	stop
 
 	//С помощью функции push_back() в цикле заполните вектор какими-либо значениями.
 	//На каждой итерации цикла следите за размером вектора с помощью методов
