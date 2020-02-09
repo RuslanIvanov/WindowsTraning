@@ -23,7 +23,9 @@ class Point
 		friend Point operator-(const Point& r);
 
 		friend std::ostream& operator<<( std::ostream& os, const Point& p);
+		friend std::ostream& operator<<(std::ostream& os, const Point* p);
 		void print();
+		std::ostream& print(std::ostream& os);
 };
 
 Point& operator+=(Point&, int);
@@ -33,3 +35,4 @@ Point operator+(int, Point& r);
 Point operator-(const Point& r);
 
 std::ostream& operator<<(std::ostream& os, const Point& p);
+std::ostream& operator<<(std::ostream& os, const Point* p);

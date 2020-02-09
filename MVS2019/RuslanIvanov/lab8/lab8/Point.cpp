@@ -84,13 +84,28 @@ Point operator-(const Point& r)
 	return Point(-r.m_x,-r.m_y);
 }
 
+std::ostream& Point::print(std::ostream& os)
+{
+	os << "\npoint: m_x = " << m_x << " m_y = " << m_y;
+	return os;
+}
+
 void Point::print()
 {
-	std::cout << "\npoint: m_x = " << m_x << " m_y = " << m_y;
+	std::cout << "\nPoint: m_x = " << m_x << " m_y = " << m_y;
 }
 
 std::ostream& operator<<(std::ostream& os, const Point& p)
 {
 	os << "m_x = " << p.m_x << " m_y = " << p.m_y;
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Point* p)
+{
+	if (p) 
+	{
+		os << "m_x = " << p->m_x << " m_y = " << p->m_y;
+	}
 	return os;
 }

@@ -4,9 +4,10 @@
 
 #include <iostream>
 #include <vector>
-#include "templateVector.h"
 #include "MyString.h"
 #include "Point.h"
+#include "templateVector.h"
+
 
 #pragma warning(disable: 4786)
 
@@ -44,7 +45,7 @@ int main(int arg, char** parg)
 		//Раскомментируйте следующий фрагмент, подумайте - все ли корректно
 		//Если есть некорректности, - исправьте
 
-	vInt.push_back(1);//добавляет элемент в конец вектора
+		vInt.push_back(1);//добавляет элемент в конец вектора
 	std::cout << "front " << vInt.front(); //возвращает ссылку на перый элемнт вектора
 	//vInt.front()=2;
 	stop
@@ -57,22 +58,22 @@ int main(int arg, char** parg)
 		//напишите шаблон функции, которая для вектора, содержащего элементы любого типа
 		//выводит его "реквизиты" и значения элементов на консоль.
 
-	for (int i = 0; i < 10; i++)
-	{
-		vInt.push_back(i+1);
-		printParamCont(vInt);
-		stop
-	}
+		for (int i = 0; i < 10; i++)
+		{
+			vInt.push_back(i + 1);
+			printParamCont(vInt);
+			stop
+		}
 
 	printCont(vInt);
-	
+
 	stop
 
-	//вектор вещественных - vDouble1 с заданным Вами начальным размером  и
-	//проверьте результат с помощью созданного Вами шаблона. Как будут
-	//проинициализированы элементы вектора?
+		//вектор вещественных - vDouble1 с заданным Вами начальным размером  и
+		//проверьте результат с помощью созданного Вами шаблона. Как будут
+		//проинициализированы элементы вектора?
 
-	vector<double> vDouble1(10);
+		vector<double> vDouble1(10);
 
 	printParamCont(vDouble1);
 	printCont(vDouble1);
@@ -84,7 +85,7 @@ int main(int arg, char** parg)
 		//Попробуйте "выйти" за границы вектора с помощью at() и
 		//с помощью []. 
 
-	vector<MyString> vStr(5, "A");
+		vector<MyString> vStr(5, "A");
 	printCont(vStr);
 	stop
 
@@ -92,121 +93,151 @@ int main(int arg, char** parg)
 		// [0,5) массива вещественных чисел dMas. Предворительно массив dMas 
 		//нужно создать и проинициализировать!
 		double dMas[] = { 0,1,2,3,4,5 };
-		vector<double> vDouble3(dMas, dMas + (sizeof(dMas)/sizeof(dMas[0])));
-		printCont(vDouble3);
-		stop
+	vector<double> vDouble3(dMas, dMas + (sizeof(dMas) / sizeof(dMas[0])));
+	printCont(vDouble3);
+	stop
 
 		vector<double> vDouble33;
-		for (size_t i = 0; i < sizeof(dMas) / sizeof(dMas[0]); i++)
-		{
-			vDouble33.insert(vDouble33.begin() + i, 1, dMas[i]);//вставляет копии элеметов из диапазона [i,j) перед эл. на котор. указ. итератор
-		}
+	for (size_t i = 0; i < sizeof(dMas) / sizeof(dMas[0]); i++)
+	{
+		vDouble33.insert(vDouble33.begin() + i, 1, dMas[i]);//вставляет копии элеметов из диапазона [i,j) перед эл. на котор. указ. итератор
+	}
 
-		printCont(vDouble33);
-		stop
+	printCont(vDouble33);
+	stop
 		vector<double> vDouble333(6);
-		vDouble333.insert(vDouble333.begin()+1,4,5.);//вставка 4 пятерок [1,5)
-		printCont(vDouble333);
-		stop
-			
+	vDouble333.insert(vDouble333.begin() + 1, 4, 5.);//вставка 4 пятерок [1,5)
+	printCont(vDouble333);
+	stop
+
 		//вектор вещественных - vDouble4, который является копией элементов
 		// [2,5) вектора vDouble3. 
 
 		vector<double> vDouble4(vDouble3.begin() + 2, vDouble3.begin() + 6);
 
-		printCont(vDouble4);
-		stop
+	printCont(vDouble4);
+	stop
 
 
-			//вектор элементов типа Point - vPoint1 а) с начальным размером 3. Какой конструктор
-			//будет вызван для каждого элемента?
-			//b) vPoint2 с начальным размером 5 и проинициализируйте каждый элемент координатами (1,1).
+		//вектор элементов типа Point - vPoint1 а) с начальным размером 3. Какой конструктор
+		//будет вызван для каждого элемента?
+		//b) vPoint2 с начальным размером 5 и проинициализируйте каждый элемент координатами (1,1).
 
 		vector<Point> vPoint1;// вызван будет дефолтовый констр
-		printCont(vPoint1);
-		stop
+	printCont(vPoint1);
+	stop
 
 		vector<Point> vPoint2(5, Point(1, 1));
-		printCont(vPoint2);
-		stop
+	printCont(vPoint2);
+	stop
 		//вектор указателей на Point - vpPoint с начальным размером 5
 		//Подумайте: как корректно заставить эти указатели "указывать" на объекты Point
-		{
-			vector<Point*> vpPoint(5,nullptr);
-			vector<Point*> vpPoint2(5,new Point(0,0));
-	
-			for (size_t i = 0; i < 5/*vpPoint.size()*/; i++)// с vpPoint.size() получается бесконечный цикл!!
-			{
-				vpPoint.insert(vpPoint.begin() + i,new Point(i,i));
-			}
+	{
+		//vector<Point*> vpPoint(5,nullptr);
+		vector<Point*> vpPoint(5 ,nullptr);//если так new Point()) то - одним и тем же адресом иниц-ет
+		vector<Point*> vpPoint2(5, nullptr);// new Point(0, 0));
 
-			printCont<>(vpPoint);
-			printCont(vpPoint2);
-		stop
+		for (size_t i = 0; i < 5/*vpPoint.size()*/; i++)// с vpPoint.size() получается бесконечный цикл!!
+		{
+			//vpPoint.insert(vpPoint.begin() + i,new Point(i,i));// увеличит размер вектора
+			//vpPoint.push_back(new Point(i, i));
+			*(vpPoint.begin() + i) = new Point(i, i);
+		}
+
+		printCont<>(vpPoint);
+		printCont(vpPoint2);
+	stop
 		//Подсказка: для вывода на печать значений скорее всего Вам понадобится
 		//а) специализация Вашей шаблонной функции
 		//б) или перегрузка operator<< для Point*
 
-			for (size_t i = 0; i < 5; i++)
-			{
-				delete vpPoint[i]; vpPoint[i] = nullptr;
-				delete vpPoint2[i]; vpPoint2[i] = nullptr;
-			}
-	
+		for (size_t i = 0; i < vpPoint.size(); i++)
+		{
+			delete vpPoint[i];
+			vpPoint[i] = nullptr;
+
+		}
+
+		for (size_t i = 0; i < vpPoint2.size(); i++)
+		{
+			delete vpPoint2[i];
+			vpPoint2[i] = nullptr;
+		}
+
 	}//Какие дополнительные действия нужно предпринять для такого вектора?
 
+		stop
+		///////////////////////////////////////////////////////////////////////
+		//Резервирование памяти.
+		//Подумайте, всегда ли верны приведенные ниже проверки?
+
+	{
+	size_t n = 4;
+	vector<int> v(n);
+	v.resize(n / 2);
+	if (v.capacity() == n) //true? yes, нет смысла перерасперделять емкость, а размер урезан
+	{
+		std::cout << "\nv.capacity() == n is true";
+	}
+	std::cout << "\nsize =" << v.size() << " cap " << v.capacity();
+	}
+		//*/
+		stop
+
+	{
+	int n = 4;
+	size_t m = 8;
+	vector<int> v(n);
+	v.reserve(m);
+	if (v.capacity() == m) //true? да - перераспределение
+	{
+		std::cout << "\nv.capacity() == m is true";
+	}
+	std::cout << "\nsize =" << v.size() << " cap " << v.capacity();
+	}
+		//*/
+		stop
+
+	{
+	vector<int> v(3,5);
+	v.resize(4,10); //значения(5 5 5 10) //оставляет в векторе 4 первых элементов. Если размер вектора меньше 4, то добавляются недостающие элементы со значением 10
+	v.resize(5); //значения (5 5 5 10 0)
+	//оставляет в векторе 5 первых элементов.Если вектор содержит больше элементов, то его размер усекается до 5 элементов.Если размер вектора меньше 5, то добавляются недостающие элементы и инициализируются значением по умолчанию
 	stop
-	///////////////////////////////////////////////////////////////////////
-	//Резервирование памяти.
-	//Подумайте, всегда ли верны приведенные ниже проверки?
-		/*
+	}
+		//*/
+		stop
+		//Создайте два "пустых" вектора с элементами
+		//любого (но одного и того же типа) типа. 
+		//В первом векторе зарезервируйте память под 5 элементов, а потом заполните
+		//его значениями с помощью push_back.
+		//Второй вектор просто заполните значениями посредством push_back.
+		//
+		//Сравните размер, емкость векторов и значения элементов
+	{
+		vector<int> v1(5);
+		vector<int> v2;
+
+		for (int i = 0; i < 5; i++)
 		{
-		size_t n=...
-		vector<int> v(n);
-		v.resize(n/2);
-		if(v.capacity() == n) //true?
+			v1.push_back(i + 1);
+			v2.push_back(i + 1);
 		}
-		*/
-
-		/*
-		{
-		int n=...
-		size_t m=...	
-		vector<int> v(n);
-		v.reserve(m);
-		if(v.capacity() == m) //true?
-		}
-		*/
-
-		/*
-		{
-		vector<int> v(3,5);
-		v.resize(4,10); //значения?
-		v.resize(5); //значения?
-	
-		}
-		*/
-
-	//Создайте два "пустых" вектора с элементами
-	//любого (но одного и того же типа) типа. 
-	//В первом векторе зарезервируйте память под 5 элементов, а потом заполните
-	//его значениями с помощью push_back.
-	//Второй вектор просто заполните значениями посредством push_back.
-	//
-	//Сравните размер, емкость векторов и значения элементов
+		std::cout << "\nsize v1 " << v1.size() << " cap " << v1.capacity();
+		std::cout << "\nsize v2 " << v2.size() << " cap " << v2.capacity();
+		stop //size v1 > size v2; cap v1 > cap v2
 
 
+		//!!! shrink_to_fit - Уменьшение емкости вектора.
+		//Для любого вектора из предыдущего задания требуется уменьшить емкость
+		//до size.
 
-	
-
-
-
-	//!!! shrink_to_fit - Уменьшение емкости вектора.
-	//Для любого вектора из предыдущего задания требуется уменьшить емкость
-	//до size.
-
-	
-	
+			v2.shrink_to_fit();// c++11 До 0 освобождает capasity до  size память заним вектором 
+			v1.resize(v1.size()/2);
+			stop
+			v1.shrink_to_fit();// size = capacity
+			stop
+	}
 
 	//Создание "двухмерного вектора" - вектора векторов
 	//Задан одномерный массив int ar[] = {11,2,4,3,5};
@@ -216,7 +247,19 @@ int main(int arg, char** parg)
 	//vv[2] - содержит 4,4,4,4
 	//...
 	//Распечатайте содержимое такого двухмерного вектора по строкам
-	
+	int ar[] = { 11,2,3,6,5 };
+	vector<vector<int>> vv;
+	for (int i = 0; i < (sizeof(ar) / sizeof(ar[0])); i++)
+	{
+		vector <int> tmp(ar[i], ar[i]);//создает вектор размера ar[i] заполняет знач ar[i]
+
+		vv.push_back(tmp);
+		stop
+	}
+	for (int i = 0; i < (sizeof(ar) / sizeof(ar[0])); i++)
+	{
+		printCont(vv[i]);
+	}
 	 stop
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
