@@ -50,3 +50,11 @@ void printCont<std::vector<Point*>>(const std::vector<Point*>& p)
 	}
 	
 }
+
+template <typename U> 
+void makeUniq(U& u)
+{
+
+	//int n = u.size();
+
+}

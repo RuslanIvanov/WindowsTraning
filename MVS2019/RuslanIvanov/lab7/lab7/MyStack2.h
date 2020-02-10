@@ -81,63 +81,6 @@ public:
 		}
 
 	}
-	/*
-	MyStack2& operator=(const MyStack2& st)
-	{
-		if (this == &st) return *this;
-
-		//????????????????????????????????????????
-		size_t i = 0;
-		Node* psource = st.m_head;
-		Node* pcopy = m_head;
-		Node* p = (m_index >= st.m_index) ? m_head : st.m_head;
-		size_t n = m_index;
-		while (p)//цикл по большей послед
-		{
-			if ((i < n) && (i < st.m_index))
-			{
-				pcopy->m_t = psource->m_t;
-				i++;
-				psource = psource->m_next;
-				pcopy = pcopy->m_next;
-				//m_index - остается прежним
-			}
-			else
-			{//end copy
-				if (i >= n)
-				{
-					try
-					{
-						push(psource->m_t);//m_index++
-						psource = psource->m_next;
-					}
-					catch (const char* e)
-					{
-						//std::cout << e;
-						throw e;
-					}
-				}
-				else
-				{
-					pop();//удаляет не то, надо что б точная копия была
-					//pcopy = pcopy->m_next;
-					///if (pcopy != nullptr)
-					//{
-					//	MyStack2<T, m_n>::Node* pmem = pcopy->m_next;
-					//	delete pcopy;
-					///	if (pmem != nullptr)
-					//	pcopy = pmem;
-					//}
-					
-				}
-			}
-						
-			p = p->m_next;
-		}	
-			
-		return *this;
-
-	}*/
 	
 	MyStack2& operator=(const MyStack2& st)
 	{
