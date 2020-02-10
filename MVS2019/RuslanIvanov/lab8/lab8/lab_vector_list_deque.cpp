@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 #include "MyString.h"
 #include "Point.h"
 #include "templateVector.h"
@@ -311,18 +312,31 @@ int main(int arg, char** parg)
 ///////////////////////////////////////////////////////////////////
 	//Напишите функцию, которая должна удалять только повторяющиеся последовательности.
 	//Например: было - "qwerrrrty12222r3", стало - "qwety1r3"
-
-	char ar[] = "qwerrrrty12222r3";
-	vector<char>var(ar, ar + sizeof(ar) - 1);
-
-	vector<char>::iterator itb = var.begin();
-	vector<char>::iterator ite = var.end();
-	int sv = var.size();
-	for (int i = 0; itb != ite; i++)
 	{
+		char ar[] = "qwerrrrty12222r3";
+		vector<char>var(ar, ar + sizeof(ar) - 1);
 
+		vector<char>::iterator itb = var.begin();
+		vector<char>::iterator ite = var.end();
+		int sv = var.size();
+		
+		for (int i = 0; itb != ite; i++)
+		{
+			int j = 0; int count = 0;
+			for (; j < sv; j++)
+			{
+				if (*itb == var[j])
+				{
+					count++;
+				}
+				else break;
+			}
+			if (count > 1) 
+			{
+				//itb = var.erase(var.begin() + j, var.begin() +j+count);
+			}else ++itb;
+		}
 	}
-
 	stop
 
 ///////////////////////////////////////////////////////////////////
@@ -350,13 +364,20 @@ int main(int arg, char** parg)
 	//Создайте пустой список из элементов Point - ptList1 и наполните
 	//его значениями с помощью методов push_back(),
 	//push_front, insert()
-	
+	list<Point> ptList1;
+	ptList1.push_back(Point(1, 1));
+	ptList1.push_front(Point(2, 2));
+	ptList1.insert(ptList1.begin(), Point(5, 5));
 
 	//Напишите шаблон функции, которая будет выводить элементы
 	//ЛЮБОГО КОНТЕЙНЕРА на печать. Проверьте работу шаблона на контейнерах
 	//vector и list. Подсказка - хотелось бы увидеть тип контейнера.
 
-
+	printContAny(ptList1);
+	char array[] = "qwerrrrty12222r3";
+	vector<char>var(ar, ar + sizeof(ar) - 1);
+	printContAny(var);
+	stop
 	//Сделайте любой из списков "реверсивным" - reverse()
 
 

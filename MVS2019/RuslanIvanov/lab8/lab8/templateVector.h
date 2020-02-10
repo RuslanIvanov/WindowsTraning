@@ -51,6 +51,22 @@ void printCont<std::vector<Point*>>(const std::vector<Point*>& p)
 	
 }
 
+template <typename T> void printContAny(T& t)
+{
+	std::cout << "\nContainer '" << typeid(t).name() << "' contains:";
+	if (t.empty())
+	{
+		std::cout << "  IS EMPTY!";
+		return;
+	}
+
+	T::iterator iter;
+	for (iter = t.begin(); iter != t.end(); iter++)
+	{
+		std::cout << " | " << *iter;
+	}
+}
+
 template <typename U> 
 void makeUniq(U& u)
 {
