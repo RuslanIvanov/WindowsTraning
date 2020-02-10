@@ -10,8 +10,8 @@
 
 #define stop __asm nop
 
-#include "templ.h"
 #include "MyString.h"
+#include "templ.h"
 #include "MyStack.h"
 #include "MyStack2.h"
 
@@ -314,6 +314,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			stop
 			std::cout << "\n st22: ";
 			std::cout << st22;
+			st22.addTail(88);
 			st36 = st22;
 
 			std::cout << "\nafter copy st22 to st36: ";
@@ -325,6 +326,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			st36 = st35;
 			std::cout << "\nafter copy st35 to st36 : ";
+			std::cout << st36;
+
+			MyStack2<int, 4> st37;
+			st37.addTail(99);
+			std::cout << "\nst37: ";
+			st36 = st37;
+			std::cout << "\nafter copy st37 to st36 : ";
 			std::cout << st36;
 			stop
 		}

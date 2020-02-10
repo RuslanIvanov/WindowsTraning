@@ -183,8 +183,8 @@ public:
 			size_t n = m_index - i;
 			std::cout << "\n n del: " << n;
 			
-			for(size_t k=0; k < n && k<m_n;k++)
-			pop();
+			for (size_t k = 0; k < n && k < m_n; k++)
+				top();//pop();
 
 			m_index = i;
 		}
@@ -295,11 +295,16 @@ public:
 			Node* pLast = get_last(m_head);
 			if (pLast)// удалять с головы, потом прерназначить новую голову
 			{
+				Node* p = m_head;
+				while (p->m_next!=pLast) 
+				{
+					p = p->m_next;
+				}
+				
 				m_index--;
 
-				//Node* p = m_head->m_next;
-				delete pLast;//предыдущему надл перезаписать m_next=nullptr
-				//m_head = p; предыдущему  nullptr 
+				delete pLast;
+				p->m_next = nullptr;
 			}
 		}
 		else

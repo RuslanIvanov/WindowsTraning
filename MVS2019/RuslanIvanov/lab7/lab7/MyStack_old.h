@@ -21,7 +21,15 @@ template <typename T, size_t m_n = 10> class MyStack
 
 public:
 
-	MyStack();	
+	MyStack()
+	{
+		m_index = 0;
+		for (size_t i = 0; i < m_n; i++)
+		{
+			m_p[i] = T();
+		}
+
+	}
 
 	MyStack(const MyStack& st)
 	{
@@ -148,29 +156,6 @@ public:
 
 	}
 
-	bool empty();
-	size_t size();
+	bool empty() { return (m_index == 0); }
+	size_t size() { return m_index; }// количество элементов в контейнере
 };
-
-
-template <typename T, size_t m_n> // что  это шаблон
-MyStack<T,m_n>::MyStack() //область видимости
-{
-	m_index = 0;
-	for (size_t i = 0; i < m_n; i++)
-	{
-		m_p[i] = T();
-	}
-
-}
-
-template <typename T, size_t m_n> 
-bool MyStack<T, m_n>::empty() 
-{ 
-	return (m_index == 0); 
-}
-template <typename T, size_t m_n>
-size_t MyStack<T, m_n>::size()
-{ 
-	return m_index; 
-}
