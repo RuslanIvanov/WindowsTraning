@@ -1,4 +1,4 @@
-// Контейнеры STL: 
+ // Контейнеры STL: 
 //stack, queue, priority_queue
 //set, multiset, map, multimap
 
