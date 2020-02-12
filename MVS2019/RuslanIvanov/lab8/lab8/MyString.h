@@ -5,20 +5,20 @@
 
 class MyString
 {
-    char* m_pStr;	//строка-член класса //explicit вроде бы надо
+    char* m_pStr;	//СЃС‚СЂРѕРєР°-С‡Р»РµРЅ РєР»Р°СЃСЃР° //explicit РІСЂРѕРґРµ Р±С‹ РЅР°РґРѕ
    
 public:
     MyString();
     //explicit
-        MyString(const char* pstr); //pstr ="" - тогда не надо MyString()
+        MyString(const char* pstr); //pstr ="" - С‚РѕРіРґР° РЅРµ РЅР°РґРѕ MyString()
     MyString(const MyString&);
-    MyString(MyString&& MoveSource);// конструктор перемещения
+    MyString(MyString&& MoveSource);// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРµСЂРµРјРµС‰РµРЅРёСЏ
     ~MyString();
 
 	MyString& operator=(const MyString& r);
-    MyString& operator= ( MyString&& ); // Оператор присваивания при перемещении
+    MyString& operator= ( MyString&& ); // РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ РїСЂРё РїРµСЂРµРјРµС‰РµРЅРёРё
 
-    MyString operator+(const MyString& s); // унарный должен возвращать копию
+    MyString operator+(const MyString& s); // СѓРЅР°СЂРЅС‹Р№ РґРѕР»Р¶РµРЅ РІРѕР·РІСЂР°С‰Р°С‚СЊ РєРѕРїРёСЋ
     MyString& operator+=(const MyString& s);
 
 	bool operator == (const char* k) const;

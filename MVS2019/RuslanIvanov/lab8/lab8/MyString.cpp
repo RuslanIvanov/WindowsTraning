@@ -1,8 +1,8 @@
-
+#include <string.h>
 #include "MyString.h"
 //using namespace std;
 
-// Определение конструктора.
+// РћРїСЂРµРґРµР»РµРЅРёРµ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°.
 
 MyString::MyString()
 {
@@ -24,7 +24,7 @@ MyString::MyString(const char* pstr)
 	m_pStr = new char[n];
 	///////////////////////////////////////////////
 	strcpy(m_pStr, pstr);
-	//strcpy_s(m_pStr, n ,pstr);//где  n размер принимающего буффера
+	//strcpy_s(m_pStr, n ,pstr);//РіРґРµ  n СЂР°Р·РјРµСЂ РїСЂРёРЅРёРјР°СЋС‰РµРіРѕ Р±СѓС„С„РµСЂР°
 	///////////////////////////////////////////////
 	//cout << "\nMyString::constructor, param";
 }
@@ -38,7 +38,7 @@ MyString::MyString(const MyString& r)
 	//std::cout << "\nMyString::constructor copy";
 }
 
-// Определение деструктора.
+// РћРїСЂРµРґРµР»РµРЅРёРµ РґРµСЃС‚СЂСѓРєС‚РѕСЂР°.
 MyString::~MyString()
 {
 	/*std::cout << "\nMyString's destructor: delete string ";
@@ -96,12 +96,12 @@ void MyString::ConcatString(const char* pstr)
 	m_pStr = p_new;
 }
 
-/* не эффект
+/* РЅРµ СЌС„С„РµРєС‚
 MyString& MyString::operator=(const MyString& s)
 {
-	if (this != &s)//проверяем, не один ли это объект  
+	if (this != &s)//РїСЂРѕРІРµСЂСЏРµРј, РЅРµ РѕРґРёРЅ Р»Рё СЌС‚Рѕ РѕР±СЉРµРєС‚  
 	{
-		delete m_pStr; //удаляется старый адрес
+		delete m_pStr; //СѓРґР°Р»СЏРµС‚СЃСЏ СЃС‚Р°СЂС‹Р№ Р°РґСЂРµСЃ
 		m_pStr = new char[strlen(s.m_pStr) + 1];
 		strcpy(m_pStr, s.m_pStr);
 	}
@@ -135,11 +135,11 @@ MyString& MyString::operator=(const MyString& r)
 }
 
 MyString::MyString(MyString&& MoveSource) 
-{/*Когда он доступен, компилятор C++11 автоматически выбирает конструктор перемещения 
- для временного “перемещения” ресурса, а следовательно, избегает этапа глубокого копирования!!!*/
-	if (MoveSource.m_pStr != nullptr) // не надо так как в дефолтофом констр *m_pStr = 0;
+{/*РљРѕРіРґР° РѕРЅ РґРѕСЃС‚СѓРїРµРЅ, РєРѕРјРїРёР»СЏС‚РѕСЂ C++11 Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІС‹Р±РёСЂР°РµС‚ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРµСЂРµРјРµС‰РµРЅРёСЏ 
+ РґР»СЏ РІСЂРµРјРµРЅРЅРѕРіРѕ вЂњРїРµСЂРµРјРµС‰РµРЅРёСЏвЂќ СЂРµСЃСѓСЂСЃР°, Р° СЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ, РёР·Р±РµРіР°РµС‚ СЌС‚Р°РїР° РіР»СѓР±РѕРєРѕРіРѕ РєРѕРїРёСЂРѕРІР°РЅРёСЏ!!!*/
+	if (MoveSource.m_pStr != nullptr) // РЅРµ РЅР°РґРѕ С‚Р°Рє РєР°Рє РІ РґРµС„РѕР»С‚РѕС„РѕРј РєРѕРЅСЃС‚СЂ *m_pStr = 0;
 	{
-		//взять собственнеость и переместить
+		//РІР·СЏС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅРµРѕСЃС‚СЊ Рё РїРµСЂРµРјРµСЃС‚РёС‚СЊ
 		m_pStr = MoveSource.m_pStr;
 		MoveSource.m_pStr = nullptr;
 	}
@@ -155,9 +155,9 @@ MyString& MyString::operator= ( MyString&& MoveResource)
 		return *this;
 	}
 
-	delete[] m_pStr;// освобожление собственного ресурса
-	m_pStr = MoveResource.m_pStr; // взять в сообственность - начало перемещения
-	MoveResource.m_pStr = nullptr; // освободить источник перемещения от собственности
+	delete[] m_pStr;// РѕСЃРІРѕР±РѕР¶Р»РµРЅРёРµ СЃРѕР±СЃС‚РІРµРЅРЅРѕРіРѕ СЂРµСЃСѓСЂСЃР°
+	m_pStr = MoveResource.m_pStr; // РІР·СЏС‚СЊ РІ СЃРѕРѕР±СЃС‚РІРµРЅРЅРѕСЃС‚СЊ - РЅР°С‡Р°Р»Рѕ РїРµСЂРµРјРµС‰РµРЅРёСЏ
+	MoveResource.m_pStr = nullptr; // РѕСЃРІРѕР±РѕРґРёС‚СЊ РёСЃС‚РѕС‡РЅРёРє РїРµСЂРµРјРµС‰РµРЅРёСЏ РѕС‚ СЃРѕР±СЃС‚РІРµРЅРЅРѕСЃС‚Рё
 
 	return *this;
 }
@@ -167,9 +167,9 @@ MyString ApplyString(const char *p1, ...)
 {
 	MyString strConcat;
 	int count = 0;
-	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
-	va_list p;// универсальынй указатель
-	va_start(p, p1);//направл. универсального указ. на первый необяхат парам.
+	const char* pstr = p1;// С‚Р°Рє РєР°Рє РїРµСЂРІС‹Рј РїР°СЂР°РјРµС‚СЂРѕРј РјРѕР¶РµС‚ Р±С‹С‚СЊ 0 Рё РІ С†РёРєР» РЅРµ РїРѕРїР°РґРµРј
+	va_list p;// СѓРЅРёРІРµСЂСЃР°Р»СЊС‹РЅР№ СѓРєР°Р·Р°С‚РµР»СЊ
+	va_start(p, p1);//РЅР°РїСЂР°РІР». СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ СѓРєР°Р·. РЅР° РїРµСЂРІС‹Р№ РЅРµРѕР±СЏС…Р°С‚ РїР°СЂР°Рј.
 
 	while (pstr!=nullptr)
 	{
@@ -180,7 +180,7 @@ MyString ApplyString(const char *p1, ...)
 		
 	}
 
-	return strConcat; //для оптимизаци move копирование для MyString
+	return strConcat; //РґР»СЏ РѕРїС‚РёРјРёР·Р°С†Рё move РєРѕРїРёСЂРѕРІР°РЅРёРµ РґР»СЏ MyString
 }
 MyString MyString::operator+(const MyString& s)
 {
@@ -227,9 +227,9 @@ std::ostream& operator<<(std::ostream& os, const MyString& s)
 MyString Concat(const char* p1, ...) 
 {
 	int count = 0;
-	const char* pstr = p1;// так как первым параметром может быть 0 и в цикл не попадем
-	va_list p;// универсальынй указатель
-	va_start(p, p1);//направл. универсального указ. на первый необх. парам.
+	const char* pstr = p1;// С‚Р°Рє РєР°Рє РїРµСЂРІС‹Рј РїР°СЂР°РјРµС‚СЂРѕРј РјРѕР¶РµС‚ Р±С‹С‚СЊ 0 Рё РІ С†РёРєР» РЅРµ РїРѕРїР°РґРµРј
+	va_list p;// СѓРЅРёРІРµСЂСЃР°Р»СЊС‹РЅР№ СѓРєР°Р·Р°С‚РµР»СЊ
+	va_start(p, p1);//РЅР°РїСЂР°РІР». СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ СѓРєР°Р·. РЅР° РїРµСЂРІС‹Р№ РЅРµРѕР±С…. РїР°СЂР°Рј.
 
 	int len = 0;
 	
@@ -253,6 +253,6 @@ MyString Concat(const char* p1, ...)
 	}
 	MyString strConcat(ppp);
 	delete[] ppp;
-	return strConcat; // работает move!!!
+	return strConcat; // СЂР°Р±РѕС‚Р°РµС‚ move!!!
 }
 

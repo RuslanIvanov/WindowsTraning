@@ -7,14 +7,21 @@ class Point
 	public:
 		Point(int x = 0, int y = 0);
 		Point(const Point& r);
+
+        int GetX() const {return m_x;}
+        int GetY() const {return m_y;}
+
 		Point& operator=(const Point&);
 		
-		Point operator+(const Point&); // êîïèþ îáúåêòà äîëæåí âîçâð, ò.ò. èñìåíÿòü ñàìîãî ñåáÿ íå íàäî
+		Point operator+(const Point&); // ÐºÐ¾Ð¿Ð¸ÑŽ Ð¾Ð±ÑŠÐµÐºÑ‚Ð° Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð²Ð¾Ð·Ð²Ñ€, Ñ‚.Ñ‚. Ð¸ÑÐ¼ÐµÐ½ÑÑ‚ÑŒ ÑÐ°Ð¼Ð¾Ð³Ð¾ ÑÐµÐ±Ñ Ð½Ðµ Ð½Ð°Ð´Ð¾
 		Point operator+(int);
-	
-		Point& operator+=(const Point&);
+        Point& operator+=(const Point&);
 
 		Point operator+();
+
+        bool operator>(const Point& p) const;
+        bool operator<(const Point& p) const;
+        bool operator==(const Point& p) const;
 		
 		friend Point& operator+=(Point&, int);
 		friend Point operator-(Point& rl, int i);

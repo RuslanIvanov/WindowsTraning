@@ -29,7 +29,7 @@ template <typename T, size_t m_n = 10> class MyStack2
 		Node(const T& t) : m_t(t), m_next(nullptr) { }
 		~Node()
 		{
-			m_t.~T();
+			//m_t.~T();// когда с сырой пам
 		}
 		// Значение узла
 		T m_t;
@@ -82,7 +82,7 @@ public:
 
 	}
 	
-	MyStack2& operator=(const MyStack2& st)
+	MyStack2& operator=(const MyStack2& st)//выповнять можно было размеры списков (принимаемого)
 	{
 		if (this == &st) return *this;
 
