@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Iter_Alg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Point.cpp">
@@ -26,7 +26,10 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="templ.h">
+    <ClInclude Include="templ10.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="templ9.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

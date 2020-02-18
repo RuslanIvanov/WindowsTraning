@@ -29,7 +29,7 @@ template <typename P> void printCont(const P& p)
 }
 
 class Point;
-template <>
+template <> //это не шаблон , а глобальная функция=> д.б. в  *.cpp //специалтзация шаблона
 void printCont<std::vector<Point*>>(const std::vector<Point*>& p)
 {
     std::cout << "\nContainer '" << typeid(p).name() << "' contains:";
