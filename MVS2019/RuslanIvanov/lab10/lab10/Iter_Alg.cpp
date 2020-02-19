@@ -53,7 +53,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		sp.insert(Point(i, i));
 	vector<Point> v;
 	v.reserve(sp.size());
-	std::copy(v.begin(),v.end(),std::inserter(sp,sp.begin()));
+	std::copy(v.begin(),v.end(),std::inserter(sp,sp.begin()));//set не имеет push_back, потому что положение элемента определяется компаратором множества. Используйте std::inserter и передайте его .begin():
+
 	printCont(v);
 	stop
 	//Потоковые итераторы. С помощью ostream_iterator выведите содержимое
