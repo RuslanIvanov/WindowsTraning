@@ -125,9 +125,11 @@
   <ItemGroup>
     <ClCompile Include="Iter_Alg.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="templ10.h" />
     <ClInclude Include="templ9.h" />
   </ItemGroup>

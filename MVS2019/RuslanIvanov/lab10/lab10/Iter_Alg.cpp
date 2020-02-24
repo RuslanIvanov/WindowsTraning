@@ -1,6 +1,6 @@
 // Iter_Alg.cpp : Defines the entry point for the console application.
 //
-//Итераторы. Стандартные алгоритмы. Предикаты.
+//РС‚РµСЂР°С‚РѕСЂС‹. РЎС‚Р°РЅРґР°СЂС‚РЅС‹Рµ Р°Р»РіРѕСЂРёС‚РјС‹. РџСЂРµРґРёРєР°С‚С‹.
 
 #include <iostream>
 #include <iterator>
@@ -11,16 +11,24 @@
 #include <stack>
 #include <queue>
 #include <algorithm>
-#include <tchar.h>
+#include <string.h>
+#include <typeinfo>
 #include "Point.h"
-
+#include "Rect.h"
 #include "templ9.h"
+#include "templ10.h"
 //#include "templateVector.h"
 using namespace std;	
 
 #if  _WIN32 
+
 #define	  stop __asm nop
+#include <tchar.h>
+
 #else
+
+#define _tmain main
+#define _TCHAR char 
 
 void mystop()
 {//Linux
@@ -37,136 +45,348 @@ int _tmain(int argc, _TCHAR* argv[])
 
 #if  _WIN32 
 	setlocale(LC_CTYPE, ".UTF8");
-	cout << "Привет, Мир!";
+	cout << "РџСЂРёРІРµС‚, Р»Р°Р±10!";
 #endif
 ///////////////////////////////////////////////////////////////////
 
-	//Задание 1. Итераторы
+	//Р—Р°РґР°РЅРёРµ 1. РС‚РµСЂР°С‚РѕСЂС‹
 
-	//Реверсивные итераторы. Сформируйте set<Point>. Подумайте, что
-	//нужно перегрузить в классе Point. Создайте вектор, элементы которого 
-	//являются копиями элементов set, но упорядочены по убыванию
+	//Р РµРІРµСЂСЃРёРІРЅС‹Рµ РёС‚РµСЂР°С‚РѕСЂС‹. РЎС„РѕСЂРјРёСЂСѓР№С‚Рµ set<Point>. РџРѕРґСѓРјР°Р№С‚Рµ, С‡С‚Рѕ
+	//РЅСѓР¶РЅРѕ РїРµСЂРµРіСЂСѓР·РёС‚СЊ РІ РєР»Р°СЃСЃРµ Point. РЎРѕР·РґР°Р№С‚Рµ РІРµРєС‚РѕСЂ, СЌР»РµРјРµРЅС‚С‹ РєРѕС‚РѕСЂРѕРіРѕ 
+	//СЏРІР»СЏСЋС‚СЃСЏ РєРѕРїРёСЏРјРё СЌР»РµРјРµРЅС‚РѕРІ set, РЅРѕ СѓРїРѕСЂСЏРґРѕС‡РµРЅС‹ РїРѕ СѓР±С‹РІР°РЅРёСЋ
+    {
+        set<Point> sp;
 
-	set<Point> sp;
-	
 	for (size_t i = 0; i < 5; i++)
 		sp.insert(Point(i, i));
-	vector<Point> v;
-	v.reserve(sp.size());
-	std::copy(v.begin(),v.end(),std::inserter(sp,sp.begin()));//set не имеет push_back, потому что положение элемента определяется компаратором множества. Используйте std::inserter и передайте его .begin():
 
-	printCont(v);
+        set<Point>::reverse_iterator spit = sp.rbegin();
+        printCont(sp);
+
+        vector<Point> v(spit,sp.rend());
+        v.reserve(sp.size());
+        printCont(v);
+        //std::copy(v.rbegin(), v.rend(), std::inserter(sp, spit));
+        /*for(size_t i = 0;i<5;i++)
+        {
+        v.push_back(*spit);
+        ++spit;
+        }
+         printCont(v);*/
 	stop
-	//Потоковые итераторы. С помощью ostream_iterator выведите содержимое
-	//vector и set из предыдущего задания на экран.
 
 
-	//Итераторы вставки. С помощью возвращаемых функциями:
+	//РџРѕС‚РѕРєРѕРІС‹Рµ РёС‚РµСЂР°С‚РѕСЂС‹. РЎ РїРѕРјРѕС‰СЊСЋ ostream_iterator РІС‹РІРµРґРёС‚Рµ СЃРѕРґРµСЂР¶РёРјРѕРµ
+	//vector Рё set РёР· РїСЂРµРґС‹РґСѓС‰РµРіРѕ Р·Р°РґР°РЅРёСЏ РЅР° СЌРєСЂР°РЅ.
+        cout<<"\niter ostream:";
+        ostream_iterator<Point> out_it (cout,"\n| ");
+        copy(v.begin(),v.end(), out_it );
+        ostream_iterator<Point> out_it2 (cout,"\n: ");
+        copy(sp.begin(),sp.end(), out_it2 );
+        stop
+
+	//РС‚РµСЂР°С‚РѕСЂС‹ РІСЃС‚Р°РІРєРё. РЎ РїРѕРјРѕС‰СЊСЋ РІРѕР·РІСЂР°С‰Р°РµРјС‹С… С„СѓРЅРєС†РёСЏРјРё:
 	//back_inserter()
 	//front_inserter()
 	//inserter()
-	//итераторов вставки добавьте элементы в любой из созданных контейнеров. Подумайте:
-	//какие из итераторов вставки можно использовать с каждым контейнером.
+	//РёС‚РµСЂР°С‚РѕСЂРѕРІ РІСЃС‚Р°РІРєРё РґРѕР±Р°РІСЊС‚Рµ СЌР»РµРјРµРЅС‚С‹ РІ Р»СЋР±РѕР№ РёР· СЃРѕР·РґР°РЅРЅС‹С… РєРѕРЅС‚РµР№РЅРµСЂРѕРІ. РџРѕРґСѓРјР°Р№С‚Рµ:
+	//РєР°РєРёРµ РёР· РёС‚РµСЂР°С‚РѕСЂРѕРІ РІСЃС‚Р°РІРєРё РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃ РєР°Р¶РґС‹Рј РєРѕРЅС‚РµР№РЅРµСЂРѕРј.
+        back_insert_iterator<vector<Point>> itv = back_inserter(v);
+        *itv = Point(66,66);
 
+        //error: вЂclass std::vector<Point>вЂ™ has no member named вЂpush_frontвЂ™
+        //front_insert_iterator<vector<Point>> itvf = front_inserter(v);
+        //*itvf = Point(77,77);
 
+        insert_iterator<vector<Point>> itvi = inserter(v,v.begin());
+        *itvi = Point(88,88);
 
+        cout<<"\niter ostream v:";
+        copy(v.begin(),v.end(), out_it );
+
+        //set РЅРµ РёРјРµРµС‚ РјРµС‚РѕРґ push_back
+       //back_insert_iterator<set<Point>> itspb = back_inserter(sp);
+       //set РЅРµ РёРјРµРµС‚ РјРµС‚РѕРґ front
+       // front_insert_iterator<set<Point>> itspf = front_inserter(sp);
+        insert_iterator<set<Point>> itspi = inserter(sp,sp.begin());
+        *itspi = Point(99,99);
+        cout<<"\niter ostream sp:";
+        copy(sp.begin(),sp.end(), out_it2 );
+
+        stop
+        }
 ///////////////////////////////////////////////////////////////////
 
-	//Задание 2. Обобщенные алгоритмы (заголовочный файл <algorithm>). Предикаты.
+	//Р—Р°РґР°РЅРёРµ 2. РћР±РѕР±С‰РµРЅРЅС‹Рµ Р°Р»РіРѕСЂРёС‚РјС‹ (Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹Р№ С„Р°Р№Р» <algorithm>). РџСЂРµРґРёРєР°С‚С‹.
 
-	// алгоритм for_each() - вызов заданной функции для каждого элемента любой последовательности
-	//(массив, vector, list...)
-	//С помощью алгоритма for_each в любой последовательности с элементами любого типа
-	//распечатайте значения элементов
-	//Подсказка : неплохо вызываемую функцию определить как шаблон
+	// Р°Р»РіРѕСЂРёС‚Рј for_each() - РІС‹Р·РѕРІ Р·Р°РґР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё РґР»СЏ РєР°Р¶РґРѕРіРѕ СЌР»РµРјРµРЅС‚Р° Р»СЋР±РѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
+	//(РјР°СЃСЃРёРІ, vector, list...)
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° for_each РІ Р»СЋР±РѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё СЃ СЌР»РµРјРµРЅС‚Р°РјРё Р»СЋР±РѕРіРѕ С‚РёРїР°
+	//СЂР°СЃРїРµС‡Р°С‚Р°Р№С‚Рµ Р·РЅР°С‡РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ
+	//РџРѕРґСЃРєР°Р·РєР° : РЅРµРїР»РѕС…Рѕ РІС‹Р·С‹РІР°РµРјСѓСЋ С„СѓРЅРєС†РёСЋ РѕРїСЂРµРґРµР»РёС‚СЊ РєР°Рє С€Р°Р±Р»РѕРЅ
 
+        {
+            cout<<"\nfor_each v:";
+            vector<int> v{1,2,3,4,5};
+            for_each(v.begin(),v.end(),printVect<int>);
 
+             cout<<"\nfor_each l:";
+            list<int> l{1,2,3,4,5};
+            for_each(l.begin(),l.end(),printVect<int>);
+
+        }
 
 	stop
 
-	//С помощью алгоритма for_each в любой последовательности с элементами типа Point
-	//измените "координаты" на указанное значение (такой предикат тоже стоит реализовать 
-	//как шаблон) и выведите результат с помощью предыдущего предиката
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° for_each РІ Р»СЋР±РѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё СЃ СЌР»РµРјРµРЅС‚Р°РјРё С‚РёРїР° Point
+	//РёР·РјРµРЅРёС‚Рµ "РєРѕРѕСЂРґРёРЅР°С‚С‹" РЅР° СѓРєР°Р·Р°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚Р°РєРѕР№ РїСЂРµРґРёРєР°С‚ С‚РѕР¶Рµ СЃС‚РѕРёС‚ СЂРµР°Р»РёР·РѕРІР°С‚СЊ 
+	//РєР°Рє С€Р°Р±Р»РѕРЅ) Рё РІС‹РІРµРґРёС‚Рµ СЂРµР·СѓР»СЊС‚Р°С‚ СЃ РїРѕРјРѕС‰СЊСЋ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїСЂРµРґРёРєР°С‚Р°
+
+    {
+        vector<Point> v{Point(2,3),Point(4,5)};
+        cout<<"\nfor_each point v:";
+        for_each(v.begin(),v.end(),changePPP<Point>(111,111));
+        //for_each(v.begin(),v.end(),changePoint<Point>);
+        for_each(v.begin(),v.end(),printVect<Point>);
+        stop
+    }
+
+
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° find() РЅР°Р№РґРёС‚Рµ РІ Р»СЋР±РѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё СЌР»РµРјРµРЅС‚РѕРІ Point
+	//РІСЃРµ РёС‚РµСЂР°С‚РѕСЂС‹ РЅР° СЌР»РµРјРµРЅС‚ Point СЃ СѓРєР°Р·Р°РЅРЅС‹Рј Р·РЅР°С‡РµРЅРёРµРј.
+
+        {
+                vector<Point> v2 {Point(1,1),Point(2,2),Point(2,3),Point(4,5),Point(5,5),Point(5,5),Point(6,6)};
+
+                vector<Point>::iterator it = find(v2.begin(),v2.end(),Point(5,5)) ;
+
+
+                if(it==v2.end())
+                {
+                    std::cout<<"\nNo found";
+
+                }else
+                {
+
+                    do
+                    {
+                        if(it==v2.end())
+                        {
+                             std::cout<<"\nexit find! ";
+                             break;
+                        }
+
+                        std::cout<<"\nis finded: "<<*it;
+                        ++it;
+                        it = find(it,v2.end(),Point(5,5)) ;// РІРѕР·РІСЂР°С‰Р°РµС‚ РёС‚РµСЂР°С‚РѕСЂ РЅР° РїРµСЂРІРѕР№ РІС…РѕР¶РґРµРЅРёРµ , РµСЃР»Рё РЅР°С€РµР», РёРЅР°С‡Рµ РЅР° РєРѕРЅРµС†
 
 
 
+                    }while(1);
+                }
 
-	//С помощью алгоритма find() найдите в любой последовательности элементов Point
-	//все итераторы на элемент Point с указанным значением.
+        }
+        stop
+	
+	
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° sort() РѕС‚СЃРѕСЂС‚РёСЂСѓР№С‚Рµ Р»СЋР±СѓСЋ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ СЌР»РµРјРµРЅС‚РѕРІ Point. 
+	////РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ Р°Р»РіРѕСЂРёС‚Рј СЃРѕСЂС‚РёСЂСѓРµС‚ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ.
+	//Р§С‚Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РѕРїСЂРµРґРµР»РµРЅРѕ РІ РєР»Р°СЃСЃРµ Point?
+	// Р—Р°РјРµС‡Р°РЅРёРµ: РѕР±РѕР±С‰РµРЅРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј sort РЅРµ СЂР°Р±РѕС‚Р°РµС‚ СЃРѕ СЃРїРёСЃРєРѕРј, С‚Р°Рє РєР°Рє
+	//СЌС‚Рѕ Р±С‹Р»Рѕ Р±С‹ РЅРµ СЌС„С„РµРєС‚РёРІРЅРѕ => РґР»СЏ СЃРїРёСЃРєР° СЃРѕСЂС‚РёСЂРѕРІРєР° СЂРµР°Р»РёР·РѕРІР°РЅР° РјРµС‚РѕРґРѕРј РєР»Р°СЃСЃР°!!!
+	
+        {
+            vector<Point> v3 {Point(99,99),Point(6,6),Point(1,1),Point(2,2),Point(2,3),Point(4,5),Point(5,5),Point(5,5),Point(6,6)};
 
+            std::cout<<"\nSort1: ";
+            sort(v3.begin(),v3.end());
+            for_each(v3.begin(),v3.end(),printVect<Point>);
+
+            std::cout<<"\nSort2: ";
+            sort(v3.rbegin(),v3.rend());
+            for_each(v3.begin(),v3.end(),printVect<Point>);
+
+            list<Point> l3 {Point(99,99),Point(6,6),Point(1,1),Point(2,2),Point(2,3),Point(4,5),Point(5,5),Point(5,5),Point(6,6)};
+
+            std::cout<<"\nSort1 list: ";
+            l3.sort();
+            for_each(l3.begin(),l3.end(),printVect<Point>);
+
+            std::cout<<"\nSort2 list: ";
+            l3.sort(CMP_IF());//CMP_IF() - РєРѕРјРїР°СЂР°С‚РѕСЂ - Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚, РєРѕРїРёСЏ РєРѕС‚РѕСЂРіРѕ РїРµСЂРµРґР°РµС‚СЃСЏ РІ sort
+            for_each(l3.begin(),l3.end(),printVect<Point>);
+
+            stop
+        }
 
 
 	
-	
-	//С помощью алгоритма sort() отсортируйте любую последовательность элементов Point. 
-	////По умолчанию алгоритм сортирует последовательность по возрастанию.
-	//Что должно быть определено в классе Point?
-	// Замечание: обобщенный алгоритм sort не работает со списком, так как
-	//это было бы не эффективно => для списка сортировка реализована методом класса!!!
-	
-
-
-
-	
-	//С помощью алгоритма find_if() найдите в любой последовательности элементов Point
-	//итератор на элемент Point, удовлетворяющий условию: координаты x и y лежат в промежутке
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° find_if() РЅР°Р№РґРёС‚Рµ РІ Р»СЋР±РѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё СЌР»РµРјРµРЅС‚РѕРІ Point
+	//РёС‚РµСЂР°С‚РѕСЂ РЅР° СЌР»РµРјРµРЅС‚ Point, СѓРґРѕРІР»РµС‚РІРѕСЂСЏСЋС‰РёР№ СѓСЃР»РѕРІРёСЋ: РєРѕРѕСЂРґРёРЅР°С‚С‹ x Рё y Р»РµР¶Р°С‚ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ
 	//[-n, +m].
 
+        {
+             vector<Point> v4 {Point(99,99),Point(6,6),Point(1,1),Point(2,2),Point(2,3),Point(4,5),Point(5,5),Point(5,5),Point(6,6)};
 
+             std::cout<<"\nfind_if range Point:";
+             vector<Point>::iterator where =  find_if(v4.begin(),v4.end(),findRangePoint(4,99));
+             if(where == v4.end())
+             {
+                   std::cout<<"\nNo found";
+             }else
+             {
+                 do
+                 {
+                    if(where==v4.end())
+                    {
+                         std::cout<<"\nexit find! ";
+                         break;
+                    }
 
-	//С помощью алгоритма sort() отсортируйте любую последовательность элементов Rect,
-	//располагая прямоугольники по удалению центра от начала координат.
+                    std::cout<<"\nis finded: "<<*where;
+                     ++where;
+                    where = find_if(where,v4.end(),findRangePoint(4,4));
+
+                 }while(1);
+
+             }
+
+             stop
+        }
+
+	//РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° sort() РѕС‚СЃРѕСЂС‚РёСЂСѓР№С‚Рµ Р»СЋР±СѓСЋ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ СЌР»РµРјРµРЅС‚РѕРІ Rect,
+	//СЂР°СЃРїРѕР»Р°РіР°СЏ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё РїРѕ СѓРґР°Р»РµРЅРёСЋ С†РµРЅС‚СЂР° РѕС‚ РЅР°С‡Р°Р»Р° РєРѕРѕСЂРґРёРЅР°С‚.
 	
+        {
+             // set<Rect> r;//РЅРµ РїСЂРѕС€Р»Рё РІСЃРµ РёРЅРёС†РёР°Р»РёР·
 
+             Rect masR[] = {Rect(),Rect(1,1,10,10),Rect(2,2,20,20),Rect(3,3,30,30),Rect(20,20,2,2),Rect(30,30,2,2)};
+
+             size_t n = sizeof(masR)/sizeof(masR[0]);
+             set<Rect,RectCmp> r(masR,masR+n);
+
+
+             // sort(r.begin(),r.end(),removal_on_from_the_center());//??
+             /*error: no match for вЂoperator-вЂ™ (operand types are вЂstd::_Rb_tree_const_iterator<Rect>вЂ™ and вЂstd::_Rb_tree_const_iterator<Rect>вЂ™)
+             std::__lg(__last - __first) * 2,*/
+
+             //for(size_t ii=0;ii<n;ii++)
+             //  r.insert(masR[ii]);
+
+             //for(size_t ii=0;ii<5;ii++)
+             //    r.insert(Rect(ii,ii,ii+ii,ii+ii));
+
+             vector<Rect> v(masR,masR+n);        
+
+             std::cout<<"\nSet["<< r.size() <<"] sort: ";
+             printCont(r);
+
+            stop
+            std::cout<<"\nVector sort: ";
+            sort(v.begin(),v.end(),removal_on_from_the_center());
+            printCont(v);
+            stop
+
+            std::cout<<"\nList sort: ";
+            list<Rect> l(masR,masR+n);
+            l.sort(removal_on_from_the_center());
+            printCont(l);
+            stop
+        }
 
 
 
 
 
 	{//transform
-		//Напишите функцию, которая с помощью алгоритма transform переводит 
-		//содержимое объекта string в нижний регистр.
-		//Подсказка: класс string - это "почти" контейнер, поэтому для него
-		// определены методы begin() и end()
+		//РќР°РїРёС€РёС‚Рµ С„СѓРЅРєС†РёСЋ, РєРѕС‚РѕСЂР°СЏ СЃ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° transform РїРµСЂРµРІРѕРґРёС‚ 
+		//СЃРѕРґРµСЂР¶РёРјРѕРµ РѕР±СЉРµРєС‚Р° string РІ РЅРёР¶РЅРёР№ СЂРµРіРёСЃС‚СЂ.
+		//РџРѕРґСЃРєР°Р·РєР°: РєР»Р°СЃСЃ string - СЌС‚Рѕ "РїРѕС‡С‚Рё" РєРѕРЅС‚РµР№РЅРµСЂ, РїРѕСЌС‚РѕРјСѓ РґР»СЏ РЅРµРіРѕ
+		// РѕРїСЂРµРґРµР»РµРЅС‹ РјРµС‚РѕРґС‹ begin() Рё end()
+                string st = "TEST";
+                for (string::iterator it = st.begin() ; it != st.end(); it ++ )
+                    *it = tolower(*it);
+                std::cout<<"\nst = "<<st;
 
 
-		//Заполните list объектами string. С помощью алгоритма transform сформируте
-		//значения "пустого" set, конвертируя строки в нижний регистр
-	
+                string str1 = "AAAA BBBB CCCC";
+
+                transform(str1.begin(), str1.end(),str1.begin(),mytolower_char);
+                std::cout<<"\nstr1 = "<<str1;
 
 
+		//Р—Р°РїРѕР»РЅРёС‚Рµ list РѕР±СЉРµРєС‚Р°РјРё string. РЎ РїРѕРјРѕС‰СЊСЋ Р°Р»РіРѕСЂРёС‚РјР° transform СЃС„РѕСЂРјРёСЂСѓС‚Рµ
+		//Р·РЅР°С‡РµРЅРёСЏ "РїСѓСЃС‚РѕРіРѕ" set, РєРѕРЅРІРµСЂС‚РёСЂСѓСЏ СЃС‚СЂРѕРєРё РІ РЅРёР¶РЅРёР№ СЂРµРіРёСЃС‚СЂ
+                list<string> lst = {"AAA","BBB","CCC"};
+                std::cout<<"\nList ";
+                printCont(lst);
+                set<string> s;
 
+                //transform(lst.begin(), lst.end(),s.begin(),predMytolower());
+                //transform(lst.begin(), lst.end(), inserter(s, s.begin()),mytolower_char);
+                transform(lst.begin(), lst.end(), inserter(s, s.begin()),predMytolower());
+
+
+                std::cout<<"\nSet ";
+                printCont(s);
 		stop
 	}
 	
 	{//copy_if
-		//Дан вектор с элементами типа string. С помощью copy_if() требуется
-		//вывести сначала строки, начинающиеся с буквы "А" или "а", затем с "Б"...
-		//При этом порядок строк в исходном векторе менять не нужно!
+		//Р”Р°РЅ РІРµРєС‚РѕСЂ СЃ СЌР»РµРјРµРЅС‚Р°РјРё С‚РёРїР° string. РЎ РїРѕРјРѕС‰СЊСЋ copy_if() С‚СЂРµР±СѓРµС‚СЃСЏ
+		//РІС‹РІРµСЃС‚Рё СЃРЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё, РЅР°С‡РёРЅР°СЋС‰РёРµСЃСЏ СЃ Р±СѓРєРІС‹ "Рђ" РёР»Рё "Р°", Р·Р°С‚РµРј СЃ "Р‘"...
+		//РџСЂРё СЌС‚РѕРј РїРѕСЂСЏРґРѕРє СЃС‚СЂРѕРє РІ РёСЃС…РѕРґРЅРѕРј РІРµРєС‚РѕСЂРµ РјРµРЅСЏС‚СЊ РЅРµ РЅСѓР¶РЅРѕ!
 
+                vector<string> vst = {"AAA","BBB","CCC","CDD","DCC","AS","BS","B"};
+                ostream_iterator<string> out_it (cout,", ");
 
+                std::cout<<"\nvst source";
+                printCont(vst);
+
+                std::cout<<"\nout is: ";
+
+               // for(size_t i = 0;i<vst.size();i++)// РІС‹РѕРґ Р»РёС€РЅРёС… РїРѕРІС‚РѕСЂРЅС‹Р· AS BS ..?
+
+                copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('A') );
+                copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('B') );
+                copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('C') );
+                copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('D') );
 
 		stop
 
-		//Дан multimap, содержаций пары: "месяц - количество денй в месяце"
-		//pair<string, int>. С помощью copy_if сформируйте ДВА map-а: первый -
-		//с парами, содержащими четное количество дней, 2-ой - нечетное.
+		//Р”Р°РЅ multimap, СЃРѕРґРµСЂР¶Р°С†РёР№ РїР°СЂС‹: "РјРµСЃСЏС† - РєРѕР»РёС‡РµСЃС‚РІРѕ РґРµРЅР№ РІ РјРµСЃСЏС†Рµ"
+		//pair<string, int>. РЎ РїРѕРјРѕС‰СЊСЋ copy_if СЃС„РѕСЂРјРёСЂСѓР№С‚Рµ Р”Р’Рђ map-Р°: РїРµСЂРІС‹Р№ -
+		//СЃ РїР°СЂР°РјРё, СЃРѕРґРµСЂР¶Р°С‰РёРјРё С‡РµС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№, 2-РѕР№ - РЅРµС‡РµС‚РЅРѕРµ.
 		std::multimap<string, int> month {
 			{"January", 31}, {"February", 28}, {"February", 29}, { "March", 31},
 			{"April", 30}, {"May",31}, {"June", 30}, {"July", 31}, {"August",31},
 			{"September",30}, {"October", 31}, {"November",30}, {"December",31}
-		};
+                };
+
+                map<string,int> m1;
+                map<string,int> m2;
 
 
+                copy_if(month.begin(),month.end(),inserter(m2, m2.begin()),UnaryPredicateIsEven(true));
+                std::cout<<"\nm2";
+                printCont(m2);
+
+
+                copy_if(month.begin(),month.end(),inserter(m1, m1.begin()),UnaryPredicateIsEven(false));
+                std::cout<<"\nm1";
+                printCont(m1);
 
 		stop
 
-		//Распечатайте multimap и map-ы, используя написанный вами ранее шаблон
-		//функции, выводящей элементы ЛЮБОГО контейнера на печать.
-		//Что нужно сделать дополнительно для вывода пары?
+		//Р Р°СЃРїРµС‡Р°С‚Р°Р№С‚Рµ multimap Рё map-С‹, РёСЃРїРѕР»СЊР·СѓСЏ РЅР°РїРёСЃР°РЅРЅС‹Р№ РІР°РјРё СЂР°РЅРµРµ С€Р°Р±Р»РѕРЅ
+		//С„СѓРЅРєС†РёРё, РІС‹РІРѕРґСЏС‰РµР№ СЌР»РµРјРµРЅС‚С‹ Р›Р®Р‘РћР“Рћ РєРѕРЅС‚РµР№РЅРµСЂР° РЅР° РїРµС‡Р°С‚СЊ.
+                //Р§С‚Рѕ РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РґР»СЏ РІС‹РІРѕРґР° РїР°СЂС‹? //(it->first <<" & "<<it->second)
 
-
+                std::cout<<"\nprints-------------------------------------------------:";
 	
+                printCont(m1);
+                printCont(m2);
+                printCont(month);
 		stop
 	}
 

@@ -74,7 +74,7 @@ Point Point::operator+(int i)
 }
 
 Point Point::operator+() 
-{//сам себя меняет
+{//СЃР°Рј СЃРµР±СЏ РјРµРЅСЏРµС‚
 	
 	return *this;
 }
