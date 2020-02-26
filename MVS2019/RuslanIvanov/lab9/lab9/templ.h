@@ -75,7 +75,21 @@ template <typename T,typename TT> void printCont(std::map<T,TT>& t)
 
 }
 
-template <typename T> void printCont(/*const*/ std::queue<T>& q)
+template <typename T,typename TT> void printCont(std::map<T, std::multiset<TT>>& t)
+{
+    std::cout << "\nContainer set<T,multiset<TT>: \n";
+    for (typename std::map<T, std::multiset<TT>>::const_iterator i = t.begin(); i != t.end(); ++i)
+    {
+        std::cout << "\n|" << (*i).first << " : " ;
+       for (typename std::multiset<TT>::const_iterator ii = (*i).second.begin(); ii != (*i).second.end(); ++ii)
+        {//проход по второму конт
+            std::cout << (*ii) << ", ";
+        }
+    }
+
+}
+
+template <typename T> void printCont(/*const*/ std::queue<T>& q) ///можно и копию передавать,в зваис от задачи,тогда оригинал не удалит
 {
    std::cout<<"\nContainer QUEUE is: ";
 
@@ -91,6 +105,25 @@ template <typename T> void printCont(/*const*/ std::queue<T>& q)
         std::cout<<"|"<<q.front();
         q.pop();
     }
+
+}
+
+template <typename T> void printContNoDel(std::queue<T*, std::list<T*>> q)
+{
+	std::cout << "\nContainer QUEUE is: ";
+
+	if (q.empty() == true)
+	{
+		std::cout << "EMPTY";
+		return;
+	}
+	std::cout << '\n';
+
+	while (!q.empty())
+	{
+		std::cout << "|" << q.front();
+		q.pop();
+	}
 
 }
 
@@ -134,7 +167,7 @@ template <typename T> void printCont(std::queue<T*,std::list<T*>>& q )
 
 }//*/
 
-template <typename T> void printCont(/*const*/ std::stack<T>& s)
+template <typename T, typename C> void printCont(/*const*/ std::stack<T,C>& s)
 {
     std::cout<< "\nContainer STACK is: ";
     if(s.empty()==true)

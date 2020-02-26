@@ -39,7 +39,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {	
 #if  _WIN32 
 	setlocale(LC_CTYPE, ".UTF8");
-	cout << "Привет, Мир!";
+	cout << "Привет, Лаб9!";
 	//wcout << L"Русский вывод" << endl
 #endif
 ;
@@ -93,8 +93,8 @@ int _tmain(int argc, _TCHAR* argv[])
         vector<int> v = {1,2,3,4,5};
         printCont(v);
         stop
-        stack<int,vector<int>> s1(v);
-        printCont(v);
+        stack<int,vector<int>> s1(vector<int>(v.rbegin(),v.rend()));
+        printCont(s1);
         stop
 	
     }
@@ -108,6 +108,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Подумайте, что требуется сделать при уничтожении такой очереди?
 	
     {
+        /*
+        не эффектовно и потеря памяти
         list<Point*> v;
         v.push_back(new Point(1,1));
         v.push_back(new Point(2,2));
@@ -116,7 +118,7 @@ int _tmain(int argc, _TCHAR* argv[])
         v.push_back(new Point(5,5));
         std::cout<<"\n List: ";
         printCont(v);
-        queue<Point*,list<Point*>> q(v); //list or deque а vector ??
+        queue<Point*,list<Point*>> q(v); //list or deque а vector ?? 
 
         q.front() = new Point(0,0);// q.front() and q.back() - возвращают ссылки
         q.back() = new Point(6,6);;
@@ -133,7 +135,29 @@ int _tmain(int argc, _TCHAR* argv[])
             std::cout<<"\ndel: "<<*it;
             delete *it;
             ++it;
-        }
+        }*/
+	
+		queue<Point*, list<Point*>> q; //list or deque а vector ?? 
+
+		q.push(new Point(1, 1));
+		q.push(new Point(2, 1));
+		q.push(new Point(3, 1));
+		q.push(new Point(4, 1));
+
+		*q.front() = Point(0, 0);// q.front() and q.back() - возвращают ссылки
+		*q.back() =  Point(6, 6);;
+
+
+		std::cout << "\nQueue point: ";
+		printContNoDel(q);
+		//printCont(q);// так как удаляет
+		while (!q.empty())
+		{
+			std::cout << "|del: " << q.front();
+			delete q.front();
+			q.pop();
+		}	
+		
         stop
 
     }
@@ -348,15 +372,19 @@ int _tmain(int argc, _TCHAR* argv[])
         mm[*words[0]].insert(words[0]);
         for (size_t i = 1;i<n;i++)
         {
-            map<char,set<const char*>>::iterator  it = mm.find(*words[i]);//Находит элемент с ключом key.
-            //Возвращаемое значение: Итератор элемент с ключом key. Если такой элемент не найден, пришедшего к концу (см. end()) итератора возвращается.
+            //map<char,set<const char*>>::iterator  it = mm.find(*words[i]);//Находит элемент с ключом key.
+            ////Возвращаемое значение: Итератор элемент с ключом key. Если такой элемент не найден, пришедшего к концу (см. end()) итератора возвращается.
 
-            if( it != mm.end() ) { std::cout << "\nfind: " << *words[i]; mm[*words[i]].insert(words[i]); }
-            else
-            {
-                    mm[*words[i]].insert(words[i]);
-                    std::cout << "\nno find: " << *words[i]<< ", add: "<<words[i]<< "is ";
-            }
+            //if( it != mm.end() ) { std::cout << "\nfind: " << *words[i]; mm[*words[i]].insert(words[i]); }
+            //else
+            //{
+                    //mm[*words[i]].insert(words[i]);
+                    //std::cout << "\nno find: " << *words[i]<< ", add: "<<words[i]<< "is ";
+           // }
+
+			// проверить
+			mm[*words[i]].insert(words[i]);
+			std::cout << "\n:ch= " << *words[i] << " is: " << words[i];
         }
 
         std::cout << "\nrezult: ["<<mm.size()<<"]";
@@ -380,9 +408,10 @@ int _tmain(int argc, _TCHAR* argv[])
         //m[111]= {"ivanov","petrov","petrov"}
         //m[211]= {"ivanov","sidorov","petrov"}
 
+		//var1:
         list<string> l = {"kirillov","mirillov","miller","miller","amiller"};
 
-        map<int,list<string>/*,classcomp_key*/> groups;
+        map<int,list<string>/*,classcomp_key*/> groups; //
 
         groups[111].push_back("ivanov");
         groups[111].push_back("petrov");
@@ -396,11 +425,12 @@ int _tmain(int argc, _TCHAR* argv[])
         groups[211].push_back("petrov");
         groups[211].sort();
 
-        groups[311] = l;
+        groups[311]  = l;
         groups[311].sort();
 
         map<int,list<string>>::iterator it = groups.begin();
 
+		std::cout << "\nvar1:";
         for (size_t i = 0;it!=groups.end();++it)
         {
               std::cout << "\n# "<<i;
@@ -408,6 +438,64 @@ int _tmain(int argc, _TCHAR* argv[])
               i++;
         }
         stop
+///////////////////////////////////////////////////////////////////////////////////
+		multimap<int,string> groups2; 
+
+		groups2.insert(make_pair(111,"ivanov"));
+		groups2.insert(make_pair(111, "petrov"));
+		groups2.insert(make_pair(111, "apetrov"));
+		groups2.insert(make_pair(111, "petrov"));
+		groups2.insert(make_pair(111, "bpetrov"));
+		
+		groups2.insert(make_pair(211, "ivanov"));
+		groups2.insert(make_pair(211, "sidorov"));
+		groups2.insert(make_pair(211, "petrov"));
+
+		groups2.insert(make_pair(311, "kirillov"));
+		groups2.insert(make_pair(311, "mirillov")); 
+		groups2.insert(make_pair(311, "miller")); 
+		groups2.insert(make_pair(311, "miller")); 
+		groups2.insert(make_pair(311, "amiller"));
+					
+		std::cout << "\nvar2:";
+		printCont(groups2);
+
+		//var3:
+	 
+		map<int,multiset<string>> groups3;
+        groups3[111].insert("ivanov");
+        groups3[111].insert("berimor");
+        groups3[111].insert("petrov");
+        groups3[111].insert("apetrov");
+        groups3[111].insert("petrov");
+        groups3[111].insert("bernst");
+
+        groups3[211].insert("ivanov");
+        groups3[211].insert("sidorov");
+        groups3[211].insert("petrov");
+        groups3[211].insert("sidorov");
+        groups3[211].insert("suvorov");
+
+        groups3[311].insert("kirillov");
+        groups3[311].insert("mirillov");
+        groups3[311].insert("miller");
+        groups3[311].insert("aamiller");
+        groups3[311].insert("miller");
+        groups3[311].insert("amiller");
+
+        std::cout << "\nvar3:";
+        printCont(groups3);
+
+        map<int, multiset<string>>::iterator it2 = groups3.begin();
+
+        for (size_t i = 0; it2 != groups3.end(); ++it2)
+        {
+            std::cout << "\n# " << i;
+            printCont(it2->second);
+            i++;
+        }
+
+		stop
 	////////////////////////////////////////////////////////////////////////////////////
 	//multimap
 	//а) создайте "англо-русский" словарь, где одному и тому же ключу будут соответствовать

@@ -345,12 +345,24 @@ int _tmain(int argc, _TCHAR* argv[])
 
                 std::cout<<"\nout is: ";
 
-               // for(size_t i = 0;i<vst.size();i++)// выод лишних повторныз AS BS ..?
+               // for(size_t i = 0;i<vst.size();i++)// выод лишних повторныз AS BS ..? // алфаыит задавать в compareFirstCh3
 
                 copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('A') );
                 copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('B') );
                 copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('C') );
                 copy_if( vst.begin(),vst.end(),out_it,compareFirstCh3('D') );
+
+                vector<char> alf; alf.resize(60);
+                for (char i = 'A'; i < 'Z'; i++)
+                {
+                    alf.push_back(i);
+                }
+
+                std::cout << "\nout2 is: ";
+                for (size_t i = 0; i < alf.size(); i++)
+                {
+                    copy_if(vst.begin(), vst.end(), out_it, compareFirstCh3(alf[i]));
+                }
 
 		stop
 
@@ -380,8 +392,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//Распечатайте multimap и map-ы, используя написанный вами ранее шаблон
 		//функции, выводящей элементы ЛЮБОГО контейнера на печать.
-                //Что нужно сделать дополнительно для вывода пары? //(it->first <<" & "<<it->second)
-
+        //Что нужно сделать дополнительно для вывода пары? //(it->first <<" & "<<it->second)
+		//прегрузить operator<< for pair
                 std::cout<<"\nprints-------------------------------------------------:";
 	
                 printCont(m1);
