@@ -51,18 +51,29 @@ public:
 	}
 };
 
-template<typename T> void NegateAll(T& t) 
+char mytolower_char(char st)
+{
+	return static_cast<char>(tolower(static_cast<int>(st)));
+
+}
+
+template<typename T> void NegateAll( T& t) 
 {	
-	for (auto& tt : t)
+	//for (auto& tt : t)
 	{
+		std::transform(t.begin(), t.end(), t.begin(), mytolower_char);
 		//int i = atoi(tt);
 		//if (i != 0) { tt *= -1; }
 		//else
 		//tt = toupper(tt);*/
 		//if (tt == 0) { tt *= -1; }
+		//for (auto ttt : tt)
+		//{
+			//if (ttt >= 'A' && ttt <= 'Z') { tolower(ttt); }
+			//else if (ttt >= 'a' && ttt <= 'z') { toupper(ttt); }
+			//else { ttt *= -1; }
+		//
 
-		if (tt >= 'A' && tt <= 'Z') { tolower(tt); }
-		else if (tt >= 'a' && tt <= 'z') { toupper(tt); }
-		else { tt *= -1; }
+		//std::cout << "\n " << tt;
 	}
 }
