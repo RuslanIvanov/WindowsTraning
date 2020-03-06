@@ -197,6 +197,28 @@ int main(int,char**)
 	//изменение объектов типа std::string может выглядеть "aBc1" -> "AbC1"
 	//элементов последовательностей, заданных ниже:
 	{
+		vector <string> vtest{ "aBc", "Qwerty", "n12" };
+		vector <double> vdtest{ 1.1,2.2,3.3 };
+		for (string& s : vtest)
+		{
+			
+			for (char& c : s) 
+			{
+				if (c >= 'A' && c <= 'Z') { c = tolower(c); }
+				else if (c >= 'a' && c <= 'z') {c = toupper(c); }
+			}
+		}
+
+		for (double& s : vdtest)
+		{
+			//std::size(s,s+size(s));
+			s *= -1;		
+		}
+
+		PrintAnyCont(vtest);
+		PrintAnyCont(vdtest);
+		///////////////////////////////////////////////////////////////////
+		stop
 		std::vector<double> vd{ 1.1,2.2,3.3 };
 		NegateAll(vd);
 

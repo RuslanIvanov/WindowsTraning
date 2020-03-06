@@ -56,12 +56,50 @@ char mytolower_char(char st)
 	return static_cast<char>(tolower(static_cast<int>(st)));
 
 }
+template <typename T>
+class convertor4
+{
+	T t;
+public:
+	convertor4(T ch)
+	{
+		t = ch;
+	}
 
-template<typename T> void NegateAll( T& t) 
+	void operator()(std::string& vtest)
+	{
+		for (std::string& s : vtest)
+		{
+			for (char& c : s)
+			{
+				if (c >= 'A' && c <= 'Z') { c = tolower(c); }
+				else if (c >= 'a' && c <= 'z') { c = toupper(c); }
+			}
+		}
+	}
+
+	void operator()(double& vtest)
+	{
+		vtest *= -1;
+	}
+
+	void operator()(int& vtest)
+	{
+		vtest *= -1;
+	}
+};
+
+template<typename T> void NegateAll( T& t ) 
 {	
 	for (auto& tt : t)
 	{
 		std::cout << "\ntype is: " <<typeid(tt).name() << "";
+		std::cout << "\nsize = " << std::size(tt);
+
+		for (auto it = std::begin(tt), ite = std::begin(tt) + std::size(tt);it!=ite; ++it)
+		{
+		}
+
 		//if (strcmp("double", typeid(tt).name()) == 0) 
 		//{		tt *= -1 ;		}
 
@@ -71,13 +109,13 @@ template<typename T> void NegateAll( T& t)
 		//else
 		//tt = toupper(tt);*/
 		//if (tt == 0) { tt *= -1; }
-		//for(auto it = std::begin(tt); it != std::end(tt); ++it)
+		//for(decltype( it) = std::begin(tt); it != std::end(tt); ++it)
 		{
 			//if (ttt >= 'A' && ttt <= 'Z') { tolower(ttt); }
 			//else if (ttt >= 'a' && ttt <= 'z') { toupper(ttt); }
 			//else { ttt *= -1; }
 		}
-
+	//	decltype( tt );
 		std::cout << "\n " << tt;
 	}
 }
