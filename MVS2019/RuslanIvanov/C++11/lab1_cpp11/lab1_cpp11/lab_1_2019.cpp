@@ -230,6 +230,12 @@ int main(int,char**)
 		
 		stop
 
+		PrintAnyCont(vd);
+		PrintAnyCont(ls);
+		PrintAnyCont(ar);
+
+		stop
+
 	}
 
 	
@@ -240,12 +246,12 @@ int main(int,char**)
 	//алгоритм sort(), а для задания условия - лямбда-функцию
 	{
 		std::vector<double> vd = { -3.3,  2.2, -1.1 };
-		//absSort(vd);
-
+		absSort(vd);
+		PrintAnyCont(vd);
 
 		int ar[] = { -3, 2, -1 };
-		//absSort(ar);
-
+		absSort(ar);
+		PrintAnyCont(ar);
 		stop
 	}
 
@@ -269,21 +275,30 @@ int main(int,char**)
 
 	//например:
 	{
+		auto ggg = string("ddd");
 		std::vector<int> v{ 1,2,3,4 };
 		std::list<double> l{ 1.1, 2.2, 3.3, 4.4, 5.5 };
-
-		//??? = SumCont(v, l);
+		
+		//vector<decltype((*v.begin())+(*l.begin()))> 
+		auto a = SumCont(v, l);
 		
 
 		std::list<int> ll{ 1, 2, 3, 4, 5, 6, 7, 8 };
 		double ar[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
-		//??? = SumCont(ar, ll);
+		auto aa = SumCont(ar, ll);
 		
 
 		std::set<std::string> s{ "abc", "qwerty", "my"};
 		std::deque<const char*> d{ "111", "22" };
-		//??? = SumCont(s, d);
+		auto aaa = SumCont(s, d);
 
+		auto S = SUM(s,d);
+		auto SS = SUM(ar, ll);
+		auto SSS = SUM(v, l);
+
+		PrintAnyCont(a);
+		PrintAnyCont(aa);
+		PrintAnyCont(aaa);
 		stop
 	}
 

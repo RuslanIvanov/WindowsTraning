@@ -51,71 +51,119 @@ public:
 	}
 };
 
-char mytolower_char(char st)
+template<typename T> void NegateAll(T& tt)
 {
-	return static_cast<char>(tolower(static_cast<int>(st)));
+	for (auto& t : tt)
+	{
+		t *= -1;
+	}
+}
+
+template<> void NegateAll(std::list<std::string>& c)
+{
+	for (std::string& s : c)
+	{
+		for (char& c : s)
+		{
+			if (c >= 'A' && c <= 'Z') { c = tolower(c); }
+			else if (c >= 'a' && c <= 'z') { c = toupper(c); }
+		}
+	}
 
 }
-template <typename T>
-class convertor4
+
+template <typename T>void absSort(/*const*/ T& vd) 
 {
-	T t;
-public:
-	convertor4(T ch)
+	std::sort(std::begin(vd), std::end(vd), [](/*C++11*/decltype(*std::begin(vd)) a,/*C++14*/ auto b)->bool 
+											{ return abs(a) < abs(b); });
+}
+
+template <typename FIRST, typename SECOND> 
+auto SumCont(FIRST& ar, std::list < SECOND >& l)
+{
+	auto N = (std::size(ar) >= std::size(l))? std::size(ar): std::size(l);
+
+	std::vector<decltype(N)> v;
+	v.resize(N);
+ 
+	//копируем из меньшего в большее
+	if (N == std::size(ar))
+	{		
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
+	}
+	else 
 	{
-		t = ch;
+		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(l), std::end(l), v.begin());
+	}
+	
+	return v;
+}
+
+template <typename FIRST, typename SECOND>
+auto SumCont(std::vector < FIRST>& ar, std::list < SECOND>& l)
+{
+	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+
+	std::vector<decltype(N)> v;
+	v.resize(N);
+
+	//копируем из меньшего в большее
+	if (N == std::size(ar))
+	{
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
+	}
+	else
+	{
+		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(l), std::end(l), v.begin());
 	}
 
-	void operator()(std::string& vtest)
+	return v;
+}
+
+template <typename FIRST, typename SECOND>
+auto SumCont(std::set < FIRST>& ar, std::deque < SECOND>& l)
+{
+	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+
+	std::vector<std::string> v;
+	v.resize(N);
+
+	//копируем из меньшего в большее
+	if (N == std::size(ar))
 	{
-		for (std::string& s : vtest)
-		{
-			for (char& c : s)
-			{
-				if (c >= 'A' && c <= 'Z') { c = tolower(c); }
-				else if (c >= 'a' && c <= 'z') { c = toupper(c); }
-			}
-		}
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return std::string(a) + std::string(b); });
+		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
+	}
+	else
+	{
+		//transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), []( auto& a,  auto& b) { return std::string(a) + std::string(b); });
+		copy(std::begin(l), std::end(l), v.begin());
 	}
 
-	void operator()(double& vtest)
+	return v;
+}
+
+template <typename T, typename C> auto SUM(T& ar, C& l) 
+{
+	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+
+	std::cout << "N  = " <<N ;
+
+	std::vector<decltype(N)> tmp;
+	tmp.resize(N);
+	/*if (N == std::size(ar))
 	{
-		vtest *= -1;
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(ar), std::end(ar), tmp.begin());
 	}
-
-	void operator()(int& vtest)
+	else
 	{
-		vtest *= -1;
-	}
-};
-
-template<typename T> void NegateAll( T& t ) 
-{	
-	for (auto& tt : t)
-	{
-		std::cout << "\ntype is: " <<typeid(tt).name() << "";
-		std::cout << "\nsize = " << std::size(tt);
-
-		for (auto it = std::begin(tt), ite = std::begin(tt) + std::size(tt);it!=ite; ++it)
-		{
-		}
-
-		//if (strcmp("double", typeid(tt).name()) == 0) 
-		//{		tt *= -1 ;		}
-
-		//std::transform(t.begin(), t.end(), t.begin(), mytolower_char);
-		//int i = atoi(tt);
-		//if (i != 0) { tt *= -1; }
-		//else
-		//tt = toupper(tt);*/
-		//if (tt == 0) { tt *= -1; }
-		//for(decltype( it) = std::begin(tt); it != std::end(tt); ++it)
-		{
-			//if (ttt >= 'A' && ttt <= 'Z') { tolower(ttt); }
-			//else if (ttt >= 'a' && ttt <= 'z') { toupper(ttt); }
-			//else { ttt *= -1; }
-		}
-	//	decltype( tt );
-		std::cout << "\n " << tt;
-	}
+		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
+		copy(std::begin(l), std::end(l), tmp.begin());
+	}*/
+	return tmp;
 }
