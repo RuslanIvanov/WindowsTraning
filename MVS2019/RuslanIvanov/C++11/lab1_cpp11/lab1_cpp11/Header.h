@@ -81,20 +81,21 @@ template <typename T>void absSort(/*const*/ T& vd)
 template <typename FIRST, typename SECOND> 
 auto SumCont(FIRST& ar, std::list < SECOND >& l)
 {
-	auto N = (std::size(ar) >= std::size(l))? std::size(ar): std::size(l);
+	size_t N = (std::size(ar) >= std::size(l))? std::size(ar): std::size(l);
 
-	std::vector<decltype(N)> v;
+	//std::vector<decltype(N)> v;
+	std::vector<double> v;
 	v.resize(N);
  
 	//копируем из меньшего в большее
 	if (N == std::size(ar))
 	{		
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
 		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
 	}
 	else 
 	{
-		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
+		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
 		copy(std::begin(l), std::end(l), v.begin());
 	}
 	
@@ -104,20 +105,21 @@ auto SumCont(FIRST& ar, std::list < SECOND >& l)
 template <typename FIRST, typename SECOND>
 auto SumCont(std::vector < FIRST>& ar, std::list < SECOND>& l)
 {
-	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+	size_t N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
 
-	std::vector<decltype(N)> v;
+	//std::vector<decltype(N)> v;
+	std::vector<double> v;
 	v.resize(N);
 
 	//копируем из меньшего в большее
 	if (N == std::size(ar))
 	{
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
 		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
 	}
 	else
 	{
-		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
+		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
 		copy(std::begin(l), std::end(l), v.begin());
 	}
 
@@ -127,7 +129,7 @@ auto SumCont(std::vector < FIRST>& ar, std::list < SECOND>& l)
 template <typename FIRST, typename SECOND>
 auto SumCont(std::set < FIRST>& ar, std::deque < SECOND>& l)
 {
-	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+	size_t N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
 
 	std::vector<std::string> v;
 	v.resize(N);
@@ -135,7 +137,12 @@ auto SumCont(std::set < FIRST>& ar, std::deque < SECOND>& l)
 	//копируем из меньшего в большее
 	if (N == std::size(ar))
 	{
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return std::string(a) + std::string(b); });
+		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), 
+			[](const auto& a, const auto& b)
+			{ 
+				std::string s1("1 "); std::string s2("2");
+				return s1 + s2; 
+			});
 		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
 	}
 	else
