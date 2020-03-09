@@ -150,8 +150,38 @@ void Separate(const SOURCE& src, FIRST& f, SECOND& s, F func)
 	}
 }
 
-template <>
-COLORS stringToEnum(std::string) 
+template<typename T>
+struct EnumMap
 {
+	static std::map<std::string, T> m_eMap;
+	static const auto& getMap() { return m_eMap; }
+};
+
+template <typename T>
+T stringToEnum(const std::string& s) 
+{	
+	auto it = EnumMap<T>::m_eMap.find(s);
+
+	if (it == std::end(EnumMap<T>::m_eMap)) throw "no find";
+
+	auto a =  EnumMap<T>::m_eMap[s];
 	
+	return a;
+}
+
+template<typename T>
+std::string enumToString(T c1) 
+{
+	std::string s = "";
+	for (auto  ss : EnumMap<T>::m_eMap)
+	{
+		if (c1 == ss.second) 
+		{ 
+			s = ss.first;
+			break; 
+		}
+		int a = 0;
+	}
+
+	return s;
 }

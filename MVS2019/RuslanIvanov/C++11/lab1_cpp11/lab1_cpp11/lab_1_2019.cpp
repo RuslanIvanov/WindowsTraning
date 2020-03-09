@@ -18,9 +18,13 @@
 #include <typeinfo>
 #include <utility>
 
-enum class COLORS : unsigned char { RED, GREEN, BLUE, YELLOW, BLACK, WHITE };
+enum class COLORS : int { RED, GREEN, BLUE, YELLOW, BLACK, WHITE };
+enum class NUMBERS : unsigned char { ONE, TWO, FREE};
 
 #include "Header.h"
+
+template <typename T>
+std::map<std::string, T> EnumMap<T>::m_eMap;
 
 using namespace std;
 
@@ -395,24 +399,53 @@ template<typename T> struct EnumMap
 };
 */
 	{
-		
-
-	
+		//EnumMap<COLORS>::m_eMap = { {"RED",COLORS::RED},{"GREEN",COLORS::GREEN}, {"BLUE",COLORS::BLUE},
+		//{"YELLOW",COLORS::YELLOW} ,{ "BLACK",COLORS::BLACK} };
+		EnumMap<COLORS>  em1;
+		em1.m_eMap["RED"] = COLORS::RED;
+		em1.m_eMap["GREEN"] = COLORS::GREEN;
+		em1.m_eMap["BLUE"] = COLORS::BLUE;
+		em1.m_eMap["YELLOW"] = COLORS::YELLOW;
+		em1.m_eMap["BLACK"] = COLORS::BLACK;
+		stop
+		EnumMap<NUMBERS> em2; //  {{ "FREE",NUMBERS::FREE }};
+		em2.m_eMap["ONE"]=NUMBERS::ONE;
+		em2.m_eMap["TWO"] = NUMBERS::TWO;
+		em2.m_eMap["FREE"] = NUMBERS::FREE;
 		//Например:
 
 		COLORS c1;
-		try {
-			c1 = stringToEnum<COLORS>("blue");
-		}
-		catch (...)
+		COLORS c2;
+		NUMBERS n1,n2;
+		try 
 		{
-		//...
+			c1 = stringToEnum<COLORS>("BLUE");
+			cout << "\nc1 " << static_cast<int>(c1);
+			c2 = stringToEnum<COLORS>("CCC");
+			cout << "\nc2 " << static_cast<int>(c2);			
+		}
+		catch (const char* e)
+		{
+			cout << "\n"<<e;
 		}
 
-	
-		auto Str = enumToString(c1);
+		try
+		{
+			n1 = stringToEnum<NUMBERS>("ONE");
+			cout << "\nn1 " << static_cast<int>(n1);
+			n2 = stringToEnum<NUMBERS>("SSSS");
+			cout << "\nn2 " << static_cast<int>(n2);
+		}
+		catch (const char* e)
+		{
+			cout << "\n" << e;
+		}
+			
+		auto Str1 = enumToString(c1);//*/
+		auto Str2 = enumToString(n1);//*/
 
-
+		cout << "\nStr1 " << Str1;
+		cout << "\nStr2 " << Str2;
 		stop
 	}
 
