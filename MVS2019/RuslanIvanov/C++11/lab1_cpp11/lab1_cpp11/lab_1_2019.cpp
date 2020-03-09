@@ -47,7 +47,7 @@ int main(int,char**)
 
 #if  _WIN32 
 	setlocale(LC_CTYPE, ".UTF8");
-	cout << "Привет, лаб1!";
+	cout << "Привет, лаб1 C++11,14,17!";
 #endif
 
 	//Задание 1. 
@@ -350,9 +350,10 @@ int main(int,char**)
 	//  Использовать лямбда функцию
 	{
 		char s[] = "Hello World!";
-		//for_each
+		size_t count = 0;
+		for_each(begin(s), end(s), [&count](char c) { if (c >= 'A' && c <= 'Z') count++; });
 
-		
+		cout << "\n'" << s << "'" << "upper is " << count;
 		stop
 	}
 

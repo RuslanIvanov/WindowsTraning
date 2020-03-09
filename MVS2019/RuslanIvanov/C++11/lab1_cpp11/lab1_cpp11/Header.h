@@ -127,7 +127,7 @@ auto SUM(std::set < FIRST>& f, std::deque < SECOND>& l)
 template<typename SOURCE, typename FIRST, typename SECOND,typename F>
 void Separate(const SOURCE& src, FIRST& f, SECOND& s, F func)
 {
-	bool b = false;
+	
 	f.resize(src.size());
 	s.resize(src.size());
 	auto itf = std::begin(f);
@@ -149,17 +149,3 @@ void Separate(const SOURCE& src, FIRST& f, SECOND& s, F func)
 		}
 	}
 }
-//template<typename SOURCE, typename FIRST, typename SECOND>
-//void Separate(const SOURCE& src, FIRST& f, SECOND& s, bool b)
-//{
-//	if (b)
-//	{
-//		f.resize(src.size());
-//		copy(std::begin(src), std::end(src), std::begin(f));
-//	}
-//	else
-//	{
-//		s.resize(src.size());
-//		copy(std::begin(src), std::end(src), std::begin(s));
-//	}
-//}
