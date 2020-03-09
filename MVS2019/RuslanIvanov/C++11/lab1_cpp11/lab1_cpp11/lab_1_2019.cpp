@@ -18,6 +18,8 @@
 #include <typeinfo>
 #include <utility>
 
+enum class COLORS : unsigned char { RED, GREEN, BLUE, YELLOW, BLACK, WHITE };
+
 #include "Header.h"
 
 using namespace std;
@@ -392,12 +394,12 @@ template<typename T> struct EnumMap
 	static const auto& getMap() { return m_eMap; }
 };
 */
-
-	//***********
-
 	{
-	//Например:
-/*
+		
+
+	
+		//Например:
+
 		COLORS c1;
 		try {
 			c1 = stringToEnum<COLORS>("blue");
@@ -409,7 +411,7 @@ template<typename T> struct EnumMap
 
 	
 		auto Str = enumToString(c1);
-*/
+
 
 		stop
 	}

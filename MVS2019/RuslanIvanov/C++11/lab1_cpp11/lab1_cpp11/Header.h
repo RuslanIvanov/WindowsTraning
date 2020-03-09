@@ -149,3 +149,9 @@ void Separate(const SOURCE& src, FIRST& f, SECOND& s, F func)
 		}
 	}
 }
+
+template <>
+COLORS stringToEnum(std::string) 
+{
+	
+}
