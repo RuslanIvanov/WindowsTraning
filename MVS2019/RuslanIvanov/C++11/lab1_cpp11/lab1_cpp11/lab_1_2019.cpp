@@ -275,30 +275,45 @@ int main(int,char**)
 
 	//например:
 	{
-		auto ggg = string("ddd");
-		std::vector<int> v{ 1,2,3,4 };
+		
+		//std::vector<int> v { 1,   2,   3   ,4,5,6,7 };
+		std::vector<int> v{ 1,   2,   3 };
 		std::list<double> l{ 1.1, 2.2, 3.3, 4.4, 5.5 };
 		
-		//vector<decltype((*v.begin())+(*l.begin()))> 
 		auto a = SumCont(v, l);
-		
 
 		std::list<int> ll{ 1, 2, 3, 4, 5, 6, 7, 8 };
 		double ar[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+
 		auto aa = SumCont(ar, ll);
 		
-
 		std::set<std::string> s{ "abc", "qwerty", "my"};
 		std::deque<const char*> d{ "111", "22" };
-		auto aaa = SumCont(s, d);
+		auto aaa =  SumCont(s, d);
 
+		cout << "\nsource:-------------------------------------";
+		PrintAnyCont(s);
+		PrintAnyCont(d);
 		auto S = SUM(s,d);
+		cout << "\nresult:";
+		PrintAnyCont(S);
+		cout << "\nsource:-------------------------------------";
+		PrintAnyCont(ar);
+		PrintAnyCont(ll);
 		auto SS = SUM(ar, ll);
+		cout << "\nresult:";
+		PrintAnyCont(SS);
+		cout << "\nsource:-------------------------------------";
+		PrintAnyCont(v);
+		PrintAnyCont(l);
 		auto SSS = SUM(v, l);
+		cout << "\nresult:";
+		PrintAnyCont(SSS);
 
+		cout << "\nresult SumCont():";
 		PrintAnyCont(a);
 		PrintAnyCont(aa);
-		PrintAnyCont(aaa);
+	    PrintAnyCont(aaa);
 		stop
 	}
 

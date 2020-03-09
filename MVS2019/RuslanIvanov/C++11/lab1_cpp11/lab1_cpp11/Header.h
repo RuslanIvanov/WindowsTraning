@@ -78,99 +78,48 @@ template <typename T>void absSort(/*const*/ T& vd)
 											{ return abs(a) < abs(b); });
 }
 
-template <typename FIRST, typename SECOND> 
-auto SumCont(FIRST& ar, std::list < SECOND >& l)
+template <typename FIRST, typename SECOND>
+auto SumCont(FIRST& f, SECOND& l)
 {
-	size_t N = (std::size(ar) >= std::size(l))? std::size(ar): std::size(l);
-
-	//std::vector<decltype(N)> v;
-	std::vector<double> v;
-	v.resize(N);
- 
-	//копируем из меньшего в большее
-	if (N == std::size(ar))
-	{		
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
-		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
-	}
-	else 
-	{
-		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
-		copy(std::begin(l), std::end(l), v.begin());
-	}
+	size_t N = (std::size(f) >= std::size(l)) ? std::size(f) : std::size(l);
 	
+	auto it = *std::begin(f);
+	std::vector< decltype( it) > v;
+	v.resize(N);
+
+	std::cout << "\ntype is: " << typeid(v).name() << "";
+
+	copy(std::begin(f), std::end(f), v.begin());
+	transform(std::begin(l), std::end(l), std::begin(v), std::begin(v), [](const auto& a, const auto& b) { return  a + b; });
+
 	return v;
 }
 
-template <typename FIRST, typename SECOND>
-auto SumCont(std::vector < FIRST>& ar, std::list < SECOND>& l)
+template <typename T, typename C> auto SUM(T& f, C& l) 
 {
-	size_t N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+	size_t N = (std::size(f) >= std::size(l)) ? std::size(f) : std::size(l);
 
-	//std::vector<decltype(N)> v;
 	std::vector<double> v;
 	v.resize(N);
 
-	//копируем из меньшего в большее
-	if (N == std::size(ar))
-	{
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
-		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
-	}
-	else
-	{
-		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
-		copy(std::begin(l), std::end(l), v.begin());
-	}
+	copy(std::begin(f), std::end(f), v.begin());
+	transform(std::begin(l), std::end(l), std::begin(v), std::begin(v), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
 
 	return v;
+
 }
 
 template <typename FIRST, typename SECOND>
-auto SumCont(std::set < FIRST>& ar, std::deque < SECOND>& l)
+auto SUM(std::set < FIRST>& f, std::deque < SECOND>& l)
 {
-	size_t N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
+	size_t N = (std::size(f) >= std::size(l)) ? std::size(f) : std::size(l);
 
 	std::vector<std::string> v;
 	v.resize(N);
 
-	//копируем из меньшего в большее
-	if (N == std::size(ar))
-	{
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), 
-			[](const auto& a, const auto& b)
-			{ 
-				std::string s1("1 "); std::string s2("2");
-				return s1 + s2; 
-			});
-		copy(std::begin(ar), std::end(ar), v.begin());// std::back_inserter(v));
-	}
-	else
-	{
-		//transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), []( auto& a,  auto& b) { return std::string(a) + std::string(b); });
-		copy(std::begin(l), std::end(l), v.begin());
-	}
-
+	copy(std::begin(f), std::end(f), v.begin());
+	transform(std::begin(l), std::end(l), std::begin(v), std::begin(v), [](const auto& a, const auto& b)
+	{ return  (a) + (b); });
+	
 	return v;
-}
-
-template <typename T, typename C> auto SUM(T& ar, C& l) 
-{
-	auto N = (std::size(ar) >= std::size(l)) ? std::size(ar) : std::size(l);
-
-	std::cout << "N  = " <<N ;
-
-	std::vector<decltype(N)> tmp;
-	tmp.resize(N);
-	/*if (N == std::size(ar))
-	{
-		transform(std::begin(l), std::end(l), std::begin(ar), std::begin(ar), [](const auto& a, const auto& b) { return a + b; });
-		copy(std::begin(ar), std::end(ar), tmp.begin());
-	}
-	else
-	{
-		transform(std::begin(ar), std::end(ar), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return a + b; });
-		copy(std::begin(l), std::end(l), tmp.begin());
-	}*/
-	return tmp;
 }

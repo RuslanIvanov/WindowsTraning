@@ -74,3 +74,81 @@ template<typename T, typename C = std::string> void NegateAllU( T<C>& tt)
 		t *= -1;
 	}
 }
+.............................................................................
+template <typename FIRST, typename SECOND> 
+auto SumCont(FIRST& f, std::list < SECOND >& l)
+{
+	size_t N = (std::size(f) >= std::size(l))? std::size(f): std::size(l);
+
+	std::vector<double> v;
+	v.resize(N);
+
+	copy(std::begin(f), std::end(f), v.begin()); 
+	transform(std::begin(l), std::end(l), std::begin(v), std::begin(v), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
+	//копируем из меньшего в большее
+	//if (N == std::size(f))
+	//{
+	//	transform(std::begin(l), std::end(l), std::begin(f), std::begin(v), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
+	//	//transform(std::begin(l), std::end(l), std::begin(f),  std::begin(f), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
+	//	//copy(std::begin(f), std::end(f), v.begin());// std::back_inserter(v));
+	//}
+	//else 
+	//{
+	//	transform(std::begin(f), std::end(f), std::begin(l), std::begin(v), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
+	//	//transform(std::begin(f), std::end(f), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return  static_cast<double>(a) + static_cast<double>(b); });
+	//	//copy(std::begin(l), std::end(l), v.begin());
+	//}
+	//
+	return v;
+}
+
+template <typename FIRST, typename SECOND>
+auto SumCont(std::vector < FIRST>& f, std::list < SECOND>& l)
+{
+	size_t N = (std::size(f) >= std::size(l)) ? std::size(f) : std::size(l);
+
+	std::vector<double> v;
+	v.resize(N);
+
+	//копируем из меньшего в большее
+	if (N == std::size(f))
+	{
+		transform(std::begin(l), std::end(l), std::begin(f), std::begin(f), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
+		copy(std::begin(f), std::end(f), v.begin());// std::back_inserter(v));
+	}
+	else
+	{
+		transform(std::begin(f), std::end(f), std::begin(l), std::begin(l), [](const auto& a, const auto& b) { return static_cast<double>(a) + static_cast<double>(b); });
+		copy(std::begin(l), std::end(l), v.begin());
+	}
+
+	return v;
+}
+
+template <typename FIRST, typename SECOND>
+auto SumCont(std::set < FIRST>& f, std::deque < SECOND>& l)
+{
+	size_t N = (std::size(f) >= std::size(l)) ? std::size(f) : std::size(l);
+
+	std::vector<std::string> v;
+	v.resize(N);
+
+	//копируем из меньшего в большее
+	if (N == std::size(f))
+	{
+		/*transform(std::begin(l), std::end(l), std::begin(f), std::begin(f), 
+			[](const auto& a, const auto& b)
+			{ 
+				std::string s1("1 "); std::string s2("2");
+				return s1 + s2; 
+			});*/
+		copy(std::begin(f), std::end(f), v.begin());// std::back_inserter(v));
+	}
+	else
+	{
+		//transform(std::begin(f), std::end(f), std::begin(l), std::begin(l), []( auto& a,  auto& b) { return std::string(a) + std::string(b); });
+		copy(std::begin(l), std::end(l), v.begin());
+	}
+
+	return v;
+}
