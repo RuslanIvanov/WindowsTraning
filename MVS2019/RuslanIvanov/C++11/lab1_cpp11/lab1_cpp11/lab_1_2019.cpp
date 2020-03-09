@@ -297,6 +297,7 @@ int main(int,char**)
 		auto S = SUM(s,d);
 		cout << "\nresult:";
 		PrintAnyCont(S);
+
 		cout << "\nsource:-------------------------------------";
 		PrintAnyCont(ar);
 		PrintAnyCont(ll);
@@ -332,8 +333,12 @@ int main(int,char**)
 		std::vector<int> v{ 1,2,3,4,5 };
 		std::list<int> l; //сюда четные
 		std::deque<int> d; //а сюда нечетные
-		//Separate(v, l, d, <условие>);
-		
+		Separate(v, l, d, [](int& x)->bool { return ((x % 2) == 0 ? true : false); });
+		cout << "\nsource:";
+		PrintAnyCont(v);
+		cout << "\nresult";
+		PrintAnyCont(l);
+		PrintAnyCont(d);
 		stop
 	}
 

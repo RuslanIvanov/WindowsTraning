@@ -87,7 +87,7 @@ auto SumCont(FIRST& f, SECOND& l)
 	std::vector< decltype( it) > v;
 	v.resize(N);
 
-	std::cout << "\ntype is: " << typeid(v).name() << "";
+	std::cout << "\ntype vector is: " << typeid(v).name() << "";
 
 	copy(std::begin(f), std::end(f), v.begin());
 	transform(std::begin(l), std::end(l), std::begin(v), std::begin(v), [](const auto& a, const auto& b) { return  a + b; });
@@ -123,3 +123,43 @@ auto SUM(std::set < FIRST>& f, std::deque < SECOND>& l)
 	
 	return v;
 }
+
+template<typename SOURCE, typename FIRST, typename SECOND,typename F>
+void Separate(const SOURCE& src, FIRST& f, SECOND& s, F func)
+{
+	bool b = false;
+	f.resize(src.size());
+	s.resize(src.size());
+	auto itf = std::begin(f);
+	auto its = std::begin(s);
+	std::cout << "\n";
+	for(auto tmp: src)
+	{
+		if(func(tmp))
+		{
+			std::cout << " even ";
+			*itf = tmp;
+			++itf;
+		}		
+		else 
+		{
+			std::cout << " no even ";
+			*its = tmp;
+			++its;
+		}
+	}
+}
+//template<typename SOURCE, typename FIRST, typename SECOND>
+//void Separate(const SOURCE& src, FIRST& f, SECOND& s, bool b)
+//{
+//	if (b)
+//	{
+//		f.resize(src.size());
+//		copy(std::begin(src), std::end(src), std::begin(f));
+//	}
+//	else
+//	{
+//		s.resize(src.size());
+//		copy(std::begin(src), std::end(src), std::begin(s));
+//	}
+//}
