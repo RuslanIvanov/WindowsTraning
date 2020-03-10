@@ -26,6 +26,9 @@ enum class NUMBERS : unsigned char { ONE, TWO, FREE};
 template <typename T>
 std::map<std::string, T> EnumMap<T>::m_eMap;
 
+std::map<std::string, COLORS> EnumMap<COLORS>::m_eMap = { {"RED",COLORS::RED},{"GREEN",COLORS::GREEN}, {"BLUE",COLORS::BLUE},{"YELLOW",COLORS::YELLOW} ,{ "BLACK",COLORS::BLACK} };
+std::map<std::string, NUMBERS> EnumMap<NUMBERS>::m_eMap = { {"ONE",NUMBERS::ONE},{"TWO",NUMBERS::TWO}, {"FREE",NUMBERS::FREE} };
+
 using namespace std;
 
 #if  _WIN32 
@@ -230,7 +233,7 @@ int main(int,char**)
 
 		std::list<std::string> ls{ "aBc", "Qwerty", "n12" };
 		NegateAll(ls);
-
+		
 		int ar[]{ 1, 2, 3 };
 		NegateAll(ar);
 		
@@ -399,19 +402,19 @@ template<typename T> struct EnumMap
 };
 */
 	{
-		//EnumMap<COLORS>::m_eMap = { {"RED",COLORS::RED},{"GREEN",COLORS::GREEN}, {"BLUE",COLORS::BLUE},
-		//{"YELLOW",COLORS::YELLOW} ,{ "BLACK",COLORS::BLACK} };
-		EnumMap<COLORS>  em1;
-		em1.m_eMap["RED"] = COLORS::RED;
-		em1.m_eMap["GREEN"] = COLORS::GREEN;
-		em1.m_eMap["BLUE"] = COLORS::BLUE;
-		em1.m_eMap["YELLOW"] = COLORS::YELLOW;
-		em1.m_eMap["BLACK"] = COLORS::BLACK;
-		stop
-		EnumMap<NUMBERS> em2; //  {{ "FREE",NUMBERS::FREE }};
-		em2.m_eMap["ONE"]=NUMBERS::ONE;
-		em2.m_eMap["TWO"] = NUMBERS::TWO;
-		em2.m_eMap["FREE"] = NUMBERS::FREE;
+		
+		// если будет запрещен конструктор, то иниц-я за пределами main
+		//EnumMap<COLORS>  em1;
+		//em1.m_eMap["RED"] = COLORS::RED;
+		//em1.m_eMap["GREEN"] = COLORS::GREEN;
+		//em1.m_eMap["BLUE"] = COLORS::BLUE;
+		//em1.m_eMap["YELLOW"] = COLORS::YELLOW;
+		//em1.m_eMap["BLACK"] = COLORS::BLACK;
+		//stop
+		//EnumMap<NUMBERS> em2; //  {{ "FREE",NUMBERS::FREE }};
+		//em2.m_eMap["ONE"]=NUMBERS::ONE;
+		//em2.m_eMap["TWO"] = NUMBERS::TWO;
+		//em2.m_eMap["FREE"] = NUMBERS::FREE;
 		//Например:
 
 		COLORS c1;
