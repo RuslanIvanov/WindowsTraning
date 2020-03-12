@@ -45,7 +45,7 @@ int main(int, char**)
 	cout << "Привет, лаб2 C++11,14,17!";
 #endif
 
-	MyVector<int> mv2(1,2,{1,2});
+	MyVector<int> mv2(1,8,{1,2,3,4,4,5,6,7,8,9});
 	//MyVector<int> mv1;
 	mv2.printVect();
 	//mv1.printVect();

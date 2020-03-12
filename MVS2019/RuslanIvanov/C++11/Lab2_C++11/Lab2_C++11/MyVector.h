@@ -38,14 +38,23 @@ MyVector<T>::MyVector(T up, T down, std::initializer_list<T> list)
 	}
 		
 	m_v.reserve(list.size());
+
+	
 	
 	/*std::vector<T>::iterator it = m_v.begin()+down;
 	std::vector<T>::iterator ite = m_v.end();*/
 	for (auto& element : list)
 	{
-		if((up>= element && down <= element ) && std::find(m_v.begin(), m_v.end(), list) != m_v.end())
+		if (m_v.empty())
 		{
-			m_v.push_back( element );
+			m_v.push_back(element);
+		}
+		else
+		{
+			if ((up >= element && down <= element) && (std::find(m_v.begin(), m_v.end(), element) == m_v.end()))
+			{
+				m_v.push_back(element);
+			}
 		}
 	}
 }
@@ -54,7 +63,7 @@ template<typename T>
 void MyVector<T>::applyList(T up, T down, std::initializer_list<T> list)
 {// если такие значения есть в векторе, то не вставлять, еслитакие значения повторябтся в списке иниици- то же не вставлять
 //prev,next
-	m_v.insert(m_v.end(), list);
+m_v.insert(m_v.end(), list);
 }
 
 
@@ -75,8 +84,10 @@ void  MyVector<T>::printVect()
 		std::cout << " EMPTY! "; return;
 	}
 
-	for (std::vector<T>::iterator /*auto*/ i = m_v.begin(); i != m_v.end(); ++i)
+	//for (std::vector<T>::iterator /*auto*/ i = m_v.begin(); i != m_v.end(); ++i)
+	//{std::cout << *i << " ";}
+	for (size_t i = 0; i<m_v.size(); ++i)
 	{
-		std::cout << *i << " ";
+		std::cout <<m_v[i] << " ";
 	}
 }
