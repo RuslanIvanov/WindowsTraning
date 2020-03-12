@@ -75,7 +75,7 @@ void  MyVector<T>::printVect()
 		std::cout << " EMPTY! "; return;
 	}
 
-	for (std::vector<T>::iterator i = m_v.begin(); i != m_v.end(); ++i)
+	for (std::vector<T>::iterator /*auto*/ i = m_v.begin(); i != m_v.end(); ++i)
 	{
 		std::cout << *i << " ";
 	}
