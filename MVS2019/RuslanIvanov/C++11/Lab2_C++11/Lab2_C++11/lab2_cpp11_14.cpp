@@ -11,9 +11,10 @@
 #include <typeinfo>
 #include <utility>
 
-
+#include "MyString.h"
 #include "lab2_cpp11_14.h"
 #include "MyVector.h"
+#include "MyQueue.h"
 
 using namespace std;
 
@@ -57,6 +58,19 @@ int main(int, char**)
 	mv2.printVect();
 	mv2.sort(false);
 	mv2.printVect();
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+
+	MyQueue<int> mq = { 66, 1, 2, 3, 4, 5,77 };
+
+	mq.printQueue();
+
+	std::cout <<"\nMyQueue: ";
+	for (auto& el : mq) 
+	{ 
+		std::cout << el << '_'; 
+	}
 
 	
 	return 0;

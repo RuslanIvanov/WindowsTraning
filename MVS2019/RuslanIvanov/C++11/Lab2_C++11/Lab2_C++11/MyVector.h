@@ -137,9 +137,14 @@ void  MyVector<T>::printVect()
 		std::cout << " EMPTY! "; return;
 	}
 
-	for (size_t i = 0; i<m_v.size(); ++i)
+	/*for (size_t i = 0; i<m_v.size(); ++i)
 	{
 		std::cout <<m_v[i] << " ";
+	}*/
+
+	for (auto& el : m_v) 
+	{
+		std::cout <<el << " ";
 	}
 }
 
