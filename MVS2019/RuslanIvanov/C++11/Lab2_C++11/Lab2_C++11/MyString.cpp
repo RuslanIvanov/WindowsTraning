@@ -41,17 +41,8 @@ MyString::MyString(const MyString& r)
 // Определение деструктора.
 MyString::~MyString()
 {
-	/*std::cout << "\nMyString's destructor: delete string ";
-
-	if (m_pStr != nullptr && (*m_pStr) != 0) 
-	{
-		std::cout << m_pStr;
-	}
-	else { std::cout << "N/A"; }*/
-
 	delete [] m_pStr;
 	m_pStr = nullptr;
-	//std::cout << "\nNow I am in nMyString's destructor!";
 }
 
 
@@ -95,18 +86,6 @@ void MyString::ConcatString(const char* pstr)
 
 	m_pStr = p_new;
 }
-
-/* не эффект
-MyString& MyString::operator=(const MyString& s)
-{
-	if (this != &s)//проверяем, не один ли это объект  
-	{
-		delete m_pStr; //удаляется старый адрес
-		m_pStr = new char[strlen(s.m_pStr) + 1];
-		strcpy(m_pStr, s.m_pStr);
-	}
-	return *this;
-}*/
 
 MyString& MyString::operator=(const MyString& r)
 {

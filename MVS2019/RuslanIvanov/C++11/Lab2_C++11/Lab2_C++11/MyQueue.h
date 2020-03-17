@@ -37,7 +37,7 @@ public:
 	{
 		for (size_t i = m_first; (i < m_n) && (i < m_last); ++i)
 		{
-			os << m_pmass[i] << "|";
+			os << m_pmass[i] << "";
 		}
 		return os;
 	}
@@ -141,18 +141,81 @@ MyQueue<T>::MyQueue( std::initializer_list<T> list )
 template<typename T>
 MyQueue<T>::MyQueue(const MyQueue& r) 
 {
-
+	m_n = r.m_n;
+	m_first = r.m_first;
+	m_last = r.m_last;
+	m_cap = 10;
+	
+	try 
+	{
+		m_pmass = new T[m_n + m_cap];
+		for (size_t i = 0; i < m_n; i++)
+		{
+			m_pmass[i] = r.m_pmass[i];
+		}
+	}
+	catch (std::bad_alloc)
+	{
+		m_pmass = nullptr;
+		m_n = 0;
+		m_cap = 0;
+	}
 }
 
 template<typename T>
 MyQueue<T>::MyQueue(MyQueue&& r)
 {
+	m_n=r.m_n;
+	m_pmass = r.m_pmass;
+	m_cap = 10;
+	m_last = r.m_last;
+	m_first = r.m_first;
+
+	r.m_n = 0;
+	r.m_pmass = nullptr;
+	r.m_cap = 0;
+	r.m_last = r.m_first = 0;
 }
 
 template<typename T> 
 MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 {
 	if (&r == this) return *this;
+
+	m_first = r.m_first;
+	m_last = r.m_last;
+	m_cap = 10;
+
+	try
+	{
+		if (m_n < r.m_n)
+		{
+			m_n = r.m_n;
+			T* p = new T[m_n + m_cap];
+			for (size_t i = 0; i < m_n; i++)
+			{
+				p[i] = r.m_pmass[i];
+			}
+			delete[] m_pmass;
+			m_pmass = p;
+		}
+		else 
+		{
+			m_n = r.m_n;
+			for (size_t i = 0; i < m_n; i++)
+			{
+				m_pmass[i] = r.m_pmass[i];
+			}
+		}
+
+	}
+	catch (std::bad_alloc)
+	{
+		m_pmass = nullptr;
+		m_n = 0;
+		m_cap = 0;
+	}
+
 	return *this;
 }
 
@@ -160,13 +223,35 @@ template<typename T>
 MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
 {
 	if (&r == this) return *this;
+
+	m_n = r.m_n;
+	delete[] m_pmass;
+	m_pmass = r.m_pmass;
+	m_cap = 10;
+	m_last = r.m_last;
+	m_first = r.m_first;
+
+	r.m_n = 0;
+	r.m_pmass = nullptr;
+	r.m_cap = 0;
+	r.m_last = r.m_first = 0;
+
 	return *this;
 }
 
 template<typename T> 
 void MyQueue<T>::push(const T& t) 
 {
+	
+	if (m_last+1 <( m_n+m_cap ) )
+	{
+		m_pmass[m_last] = t;
+		m_last++;
+		if (m_last >= m_n) { m_n = m_last; }
+	}else 
+	{//перерасперд
 
+	}
 }
 template<typename T>
 T MyQueue<T>::pop()

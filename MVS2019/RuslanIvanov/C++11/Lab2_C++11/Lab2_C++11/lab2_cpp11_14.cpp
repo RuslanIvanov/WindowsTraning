@@ -81,9 +81,10 @@ int main(int, char**)
 	q1.push(MyString("123"));
 	MyString s1 = q1.pop();
 	q1.push("qqq");
+	q1.printQueue();
 	MyQueue < MyString >  q2 = q1;
 	MyQueue < MyString >  q22 = std::move(q1);
-
+	q1.printQueue();
 	MyQueue < MyString >  q3{ 10, MyString("!") }; //очередь должна содержать 10 элементов со строкой «!» 
 	q3.printQueue();
 	q1 = q3;
