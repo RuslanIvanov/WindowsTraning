@@ -13,19 +13,23 @@ class MyQueue
 	size_t m_first;
 	size_t m_last;
 public:
+
 	MyQueue( std::initializer_list<T> );
 	MyQueue(size_t n);
+	MyQueue(size_t n, const T& );
 	MyQueue();
 	~MyQueue();
+
+	MyQueue(const MyQueue&);
+	MyQueue(MyQueue&&);
+	MyQueue& operator=(const MyQueue&);
+	MyQueue& operator=(MyQueue&&);
+
 	void push(const T&);
 	T pop();
 	void printQueue();
 
-	T* begin() 
-	{
-		return m_pmass;
-	}
-
+	T* begin(){	return m_pmass;	}
 	T* end() { return m_pmass + m_n; }
 	size_t size() { return  m_n;  }
 
@@ -46,6 +50,7 @@ MyQueue<T>::~MyQueue()
 {
 	delete[] m_pmass;
 }
+
 template<typename T>
 MyQueue<T>::MyQueue() 
 {
@@ -58,6 +63,30 @@ MyQueue<T>::MyQueue()
 		m_pmass = new T[m_cap];
 	}
 	catch (std::bad_alloc) 
+	{
+		m_pmass = nullptr;
+		m_n = 0;
+		m_cap = 0;
+	}
+}
+
+template<typename T>
+MyQueue<T>::MyQueue(size_t n, const T& t) 
+{
+	m_cap = 10;
+	m_n = n;
+	m_first = 0;
+	m_last = 0;
+	try
+	{
+		m_pmass = new T[m_cap + m_n];
+
+		for(size_t i=0 ; i< m_n;i++)
+		{
+			m_pmass[i] = t;
+		}
+	}
+	catch (std::bad_alloc)
 	{
 		m_pmass = nullptr;
 		m_n = 0;
@@ -109,6 +138,31 @@ MyQueue<T>::MyQueue( std::initializer_list<T> list )
 	}
 }
 
+template<typename T>
+MyQueue<T>::MyQueue(const MyQueue& r) 
+{
+
+}
+
+template<typename T>
+MyQueue<T>::MyQueue(MyQueue&& r)
+{
+}
+
+template<typename T> 
+MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
+{
+	if (&r == this) return *this;
+	return *this;
+}
+
+template<typename T> 
+MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
+{
+	if (&r == this) return *this;
+	return *this;
+}
+
 template<typename T> 
 void MyQueue<T>::push(const T& t) 
 {
@@ -123,7 +177,7 @@ T MyQueue<T>::pop()
 template<typename T>
 void MyQueue<T>::printQueue()
 {
-	std::cout << "\nMyQueue is:";
+	std::cout << "\nPRINTF MyQueue: ";
 
 	if (m_n==0 || m_pmass==nullptr)
 	{
