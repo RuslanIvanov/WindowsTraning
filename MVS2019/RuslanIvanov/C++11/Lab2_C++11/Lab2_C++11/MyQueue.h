@@ -182,8 +182,8 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 {
 	if (&r == this) return *this;
 
-	m_first = r.m_first;
-	m_last = r.m_last;
+	m_first = 0;//r.m_first;
+	m_last = r.m_n;//r.m_last;
 	m_cap = 10;
 
 	try
@@ -192,9 +192,11 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 		{
 			m_n = r.m_n;
 			T* p = new T[m_n + m_cap];
-			for (size_t i = 0; i < m_n; i++)
+			size_t ind1 = r.m_first;
+			for (size_t i = 0; i < r.m_n; i++)
 			{
-				p[i] = r.m_pmass[i];
+				p[i] = r.m_pmass[ind1%r.m_n];
+				ind1++;
 			}
 			delete[] m_pmass;
 			m_pmass = p;
@@ -202,9 +204,11 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 		else 
 		{
 			m_n = r.m_n;
+			size_t ind1 = r.m_first;
 			for (size_t i = 0; i < m_n; i++)
 			{
-				m_pmass[i] = r.m_pmass[i];
+				m_pmass[i] = r.m_pmass[ind1 % r.m_n];
+				ind1++;
 			}
 		}
 
@@ -243,20 +247,22 @@ template<typename T>
 void MyQueue<T>::push(const T& t) 
 {
 	
-	if (m_last+1 <( m_n+m_cap ) )
+	if (m_last <( m_n+m_cap ) )
 	{
 		m_pmass[m_last] = t;
 		m_last++;
-		if (m_last >= m_n) { m_n = m_last; }
+		//if (m_last >= m_n) { m_n = m_last; }
 	}else 
 	{//перерасперд
-
+		
+		m_last = (m_first + m_n) % m_cap;
+		m_pmass[m_last] = t;
 	}
 }
 template<typename T>
 T MyQueue<T>::pop()
 {
-	return m_pmass[0];
+	return m_pmass[m_first++];
 }
 
 template<typename T>

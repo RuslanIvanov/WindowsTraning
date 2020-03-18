@@ -52,5 +52,15 @@ int main(int, char**)
 		auto y = a / b;
 		stop
 	}
+
+	size_t ind1 = 0;
+	unsigned char m_pmass[10];
+	unsigned char r_m_pmass[10] = {1,2,3,4,5,6,7,8,9};
+	for (size_t i = 0; i < 20; i++)
+	{
+		m_pmass[i] = r_m_pmass[ind1 % 10];
+		std::cout << " " << ind1 % 10;
+		ind1++;
+	}
 	return 0;
 }

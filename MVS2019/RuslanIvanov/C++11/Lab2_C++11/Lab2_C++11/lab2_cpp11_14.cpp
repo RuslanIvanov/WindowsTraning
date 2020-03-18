@@ -80,6 +80,7 @@ int main(int, char**)
 	q1.push(s);
 	q1.push(MyString("123"));
 	MyString s1 = q1.pop();
+	std::cout << "\ns1 = " << s1;
 	q1.push("qqq");
 	q1.printQueue();
 	MyQueue < MyString >  q2 = q1;
