@@ -35,7 +35,7 @@ public:
 
 	friend  std::ostream& operator<< (std::ostream& os, const MyQueue& s)
 	{
-		for (size_t i = m_first; (i < m_n) && (i < m_last); ++i)
+		for (size_t i = s.m_first; (i < s.m_n) && (i < s.m_last); ++i)
 		{
 			os << m_pmass[i] << "";
 		}
@@ -81,9 +81,9 @@ MyQueue<T>::MyQueue(size_t n, const T& t)
 	{
 		m_pmass = new T[m_cap + m_n];
 
-		for(size_t i=0 ; i< m_n;i++)
+		for(; m_last < m_n;m_last++)
 		{
-			m_pmass[i] = t;
+			m_pmass[m_last] = t;
 		}
 	}
 	catch (std::bad_alloc)
