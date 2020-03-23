@@ -8,12 +8,12 @@ template<typename T>
 class MyQueue
 {
 	T* m_pmass;
-        size_t m_n;// kol-vo elementov v buf
-        size_t m_cap;// razmer buf        
+    size_t m_n;// kol-vo elementov v buf
+    size_t m_cap;// razmer buf        
 	size_t m_first;
 	size_t m_last;
-        const size_t MAX_RESIZE = 5;
-        const size_t RESIZE = 5;
+    const size_t MAX_RESIZE = 5;
+    const size_t RESIZE = 5;
 public:
 
 	MyQueue( std::initializer_list<T> );
@@ -30,25 +30,25 @@ public:
 	void push(const T&);
 	T pop();
 	void printQueue();
-        void printQueueRaw();
+    void printQueueRaw();
 
-       T* begin()
-        {
-            return &m_pmass[m_first];
-        }
-        T* end()
-        {
+   T* begin()
+   {
+             return &m_pmass[m_first];
+   }
+   T* end()
+   {
             return &m_pmass[(m_first+m_n)%m_cap];
-        }//*/
-       // T* begin(){return m_pmass;}
-      //  T* end() { return m_pmass + m_n;}
+   }//*/
+   /* T* begin(){return m_pmass;}
+    T* end() { return m_pmass + m_n;}//*/
 
-        size_t size() { return  m_n;}
-        size_t capacity() { return m_cap;}
+    size_t size() { return  m_n;}
+    size_t capacity() { return m_cap;}
 
 	friend  std::ostream& operator<< (std::ostream& os, const MyQueue& s)
 	{
-                for (size_t i = s.m_first; (i < s.m_n); ++i)
+        for (size_t i = s.m_first; (i < s.m_n); ++i)
 		{
                         os << s.m_pmass[i%s.m_n] << "";
 		}
@@ -67,7 +67,7 @@ MyQueue<T>::~MyQueue()
 template<typename T>
 MyQueue<T>::MyQueue() 
 {
-        m_cap = MAX_RESIZE;
+    m_cap = MAX_RESIZE;
 	m_n = 0;
 	m_first = 0;
 	m_last = 0;
@@ -87,17 +87,17 @@ template<typename T>
 MyQueue<T>::MyQueue(size_t n, const T& t) 
 {	
 	m_n = n;
-        m_cap = n+MAX_RESIZE;
+    m_cap = n+MAX_RESIZE;
 	m_first = 0;
 	m_last = 0;
 	try
 	{
-                m_pmass = new T[m_cap];
+        m_pmass = new T[m_cap];
 
-                for(;m_last< m_n;m_last++)
+        for(;m_last< m_n;m_last++)
 		{
-                        m_pmass[m_last] = t;
-                }
+               m_pmass[m_last] = t;
+        }
 	}
 	catch (std::bad_alloc)
 	{
@@ -110,7 +110,7 @@ MyQueue<T>::MyQueue(size_t n, const T& t)
 template<typename T>
 MyQueue<T>::MyQueue(size_t n)
 {
-        m_cap =n+MAX_RESIZE;
+    m_cap =n+MAX_RESIZE;
 	m_n = n;
 	m_first = 0;
 	m_last = 0;
@@ -130,13 +130,13 @@ template<typename T>
 MyQueue<T>::MyQueue( std::initializer_list<T> list )
 {
 
-        m_n = list.size();// count elements
-        m_cap = m_n+MAX_RESIZE;
+    m_n = list.size();// count elements
+    m_cap = m_n+MAX_RESIZE;
 	m_first = 0;
 	m_last = 0;
 	try
 	{
-                m_pmass = new T[m_cap];
+        m_pmass = new T[m_cap];
 
 		for (auto& l : list) 
 		{
@@ -213,29 +213,29 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 		if (m_n < r.m_n)
 		{
 			m_n = r.m_n;
-                        m_cap = r.m_n+MAX_RESIZE;
-                        std::cout<<"\nresize";
-                        T* p = new T[m_cap];
+            m_cap = r.m_n+MAX_RESIZE;
+            std::cout<<"\nresize";
+            T* p = new T[m_cap];
 			size_t ind1 = r.m_first;
-                        for (size_t i = 0; i < r.m_n; i++)
+            for (size_t i = 0; i < r.m_n; i++)
 			{
                                 std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
                                 p[i] = r.m_pmass[ind1%r.m_n];//go first to last
                                 ind1++;m_last++;
-                        }
+            }
 
 			delete[] m_pmass;
 			m_pmass = p;
 		}
 		else 
 		{
-                        m_n = r.m_n;
-                        size_t ind1 = r.m_first;
-                        for (size_t i = 0; i < r.m_n; i++)
+            m_n = r.m_n;
+            size_t ind1 = r.m_first;
+            for (size_t i = 0; i < r.m_n; i++)
 			{
-                                std::cout<<"\nm_pmass["<<i<<"]"<<m_pmass[i]<<" <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
+                std::cout<<"\nm_pmass["<<i<<"]"<<m_pmass[i]<<" <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
 				m_pmass[i] = r.m_pmass[ind1 % r.m_n];
-                                ind1++;m_last++;
+                ind1++;m_last++;
 
 			}
 
@@ -255,17 +255,17 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 template<typename T> 
 MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
 {
-        std::cout<<"\nMyQueue::move oper=()\n";
+    std::cout<<"\nMyQueue::move oper=()\n";
 
 	if (&r == this) return *this;
 
 	m_n = r.m_n;
 	delete[] m_pmass;
 	m_pmass = r.m_pmass;
-        m_cap = r.m_n+MAX_RESIZE;
+    m_cap = r.m_n+MAX_RESIZE;
 
-        m_last = r.m_last;
-        m_first = r.m_first;
+    m_last = r.m_last;
+    m_first = r.m_first;
 
 	r.m_n = 0;
 	r.m_pmass = nullptr;
@@ -278,9 +278,9 @@ MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
 template<typename T> 
 void MyQueue<T>::push(const T& t) 
 {	
-        std::cout << "\npush: m_n = "<<m_n<<" m_cap = "<<m_cap<<"";
+    std::cout << "\npush: m_n = "<<m_n<<" m_cap = "<<m_cap<<"";
 
-        if (m_n <  m_cap )//count elements < capasity
+    if (m_n <  m_cap )//count elements < capasity
 	{                
                 m_pmass[(m_first+m_n)%m_cap] = t;
                 std::cout << " add in mass["<<(m_first+m_n)%m_cap<<"] = "<<m_pmass[(m_first+m_n)%m_cap];
@@ -305,6 +305,7 @@ void MyQueue<T>::push(const T& t)
 
                         std::cout << "\nresize mass["<<i<<"] = "<<p[i];
                 }
+                m_first = 0;
                 m_last=m_n;//
                 p[m_last] = t;
                 std::cout << " add in mass["<<m_last<<"] = "<<p[m_last];

@@ -67,7 +67,7 @@ int main(int, char**)
         std::cout << "\nMyQueue<int>:------------------------------------------------------------\n";
         MyQueue<int> mq = {0, 1, 2, 3, 4, 5, 8, 7, 8, 9 };
 
-	std::cout <<"\nMyQueue: ";
+	    std::cout <<"\nMyQueue: ";
         for (auto& el : mq) {std::cout << el << '_';}
         stop
         mq.push(10);
