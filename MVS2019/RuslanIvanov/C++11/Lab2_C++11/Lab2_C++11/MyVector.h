@@ -14,7 +14,7 @@ class MyVector
 	T down = T();
 	public:
 		MyVector(T up, T down, std::initializer_list<T>);
-		MyVector() = default;// сгененрирцй сам
+                MyVector() = default;// generate default constructor
 		void applyList(T up, T down, std::initializer_list<T>);
 		bool deleteList(T up, T down, std::initializer_list<T> list ) ;
 		void printVect();
@@ -24,12 +24,11 @@ class MyVector
 //template<typename T>
 //MyVector<T>::MyVector()
 //{
-//} т.к = default
+//} = default
 
 template<typename T>
 MyVector<T>::MyVector(T up, T down, std::initializer_list<T> list)
-{// если значени€ такие в векторе есть, то не всавл€ть
-	//prev,next
+{//prev,next
 
 	if (down < up) 
 	{
@@ -40,8 +39,6 @@ MyVector<T>::MyVector(T up, T down, std::initializer_list<T> list)
 		
 	m_v.reserve(list.size());
 
-	/*std::vector<T>::iterator it = m_v.begin()+down;
-	std::vector<T>::iterator ite = m_v.end();*/
 	for (auto& element : list)
 	{
 		if (m_v.empty())
@@ -60,8 +57,7 @@ MyVector<T>::MyVector(T up, T down, std::initializer_list<T> list)
 
 template<typename T>
 void MyVector<T>::applyList(T up, T down, std::initializer_list<T> list)
-{// если такие значени€ есть в векторе, то не вставл€ть, еслитакие значени€ повтор€бтс€ в списке иниици- то же не вставл€ть
-//prev,next
+{//prev,next
 
 	if (down < up)
 	{
@@ -89,9 +85,7 @@ void MyVector<T>::applyList(T up, T down, std::initializer_list<T> list)
 
 template<typename T>
 bool MyVector<T>::deleteList(T up, T down, std::initializer_list<T> list)
-{
-	//сдвинуть итераторы на значени€ up и down
-	//iterator erase(iterator first, iterator last);
+{	
 	if (m_v.empty())
 	{
 		return false;
@@ -117,7 +111,7 @@ bool MyVector<T>::deleteList(T up, T down, std::initializer_list<T> list)
 
 			it = m_v.erase(it);
 			if(it!=m_v.end())
-			{//удалил
+                        {
 				itb = m_v.begin() ;
 				ite = m_v.end();
 			}
@@ -136,11 +130,6 @@ void  MyVector<T>::printVect()
 	{
 		std::cout << " EMPTY! "; return;
 	}
-
-	/*for (size_t i = 0; i<m_v.size(); ++i)
-	{
-		std::cout <<m_v[i] << " ";
-	}*/
 
 	for (auto& el : m_v) 
 	{
