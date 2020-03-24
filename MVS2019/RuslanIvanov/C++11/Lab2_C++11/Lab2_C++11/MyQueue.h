@@ -34,15 +34,25 @@ public:
 
    T* begin()
    {
-             return &m_pmass[m_first];
+       size_t l = ((m_first + m_n) % m_cap);
+       if (m_first < l)
+           return &m_pmass[m_first];
+       else
+           return m_pmass;
    }
    T* end()
    {
-            return &m_pmass[(m_first+m_n)%m_cap];
+       size_t l = ((m_first + m_n) % m_cap);
+       if (m_first < l)
+           return &m_pmass[(m_first + m_n) % m_cap];
+       else
+           return m_pmass + m_n;
    }//*/
+
+/////////////////////////////////////////////
    /* T* begin(){return m_pmass;}
     T* end() { return m_pmass + m_n;}//*/
-
+////////////////////////////////////////////
     size_t size() { return  m_n;}
     size_t capacity() { return m_cap;}
 
