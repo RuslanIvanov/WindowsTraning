@@ -14,7 +14,7 @@ class MyVector
 	T down = T();
 	public:
 		MyVector(T up, T down, std::initializer_list<T>);
-                MyVector() = default;// generate default constructor
+        MyVector() = default;// generate default constructor
 		void applyList(T up, T down, std::initializer_list<T>);
 		bool deleteList(T up, T down, std::initializer_list<T> list ) ;
 		void printVect();
@@ -98,23 +98,27 @@ bool MyVector<T>::deleteList(T up, T down, std::initializer_list<T> list)
 		up = tmp;
 	}
 
-	//typename T::iterator 
-	typename  std::vector<T>::iterator itb = m_v.begin();
-	typename  std::vector<T>::iterator ite = m_v.end();
+	////typename T::iterator 
+	//typename  std::vector<T>::iterator itb = m_v.begin();
+	//typename  std::vector<T>::iterator ite = m_v.end();
 
 	for (auto& element : list)
 	{
 		if ((up <= element && down >= element))
 		{
-			auto it = std::find(itb, ite, element);
-			if (it == m_v.end()) break;
+			auto it = std::find(m_v.begin(), m_v.end(), element);
+			if (it != m_v.end()) 
+				 m_v.erase(it);
+		
+			/*auto it = std::find(itb, ite, element);
+			if (it == m_v.end())  break;
 
 			it = m_v.erase(it);
-			if(it!=m_v.end())
-                        {
+			if(it!=m_v.end())                        
+			{
 				itb = m_v.begin() ;
 				ite = m_v.end();
-			}
+			}//*/
 		}
 	}
 

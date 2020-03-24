@@ -7,8 +7,28 @@
 #include <memory>
 
 using namespace std;
+using namespace std;
 
-int main()
+#if  _WIN32 
+
+#define	  stop __asm nop
+#include <tchar.h>
+
+#else
+
+#define _tmain main
+#define _TCHAR char 
+
+void mystop()
+{//Linux
+	std::cout << "\nPause\n";
+	getchar();
+}
+
+#define  stop  {mystop();}
+#endif
+
+int main(int,char**)
 {
 	
 	//Задание 1. Сырые строковые литералы (Raw String Literals)
@@ -18,7 +38,8 @@ int main()
 	//в) добавьте разделители (Delimeter)
 
 	{
-
+		std::cout<<std::endl<< "my name is \"Ruslan\"";
+		std::cout << std::endl << R"(my name is "Ruslan")";
 		__asm nop
 	}
 
@@ -113,7 +134,7 @@ int main()
 
 		//5.а - обеспечьте корректное выполнение фрагмента
 		{
-			std::vector<std::string*> v = { new std::string("aa"), new std::string("bb"), new std::string("cc") };
+			//std::vector<std::string*> v = { new std::string("aa"), new std::string("bb"), new std::string("cc") };
 			//Распечатайте все строки
 		
 			__asm nop

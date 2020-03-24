@@ -60,7 +60,7 @@ public:
 	{
         for (size_t i = s.m_first; (i < s.m_n); ++i)
 		{
-                        os << s.m_pmass[i%s.m_cap] << "";
+                        os << s.m_pmass[i%s.m_n] << "";
 		}
 		return os;
 	}
@@ -178,7 +178,7 @@ MyQueue<T>::MyQueue(const MyQueue& r)
                 for (size_t i = 0; i <r.m_n; i++)
                 {
                         std::cout<<"\nm_pmass["<<i<<"] <- r.m_pmass["<<ind1%r.m_n<<"] = "<<r.m_pmass[ind1%r.m_n];
-                        m_pmass[i] = r.m_pmass[ind1%r.m_n];//m_cap
+                        m_pmass[i] = r.m_pmass[ind1%r.m_n];
                         ind1++;m_last++;
                 }
 
@@ -195,11 +195,11 @@ MyQueue<T>::MyQueue(const MyQueue& r)
 template<typename T>
 MyQueue<T>::MyQueue(MyQueue&& r)
 {
-    std::cout<<"\nMyQueue(MyQueue&& )\n";
+        std::cout<<"\nMyQueue(MyQueue&& )\n";
 	m_n=r.m_n;
 	m_pmass = r.m_pmass;
-    m_cap = r.m_cap;//r.m_n+MAX_RESIZE;
-    m_last = r.m_last;//net perezapisi - ostavit indeksi kak est'
+        m_cap = r.m_n+MAX_RESIZE;
+        m_last = r.m_last;//net perezapisi - ostavit indeksi kak est'
 	m_first = r.m_first;
 
 	r.m_n = 0;
@@ -220,7 +220,7 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 
 	try
 	{
-		if (m_n < r.m_n)//m_cap <= r.m_n + 1
+		if (m_n < r.m_n)
 		{
 			m_n = r.m_n;
             m_cap = r.m_n+MAX_RESIZE;
@@ -230,7 +230,7 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
             for (size_t i = 0; i < r.m_n; i++)
 			{
                                 std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
-                                p[i] = r.m_pmass[ind1%r.m_n];//go first to last m_cap
+                                p[i] = r.m_pmass[ind1%r.m_n];//go first to last
                                 ind1++;m_last++;
             }
 
@@ -272,7 +272,7 @@ MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
 	m_n = r.m_n;
 	delete[] m_pmass;
 	m_pmass = r.m_pmass;
-    m_cap = r.m_cap;//для r.m_n+MAX_RESIZE;
+    m_cap = r.m_n+MAX_RESIZE;
 
     m_last = r.m_last;
     m_first = r.m_first;
@@ -295,9 +295,8 @@ void MyQueue<T>::push(const T& t)
                 m_pmass[(m_first+m_n)%m_cap] = t;
                 std::cout << " add in mass["<<(m_first+m_n)%m_cap<<"] = "<<m_pmass[(m_first+m_n)%m_cap];
 
-              //  m_last++; //= (m_first+m_n)%m_cap;
-                m_last = (m_last + 1) % m_cap;
-            //    if(m_last>m_n){m_last=0;}
+                m_last++; //= (m_first+m_n)%m_cap;
+                if(m_last>m_n){m_last=0;}
                 m_n++;
 
 
@@ -305,14 +304,13 @@ void MyQueue<T>::push(const T& t)
         {
                 //m_last = (m_first + m_n) % m_cap;
                 //m_pmass[m_last] = t;
-                //m_cap = m_cap+RESIZE;
+                m_cap = m_cap+RESIZE;
+                T* p = new T[m_cap];
 
-               // T* p = new T[m_cap];//m_cap+RESIZE
-                 T* p = new T[m_cap+RESIZE];
                 size_t ind1 = m_first;
                 for (size_t i = 0;i<m_n;i++)
                 {
-                    p[i] = m_pmass[ind1 % m_cap];//m_n];//для перехода на начало массива -> %m_cap
+                        p[i] = m_pmass[ind1%m_n];//
                         ind1++;//?
 
                         std::cout << "\nresize mass["<<i<<"] = "<<p[i];
@@ -323,8 +321,7 @@ void MyQueue<T>::push(const T& t)
                 std::cout << " add in mass["<<m_last<<"] = "<<p[m_last];
                // m_last= (m_first+m_n)%m_cap;
                 m_n++;
-                //m_last++;// 
-                m_last = (m_first + m_n) % m_cap;
+                m_last++;// = (m_first+m_n)%m_cap;
                 delete[] m_pmass;
                 m_pmass = p;
 	}
@@ -337,15 +334,10 @@ T MyQueue<T>::pop()
 
     if(m_n==0){ throw "\nQueue is empty!\n"; }
 
-    m_first = (m_first + 1) % m_cap;
-    std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
-    m_n--;
-    std::cout << " m_n = " << m_n << " m_first " << m_first;
-
-    /*if(m_n<m_cap)
+    if(m_n<m_cap)
     {
-        m_first m_first++;
-        // ind2 =(m_first+m_n)%m_cap;//position last
+        m_first++;
+       // ind2 =(m_first+m_n)%m_cap;//position last
         std::cout << "\n[pop mass["<<ind1<<"] = "<<m_pmass[ind1]<<"] ";
         if(m_first>=m_n)
         {
@@ -353,7 +345,7 @@ T MyQueue<T>::pop()
         }
         m_n--;
         std::cout << " m_n = "<<m_n<<" m_first "<< m_first;
-    //}else { throw "\nQueue size is error!\n";  }//*/
+    }else { throw "\nQueue size is error!\n";  }
 
     return m_pmass[ind1];
 }
@@ -390,8 +382,14 @@ void MyQueue<T>::printQueue()
         //size_t n = (m_first+m_n)%m_cap;
         size_t ind1 = m_first;
         for(size_t i = 0; i < m_n; ++i)
-	    {
+	{
              std::cout <<"\n#"<<i<<" mass["<<ind1%m_cap<<"] = "<< m_pmass[ind1%m_cap];
              ind1++;
+              //  if((ind1%m_n) == m_last) { std::cout <<"\nend\n";break;}
+           // if(m_last> m_n)
+           // std::cout <<"\n#"<<ind1<<" mass["<<ind1%m_n<<"] = "<< m_pmass[ind1%m_n];
+          //  else
+          //  std::cout <<"\n#"<<ind1<<" mass["<<ind1%m_last<<"] = "<< m_pmass[ind1%m_last];
+          //   ind1++;
         }
 }

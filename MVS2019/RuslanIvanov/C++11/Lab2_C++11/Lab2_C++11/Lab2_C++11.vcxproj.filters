@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lab2_cpp11_14.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MyVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>

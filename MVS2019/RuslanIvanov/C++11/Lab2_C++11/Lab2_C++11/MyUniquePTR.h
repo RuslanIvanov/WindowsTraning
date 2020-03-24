@@ -9,10 +9,12 @@
 template<typename T>
 class MyUniquePTR
 {
-	T* m_p;
+	//T* m_p;
+	T* m_p = nullptr;
+
 	protected:
-	MyUniquePTR (const MyUniquePTR&){}
-	MyUniquePTR& operator=(const MyUniquePTR&){ return *this; }
+		MyUniquePTR(const MyUniquePTR&) = delete; //{}
+		MyUniquePTR& operator=(const MyUniquePTR&) = delete; //{ return *this; }
 
 	public:
 	
@@ -34,17 +36,19 @@ class MyUniquePTR
 		return *this; 
 	}
 
-	MyUniquePTR(){ m_p = nullptr; }
+	//MyUniquePTR(){ m_p = nullptr; }
+	MyUniquePTR() { }
 	MyUniquePTR(T* p):m_p(p){}
 	~MyUniquePTR(){delete m_p;}
 
 	T* get() const { return m_p; }
-	T* operator->() { return m_p; }
-	T& operator*()	{ return *m_p; }
+	T* operator->() const { return m_p; }
+	T& operator*()  const { return *m_p; }
 
 	explicit operator bool() const noexcept
 	{
-		if(get()==nullptr) return false;
+		//if(get()==nullptr) return false;
+		if (m_p == nullptr) return false;
 		else return true;
 	}
 };

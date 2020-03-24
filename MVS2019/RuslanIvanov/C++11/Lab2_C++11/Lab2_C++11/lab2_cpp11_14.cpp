@@ -63,7 +63,7 @@ int main(int, char**)
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-        {
+    {
         std::cout << "\nMyQueue<int>:------------------------------------------------------------\n";
         MyQueue<int> mq = {0, 1, 2, 3, 4, 5, 8, 7, 8, 9 };
 
@@ -135,7 +135,7 @@ int main(int, char**)
 
         }
 	//////////////////////////////////////////////////////////////////////////////////
-        std::cout << "\nMyQueue<MyString>:------------------------------------------------------------\n";
+    std::cout << "\nMyQueue<MyString>:------------------------------------------------------------\n";
 	MyQueue<MyString>  q1{ MyString("AAA"), MyString("qwerty"), MyString("BBB"),  MyString("CCC")};
 
 	std::cout << "\nMyQueue: ";
@@ -148,33 +148,34 @@ int main(int, char**)
 	std::cout << "\ns1 = " << s1;
 	q1.push("qqq");
 	q1.printQueue();
-        stop
+    stop
 	MyQueue < MyString >  q2 = q1;
 	MyQueue < MyString >  q22 = std::move(q1);
-        std::cout << "\nq1 after move ";
+
+    std::cout << "\nq1 after move ";
 	q1.printQueue();
-        std::cout << "\nq22 after move ";
-        q22.printQueue();
-        stop
+    std::cout << "\nq22 after move ";
+    q22.printQueue();
+    stop
 
 	MyQueue < MyString >  q3{ 10, MyString("!") }; ///очередь должна содержать 10 элементов со строкой «!» 
 	q3.printQueue();
 	q1 = q3;
-        q1.printQueue();
-        stop
+    q1.printQueue();
+    stop
 
 	q2 = MyQueue < MyString >(5, MyString(" ? "));
-        std::cout << "\nq2 after move oper=()";
-        q2.printQueue();
+    std::cout << "\nq2 after move oper=()";
+    q2.printQueue();
 
 	q1 = { MyString("bbb"), MyString("ssss") };
-        std::cout << "\nq1 after move oper=()";
-        q1.printQueue();
-         std::cout << "\nMyQueue<MyString>:---------------------------------------------------------end\n";
+    std::cout << "\nq1 after move oper=()";
+    q1.printQueue();
+    std::cout << "\nMyQueue<MyString>:---------------------------------------------------------end\n";
 	///////////////////////////////////////////////////////////////////////////////////
 	stop
 
-        {
+    {
         std::cout << "\nMyUniquePTR<MyString>:------------------------------------------------------------\n";
         MyUniquePTR<MyString> p1(new MyString ("abc"));
         std:: cout<<"p1 = "<< p1->GetString();
@@ -209,9 +210,9 @@ int main(int, char**)
         //как скопировать из v в l ???
         std::cout<<"\nl ";
         for (auto& el : l) {std::cout << *el << ';';}
-        }
-        std::cout << "\nMyUniquePTR<MyString>:---------------------------------------------------------end\n";
-        ///////////////////////////////////////////////////////////////////////////////////
-        stop
+     }
+    std::cout << "\nMyUniquePTR<MyString>:---------------------------------------------------------end\n";
+    ///////////////////////////////////////////////////////////////////////////////////
+    stop
 	return 0;
 }
