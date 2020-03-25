@@ -168,17 +168,17 @@ MyQueue<T>::MyQueue(const MyQueue& r)
         m_n = r.m_n;
         m_first = 0;
         m_last = 0;
-        std::cout<<"\nMyQueue(const MyQueue&): copy r.m_last = "<<r.m_last<<" r.m_n = "<<r.m_n;
+        std::cout<<"\nMyQueue(const MyQueue&): copy r.m_last = "<<r.m_last<<" r.m_n = "<<r.m_n<<" r.m_cap"<<r.m_cap;
         m_cap = r.m_n + MAX_RESIZE;
 
         try
         {
                 m_pmass = new T[m_cap];
                 size_t ind1 = r.m_first;
-                for (size_t i = 0; i <r.m_n; i++)
+                for (size_t i = 0; i < r.m_n; i++)
                 {
-                        std::cout<<"\nm_pmass["<<i<<"] <- r.m_pmass["<<ind1%r.m_n<<"] = "<<r.m_pmass[ind1%r.m_n];
-                        m_pmass[i] = r.m_pmass[ind1%r.m_n];//m_cap
+                        std::cout<<"\nm_pmass["<<i<<"] <- r.m_pmass["<<ind1%r.m_cap<<"] = "<<r.m_pmass[ind1%r.m_cap];
+                        m_pmass[i] = r.m_pmass[ind1%r.m_cap];//m_cap
                         ind1++;m_last++;
                 }
 
@@ -198,7 +198,7 @@ MyQueue<T>::MyQueue(MyQueue&& r)
     std::cout<<"\nMyQueue(MyQueue&& )\n";
 	m_n=r.m_n;
 	m_pmass = r.m_pmass;
-    m_cap = r.m_cap;//r.m_n+MAX_RESIZE;
+    m_cap = r.m_cap;//при премещении забирать весь объем (всю емкость)
     m_last = r.m_last;//net perezapisi - ostavit indeksi kak est'
 	m_first = r.m_first;
 
@@ -220,7 +220,8 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 
 	try
 	{
-		if (m_n < r.m_n)//m_cap <= r.m_n + 1
+		//if (m_n < r.m_n)//m_cap <= r.m_n + 1
+        if(m_cap <= (r.m_n + 1))
 		{
 			m_n = r.m_n;
             m_cap = r.m_n+MAX_RESIZE;
@@ -229,8 +230,8 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 			size_t ind1 = r.m_first;
             for (size_t i = 0; i < r.m_n; i++)
 			{
-                                std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
-                                p[i] = r.m_pmass[ind1%r.m_n];//go first to last m_cap
+                                std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_cap<<"]"<<r.m_pmass[ind1%r.m_cap];
+                                p[i] = r.m_pmass[ind1%r.m_cap];//go first to last m_cap
                                 ind1++;m_last++;
             }
 
@@ -243,9 +244,9 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
             size_t ind1 = r.m_first;
             for (size_t i = 0; i < r.m_n; i++)
 			{
-                std::cout<<"\nm_pmass["<<i<<"]"<<m_pmass[i]<<" <- r.m_pmass["<<ind1%r.m_n<<"]"<<r.m_pmass[ind1%r.m_n];
-				m_pmass[i] = r.m_pmass[ind1 % r.m_n];
-                ind1++;m_last++;
+                std::cout<<"\nm_pmass["<<i<<"]"<<m_pmass[i]<<" <- r.m_pmass["<<ind1%r.m_cap<<"]"<<r.m_pmass[ind1%r.m_cap];
+				m_pmass[i] = r.m_pmass[ind1 % r.m_cap];
+                ind1++; m_last++;
 
 			}
 
@@ -272,7 +273,7 @@ MyQueue<T>& MyQueue<T>::operator=(MyQueue<T>&& r)
 	m_n = r.m_n;
 	delete[] m_pmass;
 	m_pmass = r.m_pmass;
-    m_cap = r.m_cap;//для r.m_n+MAX_RESIZE;
+    m_cap = r.m_cap;//при премещении забирать весь объем (всю емкость)
 
     m_last = r.m_last;
     m_first = r.m_first;
@@ -290,41 +291,44 @@ void MyQueue<T>::push(const T& t)
 {	
     std::cout << "\npush: m_n = "<<m_n<<" m_cap = "<<m_cap<<"";
 
-    if (m_n <  m_cap )//count elements < capasity
+    if (m_n < m_cap )//count elements < capasity
 	{                
-                m_pmass[(m_first+m_n)%m_cap] = t;
-                std::cout << " add in mass["<<(m_first+m_n)%m_cap<<"] = "<<m_pmass[(m_first+m_n)%m_cap];
+              m_pmass[(m_first+m_n)%m_cap] = t;//в m_last
+              std::cout << " add in mass["<<(m_first+m_n)%m_cap<<"] = "<<m_pmass[(m_first+m_n)%m_cap];
 
-              //  m_last++; //= (m_first+m_n)%m_cap;
-                m_last = (m_last + 1) % m_cap;
-            //    if(m_last>m_n){m_last=0;}
-                m_n++;
-
-
+              //m_last++; //= (m_first+m_n)%m_cap;
+              //if(m_last>m_n){m_last=0;}
+              m_last = (m_last + 1) % m_cap; //== m_last++; m_last = (m_first+m_n)%m_cap; 
+              m_n++;
 	}else 
         {
                 //m_last = (m_first + m_n) % m_cap;
                 //m_pmass[m_last] = t;
                 //m_cap = m_cap+RESIZE;
 
-               // T* p = new T[m_cap];//m_cap+RESIZE
-                 T* p = new T[m_cap+RESIZE];
+                // T* p = new T[m_cap];//m_cap+RESIZE
+
+                T* p = new T[m_cap+RESIZE];
                 size_t ind1 = m_first;
                 for (size_t i = 0;i<m_n;i++)
                 {
                     p[i] = m_pmass[ind1 % m_cap];//m_n];//для перехода на начало массива -> %m_cap
-                        ind1++;//?
+                    ind1++;
 
-                        std::cout << "\nresize mass["<<i<<"] = "<<p[i];
+                    std::cout << "\nresize mass["<<i<<"] = "<<p[i];
                 }
+
                 m_first = 0;
-                m_last=m_n;//
+                m_last=m_n;
                 p[m_last] = t;
                 std::cout << " add in mass["<<m_last<<"] = "<<p[m_last];
-               // m_last= (m_first+m_n)%m_cap;
-                m_n++;
-                //m_last++;// 
-                m_last = (m_first + m_n) % m_cap;
+
+                //m_last= (m_first+m_n)%m_cap;
+                //m_last++;//
+
+                m_n++;//!!!!
+                m_last = (m_first + m_n) % m_cap;//!!!!
+
                 delete[] m_pmass;
                 m_pmass = p;
 	}
@@ -378,16 +382,14 @@ template<typename T>
 void MyQueue<T>::printQueue()
 {
 	std::cout << "\nPRINTF MyQueue: ";
-        std::cout << " m_n "<<m_n<<" m_cap = "<<m_cap<<"";
+    std::cout << " m_n "<<m_n<<" m_cap = "<<m_cap<<"";
 	if (m_n==0 || m_pmass==nullptr)
 	{
                 std::cout << " is EMPTY! "; return;
-        }
-
-
+    }
+    
         std::cout <<"\nfirst "<<m_first;
-        std::cout <<" last "<<(m_first+m_n)%m_cap;//m_last;
-        //size_t n = (m_first+m_n)%m_cap;
+        std::cout <<" last "<<(m_first+m_n)%m_cap;
         size_t ind1 = m_first;
         for(size_t i = 0; i < m_n; ++i)
 	    {

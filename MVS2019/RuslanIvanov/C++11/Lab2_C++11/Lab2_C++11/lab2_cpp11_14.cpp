@@ -12,7 +12,7 @@
 #include <utility>
 
 #include "MyString.h"
-#include "lab2_cpp11_14.h"
+
 #include "MyVector.h"
 #include "MyQueue.h"
 #include "MyUniquePTR.h"
