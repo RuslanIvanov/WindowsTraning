@@ -213,7 +213,7 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 {
         std::cout<<"\nMyQueue::oper=()\n";
 
-	if (&r == this) return *this;
+	    if (&r == this) return *this;
 
         m_last = 0;
         m_first = 0;
