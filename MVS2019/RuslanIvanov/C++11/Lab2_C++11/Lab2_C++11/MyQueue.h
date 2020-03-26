@@ -230,9 +230,9 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 			size_t ind1 = r.m_first;
             for (size_t i = 0; i < r.m_n; i++)
 			{
-                                std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_cap<<"]"<<r.m_pmass[ind1%r.m_cap];
-                                p[i] = r.m_pmass[ind1%r.m_cap];//go first to last m_cap
-                                ind1++;m_last++;
+                std::cout<<"\np["<<i<<"] <- r.m_pmass["<<ind1%r.m_cap<<"]"<<r.m_pmass[ind1%r.m_cap];
+                p[i] = r.m_pmass[ind1%r.m_cap]; //go first to last m_cap
+                ind1++;m_last++;
             }
 
 			delete[] m_pmass;
@@ -325,7 +325,7 @@ void MyQueue<T>::push(const T& t)
 
                 //m_last= (m_first+m_n)%m_cap;
                 //m_last++;//
-
+                m_cap = m_cap + RESIZE;
                 m_n++;//!!!!
                 m_last = (m_first + m_n) % m_cap;//!!!!
 
@@ -393,7 +393,7 @@ void MyQueue<T>::printQueue()
         size_t ind1 = m_first;
         for(size_t i = 0; i < m_n; ++i)
 	    {
-             std::cout <<"\n#"<<i<<" mass["<<ind1%m_cap<<"] = "<< m_pmass[ind1%m_cap];
+             std::cout <<"\n#"<<i<<" mass["<<ind1%m_cap<<"] = "<< m_pmass[ind1%m_cap];//m_n
              ind1++;
         }
 }

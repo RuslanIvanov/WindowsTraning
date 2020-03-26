@@ -78,24 +78,27 @@ int main(int, char**)
        //stop
         mq.printQueue();
         stop
-        size_t n = mq.size()+4;
+        size_t n = mq.size();
         std::cout<<"\nnew size "<<n<<"\n";
         for(size_t i =0; i < 4; i++)
         {
              mq.push(i+n);
         }
 
+        std::cout << "\nmq: \n";
         mq.printQueue();
         stop
+        std::cout << "\nmq2: \n";
         MyQueue<int> mq2 = mq;
         mq2.printQueue();
         stop
 
         MyQueue<int> mq3 { 5, 5, 5 };
+        std::cout << "\nmq3: ";
         mq3.printQueue();
         stop
         mq3 = mq2;
-        std::cout <<"\nmq3: \n";
+        std::cout <<"\nmq3=mq2: \n";
         mq3.printQueue();
         stop
 
