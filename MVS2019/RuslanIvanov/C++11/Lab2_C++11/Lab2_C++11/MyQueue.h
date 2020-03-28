@@ -31,6 +31,9 @@ public:
 	T pop();
 	void printQueue();
     void printQueueRaw();
+   
+    //inline iterator begin() { detach(); return reinterpret_cast<Node*>(p.begin()); }
+   // inline const_iterator begin() const { return reinterpret_cast<Node*>(p.begin()); }
 
    T* begin()
    {
@@ -49,6 +52,16 @@ public:
            return m_pmass + m_n;
    }//*/
 
+   T* operator->()  
+   {
+       return m_pmass;
+   }
+
+   operator T*() 
+   {
+       return m_pmass;
+   }
+
 /////////////////////////////////////////////
    /* T* begin(){return m_pmass;}
     T* end() { return m_pmass + m_n;}//*/
@@ -56,6 +69,49 @@ public:
     size_t size() { return  m_n;}
     size_t capacity() { return m_cap;}
 
+    class iterator 
+    {
+    public:
+        T* pm;
+       
+        typedef T value_type;
+
+        inline iterator() : pm(nullptr) {}
+        inline iterator(T* t) : pm(t) {}
+        inline iterator(const iterator& r) : pm(r.pm) {}
+        inline T& operator*() const { return pm; }
+        inline T* operator->() const { return pm; }
+       // inline T& operator[](int j) const { return i[j].t(); }
+        //inline bool operator==(const iterator& o) const { return i == o.i; }
+       // inline bool operator!=(const iterator& o) const { return i != o.i; }
+       // inline bool operator<(const iterator& other) const { return i < other.i; }
+       // inline bool operator<=(const iterator& other) const { return i <= other.i; }
+       // inline bool operator>(const iterator& other) const { return i > other.i; }
+       // inline bool operator>=(const iterator& other) const { return i >= other.i; }
+
+        inline iterator& operator++() { ++pm; return *this; }
+      //  inline iterator operator++(int) { Node* n = i; ++i; return n; }
+       // inline iterator& operator--() { i--; return *this; }
+       // inline iterator operator--(int) { Node* n = i; i--; return n; }
+      //  inline iterator& operator+=(int j) { i += j; return *this; }
+       // inline iterator& operator-=(int j) { i -= j; return *this; }
+       // inline iterator operator+(int j) const { return iterator(i + j); }
+        //inline iterator operator-(int j) const { return iterator(i - j); }
+       // inline int operator-(iterator j) const { return int(i - j.i); }
+
+        T* begin()
+        {
+          
+               
+                return m_pmass;
+        }
+        T* end()
+        {
+           
+                return m_pmass + m_n;
+        }
+    };
+    friend class iterator;
 	friend  std::ostream& operator<< (std::ostream& os, const MyQueue& s)
 	{
         for (size_t i = s.m_first; (i < s.m_n); ++i)
@@ -178,7 +234,7 @@ MyQueue<T>::MyQueue(const MyQueue& r)
                 for (size_t i = 0; i < r.m_n; i++)
                 {
                         std::cout<<"\nm_pmass["<<i<<"] <- r.m_pmass["<<ind1%r.m_cap<<"] = "<<r.m_pmass[ind1%r.m_cap];
-                        m_pmass[i] = r.m_pmass[ind1%r.m_cap];//m_cap
+                        m_pmass[i] = r.m_pmass[ind1%r.m_cap];//было m_n
                         ind1++;m_last++;
                 }
 
@@ -208,7 +264,7 @@ MyQueue<T>::MyQueue(MyQueue&& r)
 	r.m_last = r.m_first = 0;
 }
 
-template<typename T> 
+/*template<typename T> 
 MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 {
         std::cout<<"\nMyQueue::oper=()\n";
@@ -263,6 +319,45 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 	}
 
 	return *this;
+}//*/
+
+template<typename T>
+MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
+{
+    std::cout << "\nMyQueue::oper=()\n";
+
+    if (&r == this) return *this;
+
+    m_last = 0;
+    m_first = 0;
+
+    try
+    {
+            if (m_cap <= (r.m_n + 1))
+            {
+                m_cap = r.m_n + MAX_RESIZE;
+                delete[] m_pmass;
+                m_pmass = new T[m_cap];
+            }
+           
+            m_n = r.m_n;
+            size_t ind1 = r.m_first;
+            for (size_t i = 0; i < r.m_n; i++)
+            {
+                std::cout << "\nm_pmass[" << i << "]" << m_pmass[i] << " <- r.m_pmass[" << ind1 % r.m_cap << "]" << r.m_pmass[ind1 % r.m_cap];
+                m_pmass[i] = r.m_pmass[ind1 % r.m_cap];
+                ind1++; m_last++;
+
+            }
+    }
+    catch (std::bad_alloc)
+    {
+        m_pmass = nullptr;
+        m_n = 0;
+        m_cap = 0;
+    }
+
+    return *this;
 }
 
 template<typename T> 
