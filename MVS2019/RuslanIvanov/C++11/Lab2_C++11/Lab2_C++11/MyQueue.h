@@ -223,10 +223,12 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 		//if (m_n < r.m_n)//m_cap <= r.m_n + 1
         if(m_cap <= (r.m_n + 1))
 		{
-			m_n = r.m_n;
+			
             m_cap = r.m_n+MAX_RESIZE;
             std::cout<<"\nresize";
             T* p = new T[m_cap];
+
+            m_n = r.m_n;
 			size_t ind1 = r.m_first;
             for (size_t i = 0; i < r.m_n; i++)
 			{
