@@ -1,0 +1,17 @@
+Правильное объявление шаблона класса друга:
+
+template<class F> friend class library_file;
+
+Вы забыли class ключевое слово в library_file.hпосле этого компилируется нормально
+
+#ifndef CMAKE_CPP_SPIELWIESE_LIBRARY_H
+#define CMAKE_CPP_SPIELWIESE_LIBRARY_H
+
+template <typename F>
+class library_file;
+
+class library {
+template <typename F>
+friend class library_file;
+
+};#endif //CMAKE_CPP_SPIELWIESE_LIBRARY_H

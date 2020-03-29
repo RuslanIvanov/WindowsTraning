@@ -135,7 +135,7 @@ int main(int, char**)
         std::cout << "\nMyQueue<int>:-------------------------------------------------------------end\n";
 
         stop
-            MyQueue<int>::iterator it;
+        //  MyQueue<int>::MyQueueIter<int> iter;
 
         }
 	//////////////////////////////////////////////////////////////////////////////////

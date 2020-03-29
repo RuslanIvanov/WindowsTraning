@@ -9,14 +9,6 @@
 template<typename T>
 class MyQueue
 {
-    typedef MyQueueIter<T> iterator;
-    typedef size_t size_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
-    typedef T& reference;
-    typedef const T& const_reference;
-    typedef T value_type;
-
 	T* m_pmass;
     size_t m_n;// kol-vo elementov v buf
     size_t m_cap;// razmer buf        
@@ -45,17 +37,7 @@ public:
 	void printQueue();
     void printQueueRaw();
 
-    MyQueueIter<T> begin()
-    {
-        return MyQueueIter<T>(m_pmass);
-    }
-    MyQueueIter<T> end()
-    {
-        return MyQueueIter<T>( m_pmass + m_n );
-    }
-
    // надо было сделать итератор
-   /*
    T* begin()
    {
        size_t l = ((m_first + m_n) % m_cap);
