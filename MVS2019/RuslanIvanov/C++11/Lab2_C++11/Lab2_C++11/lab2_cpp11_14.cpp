@@ -132,6 +132,14 @@ int main(int, char**)
         std::cout <<"\nMyQueue 3: ";
         for (auto& el : mq3) {std::cout << el << ':';}
         stop
+            
+        for(int i =0;i<4;i++)
+        std::cout<<"\npop mq3: "<<mq3.pop();
+
+        std::cout << "\nMyQueue 3: ";
+        mq3.printQueue();
+        std::cout << "\nMyQueue 3: ";
+        for (auto& el : mq3) { std::cout << el << ':'; }
         std::cout << "\nMyQueue<int>:-------------------------------------------------------------end\n";
 
         stop

@@ -6,6 +6,8 @@
 #include <initializer_list>
 #include "MyQueueIter.h"
 
+template <typename T> class MyQueueIter;
+
 template<typename T>
 class MyQueue
 {
@@ -44,17 +46,18 @@ public:
 	T pop();
 	void printQueue();
     void printQueueRaw();
-
+    
     MyQueueIter<T> begin()
     {
-        return MyQueueIter<T>(m_pmass);
+        return MyQueueIter<T>(&m_pmass[m_first]);
     }
     MyQueueIter<T> end()
     {
-        return MyQueueIter<T>( m_pmass + m_n );
-    }
+        return MyQueueIter<T>( &m_pmass[m_last] );
+    }//*/
 
    // надо было сделать итератор
+   // работает
    /*
    T* begin()
    {
@@ -77,7 +80,7 @@ public:
    operator T*() { return m_pmass; }
 
 /////////////////////////////////////////////
-   /* T* begin(){return m_pmass;}
+ /* T* begin(){return m_pmass;}
     T* end() { return m_pmass + m_n;}//*/
 ////////////////////////////////////////////
     size_t size() { return  m_n;}
@@ -88,7 +91,7 @@ public:
 	{
         for (size_t i = s.m_first; (i < s.m_n); ++i)
 		{
-                        os << s.m_pmass[i%s.m_cap] << "";
+             os << s.m_pmass[i%s.m_cap] << "";
 		}
 		return os;
 	}
@@ -411,9 +414,9 @@ T MyQueue<T>::pop()
     if(m_n==0){ throw "\nQueue is empty!\n"; }
 
     m_first = (m_first + 1) % m_cap;
-    std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
+    //std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
     m_n--;
-    std::cout << " m_n = " << m_n << " m_first " << m_first;
+    //std::cout << " m_n = " << m_n << " m_first " << m_first;
 
     /*if(m_n<m_cap)
     {
