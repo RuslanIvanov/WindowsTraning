@@ -7,7 +7,7 @@
 #include <memory>
 
 using namespace std;
-using namespace std;
+#include "Header.h"
 
 #if  _WIN32 
 
@@ -40,6 +40,8 @@ int main(int,char**)
 	{
 		std::cout<<std::endl<< "my name is \"Ruslan\"";
 		std::cout << std::endl << R"(my name is "Ruslan")";
+		//delimiter:
+		std::cout << std::endl << R"abc(my name is "Ruslan")abc";
 		__asm nop
 	}
 
@@ -59,8 +61,14 @@ int main(int,char**)
 	//				посредством constexpr-функции:
 
 	{	//Например:
-		//int ar[factorial(3)];
-
+		constexpr int rez = factorial(3);
+		std::cout << std::endl<<"rez = "<<rez;
+		int ar[factorial(3)];
+		std::cout << std::endl;
+		for (int a :  ar) 
+		{
+			std::cout << " "<<a;
+		}
 		//или
 		//constexpr int n = factorial(5);
 		//int ar1[n];
