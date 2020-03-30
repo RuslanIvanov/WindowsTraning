@@ -40,22 +40,61 @@ public:
 	MyQueue& operator=(const MyQueue&);
 	MyQueue& operator=(MyQueue&&);
 
-    MyQueueIter<T> iter;
+ //   MyQueueIter<T> iter;
 
 	void push(const T&);
 	T pop();
 	void printQueue();
     void printQueueRaw();
+
+    /*MyQueueIter<T> begin()//????
+    {
+        return MyQueueIter<T>(&m_pmass[m_first], m_first%m_cap);
+    }
+
+    MyQueueIter<T> end()
+    {
+        return MyQueueIter<T>(&m_pmass[m_last], (m_first+m_n) % m_cap);
+
+    }//*/
+
+  /* MyQueueIter<T> begin()//????
+   {
+       return MyQueueIter<T>(&m_pmass[m_first],m_first,m_last,m_n,m_cap);
+   }
+
+   MyQueueIter<T> end()
+   {
+       return MyQueueIter<T>( &m_pmass[m_last], m_first, m_last, m_n, m_cap);
+   }//*/
     
-    MyQueueIter<T> begin()
+   /* MyQueueIter<T> begin()//????
     {
         return MyQueueIter<T>(&m_pmass[m_first]);
     }
     MyQueueIter<T> end()
     {
-        return MyQueueIter<T>( &m_pmass[m_last] );
+        return MyQueueIter<T>( &m_pmass[m_last]);
+    }//*/
+    MyQueueIter<T> begin()
+    {
+        size_t l = ((m_first + m_n) % m_cap);
+        if (m_first < l)
+            return MyQueueIter<T>( &m_pmass[m_first]);
+        else
+            return MyQueueIter<T>( m_pmass );
+       
+    }
+    MyQueueIter<T> end()
+    {
+        size_t l = ((m_first + m_n) % m_cap);
+        if (m_first < l)
+            return  MyQueueIter<T>( &m_pmass[(m_first + m_n) % m_cap] );
+        else
+            return  MyQueueIter<T>( m_pmass + m_n );
     }//*/
 
+    /////////////////////////////////////////////////
    // надо было сделать итератор
    // работает
    /*
@@ -75,13 +114,13 @@ public:
        else
            return m_pmass + m_n;
    }//*/
-
-   T* operator->()  { return m_pmass;   }
-   operator T*() { return m_pmass; }
-
-/////////////////////////////////////////////
- /* T* begin(){return m_pmass;}
-    T* end() { return m_pmass + m_n;}//*/
+   //////////////////////////////////////////////////
+    //  T* operator->()  { return m_pmass;   }
+    //   operator T*() { return m_pmass; }
+//////////////////////////////////////////////////
+///////////////////////////////////////////////
+//   T* begin(){return m_pmass;}
+//   T* end() { return m_pmass + m_n;}//*/
 ////////////////////////////////////////////
     size_t size() { return  m_n;}
     size_t capacity() { return m_cap;}

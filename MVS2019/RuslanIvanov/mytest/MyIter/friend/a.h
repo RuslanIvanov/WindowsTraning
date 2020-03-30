@@ -7,8 +7,8 @@ template <class T>
 class A
 {
     T t;
-    int n = 0;
-    friend class B<T>;
+    const char* name = "class A";
+
 public:
-    void Test(const B<T>& b) { t = b.t; }
+    void Test(const B<T>& b) { t = b.t; std::cout<<"name "<<b.name; }
 };

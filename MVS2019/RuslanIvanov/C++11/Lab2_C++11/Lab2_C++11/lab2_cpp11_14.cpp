@@ -74,8 +74,7 @@ int main(int, char**)
         mq.push(11);
         mq.push(12);
         mq.push(13);
-       //mq.printQueueRaw();
-       //stop
+        std::cout << "\nmq: \n";
         mq.printQueue();
         stop
         size_t n = mq.size();
