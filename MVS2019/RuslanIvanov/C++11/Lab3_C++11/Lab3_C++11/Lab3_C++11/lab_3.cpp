@@ -61,25 +61,26 @@ int main(int,char**)
 	//				посредством constexpr-функции:
 
 	{	//Например:
-		constexpr int rez = factorial(3);
+		constexpr unsigned int rez = factorial(3);// 3 известна на момент компил
 		std::cout << std::endl<<"rez = "<<rez;
+
 		int ar[factorial(3)];
 		std::cout << std::endl;
-		for (int a :  ar) 
-		{
-			std::cout << " "<<a;
-		}
-		//или
-		//constexpr int n = factorial(5);
-		//int ar1[n];
-
-		//попробуйте:
-		//int m = 7;
-		//constexpr int n1 = factorial(m);
-		//int ar1[n1];
+		std::cout << "size ar " << std::size(ar);
 		
+		//или
+		constexpr int n = factorial(5);//5 и n известны на момент компиляции
+		int ar1[n];
+		std::cout << "\nsize ar1 " << std::size(ar1);
+		stop
+		//попробуйте:
+		int m = 7;
+		/*constexpr int n1 = factorial(m);// error m - не известна на этапе компиляции
+		int ar2[n1];
+		std::cout << "\nsize ar2 " << std::size(ar2);//*/
 		//а так?
-		//int n2 = factorial(m);
+		int n2 = factorial(m);// генерирует обычный вызов ф_ии
+		//int ar3[n2];//err
 		__asm nop
 	}
 	
@@ -99,7 +100,20 @@ int main(int,char**)
 	//		  компилятор вычислит результат вызова рекурсивной функции на этапе компиляции)
 
 	{
+		int b = 0b100000000;
+		int test  = conv("100000000");
+		std::cout << std::endl << "test conv() = " << test;
+		int test2 = conv2("100000000");
+		std::cout << std::endl << "test conv2() = " << test2;
+		int test3 = conv3("100000000");
+		std::cout << std::endl << "test conv3() = " << test3;
+		constexpr int test4 = mypow(2, 3);
+		std::cout << std::endl << "tes4  = " << test4;
 
+		constexpr int bb = 100000000_b;
+		int ar[bb];
+		std::cout << std::endl << "ar size " << std::size(ar);
+		if (b == bb) { std::cout << std::endl << " OK "; }//*/
 		__asm nop
 
 	}
@@ -112,8 +126,17 @@ int main(int,char**)
 	//Подсказка: количество разрядов в байте определяет константа CHAR_BIT - <cstdint>
 
 	{
-		//std::string sBin= 256_toBinStr;
+		
+		std::string sBinTest = 130_toBinStr;
+		std::cout << std::endl << "bin test " << sBinTest;
+		std::string sBin = 256_toBinStr;
+		std::cout << std::endl << "bin " << sBin;
 		__asm nop
+		string ss = "";
+		ss += '1';
+			ss += '2';
+			ss += '3';
+			stop 
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +155,7 @@ int main(int,char**)
 	//				Для проверки достаточно создать встроенный массив с размерностью, вычисляемой
 	//				посредством constexpr-метода:
 	{
+		
 
 	__asm nop
 	}	
