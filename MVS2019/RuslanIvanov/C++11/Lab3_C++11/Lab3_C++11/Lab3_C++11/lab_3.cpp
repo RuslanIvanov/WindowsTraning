@@ -215,17 +215,22 @@ int main(int,char**)
 				std::cout << "\n " << *ptrV[i];
 			}
 
-			//std::unique_ptr<std::string[]>ptrV3 = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")) }
+			std::unique_ptr<std::string[]>ptrV3(new string[3]);// = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")) }
+			for (int i = 0; i < 3; ++i)
+			{
+				ptrV3[i] = string("a");//move ?
+			}
 			std::unique_ptr<string>ptrV2(new std::string("str 'ptrV2'"));
 			std::cout << "\nptrV2 " << *ptrV2;
 			//??list
 			std::initializer_list<std::unique_ptr<string>> list = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")), std::unique_ptr<string>(new std::string("cc")) };
-			//??
-			std::vector<std::unique_ptr<string>> vl;//= { std::unique_ptr<string>(new std::string("a")), std::unique_ptr<string>(new std::string("b"))};
+			//?? видимо нужен move
+			std::vector<std::unique_ptr<string>> vl;//={ std::unique_ptr<string>(new std::string("a")), std::unique_ptr<string>(new std::string("b"))};
 			for (size_t i = 0; i < vl.size(); i++)
 			{
 				std::cout << "\nstr vl: " << *vl[i];
 			}
+			
 			vector<std::unique_ptr<string>> vs;// = { std::unique_ptr<string>(new std::string("aa")),  std::unique_ptr<string>(new std::string("bb")) };
 			vs.push_back(std::unique_ptr<string>(new std::string("aaa")));
 			vs.push_back(std::unique_ptr<string>(new std::string("bbb")));
