@@ -195,21 +195,50 @@ int main(int,char**)
 			stop
 		} //???// дестр, для вектора + нужно удалить строки
 		stop
-		//5.b - модифицируйте задание 5.а:
-		 //обеспечьте посредством std::unique_ptr: 
-		 //эффективное заполнение (вспомните про разные способы формирования std::unique_ptr), 
-		 //безопасное хранение указателей на динамически создаваемые объекты std::string, 
-		 //манипулирование,
-		 //и освобождение ресурсов
-		 //
-			
+			//5.b - модифицируйте задание 5.а:
+			 //обеспечьте посредством std::unique_ptr: 
+			 //эффективное заполнение (вспомните про разные способы формирования std::unique_ptr), 
+			 //безопасное хранение указателей на динамически создаваемые объекты std::string, 
+			 //манипулирование,
+			 //и освобождение ресурсов
+			 //
+
 		{
-		 //Распечатайте все строки
+			//Распечатайте все строки
+			std::unique_ptr<std::string*[]>ptrV = make_unique<std::string*[]>(3);
+			ptrV[0] = new string("s1");
+			ptrV[1] = new string("s11");
+			ptrV[2] = new string("s111");
+
+			for (size_t i = 0; i < 3; i++)
+			{
+				std::cout << "\n " << *ptrV[i];
+			}
+
+			//std::unique_ptr<std::string[]>ptrV3 = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")) }
+			std::unique_ptr<string>ptrV2(new std::string("str 'ptrV2'"));
+			std::cout << "\nptrV2 " << *ptrV2;
+			//??list
+			std::initializer_list<std::unique_ptr<string>> list = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")), std::unique_ptr<string>(new std::string("cc")) };
+			//??
+			std::vector<std::unique_ptr<string>> vl;//= { std::unique_ptr<string>(new std::string("a")), std::unique_ptr<string>(new std::string("b"))};
+			for (size_t i = 0; i < vl.size(); i++)
+			{
+				std::cout << "\nstr vl: " << *vl[i];
+			}
+			vector<std::unique_ptr<string>> vs;// = { std::unique_ptr<string>(new std::string("aa")),  std::unique_ptr<string>(new std::string("bb")) };
+			vs.push_back(std::unique_ptr<string>(new std::string("aaa")));
+			vs.push_back(std::unique_ptr<string>(new std::string("bbb")));
+			vs.push_back(std::unique_ptr<string>(new std::string("ccc")));
+		    for (size_t i = 0; i < vs.size(); i++)
+		    {
+				std::cout << "\nstr vs: " << *vs[i];
+			}
 
 			__asm nop
 		 //??? Уничтожение динамически созданных объектов?
 		} //???
-
+		stop
 		{//5.c - дополните задание 5.b добавьте возможность изменять хранящиеся строки
 		 //следующим образом (например, добавить указанный суффикс: "AAA" -> "AAA_1")  
 		

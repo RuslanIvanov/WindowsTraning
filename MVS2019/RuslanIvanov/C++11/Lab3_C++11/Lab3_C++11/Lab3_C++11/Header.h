@@ -98,3 +98,8 @@ inline std::string operator""_toBinStr(unsigned long long l)
 	return s;
 }
 
+template<typename D>
+void dl(D* s) 
+{ 
+	delete s; 
+}
