@@ -141,6 +141,7 @@
     <ClCompile Include="lab_3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classRange.h" />
     <ClInclude Include="Header.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

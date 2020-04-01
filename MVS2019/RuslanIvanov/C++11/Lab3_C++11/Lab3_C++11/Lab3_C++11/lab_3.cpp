@@ -5,9 +5,11 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <vector>
 
 using namespace std;
 #include "Header.h"
+#include "classRange.h"
 
 #if  _WIN32 
 
@@ -152,8 +154,20 @@ int main(int,char**)
 	//				посредством constexpr-метода:
 	{
 		
+		c_range<int> rangeInt(10, 200);// no constexpr
+		rangeInt.setValue(50);
+		if (rangeInt.operator==(88)) { std::cout << "\nin range: " << rangeInt;  }
+		else { std::cout << "\nno in range: " << rangeInt; }
 
-	__asm nop
+		if (rangeInt.operator==(8)) { std::cout << "\nin range: " << rangeInt; }
+		else { std::cout << "\nno in range: " << rangeInt; }
+
+	    constexpr unsigned  char v = c_range<unsigned char>(5, 255).setValue(33);
+		stop
+		constexpr c_range<unsigned short> c(6,300,88);
+		
+		char ar[c.getValue()];
+		__asm nop
 	}	
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,13 +176,25 @@ int main(int,char**)
 
 		//5.а - обеспечьте корректное выполнение фрагмента
 		{
-			//std::vector<std::string*> v = { new std::string("aa"), new std::string("bb"), new std::string("cc") };
+			std::vector<std::string*> v = { new std::string("aa"), new std::string("bb"), new std::string("cc") };
 			//Распечатайте все строки
 		
 			__asm nop
+			for (size_t i = 0; i < v.size(); i++)
+			{
+				//std::cout << "\nstr: " << v[i]->c_str();
+				std::cout << "\nstr: " << *v[i];
+			}
 			//???
-		} //???
-
+			stop
+			for (size_t i = 0; i < v.size(); i++)
+			{
+				delete v[i];
+		
+			}
+			stop
+		} //???// дестр, для вектора + нужно удалить строки
+		stop
 		//5.b - модифицируйте задание 5.а:
 		 //обеспечьте посредством std::unique_ptr: 
 		 //эффективное заполнение (вспомните про разные способы формирования std::unique_ptr), 
