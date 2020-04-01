@@ -127,16 +127,12 @@ int main(int,char**)
 
 	{
 		
-		std::string sBinTest = 130_toBinStr;
+		std::string sBinTest = 131_toBinStr;
 		std::cout << std::endl << "bin test " << sBinTest;
 		std::string sBin = 256_toBinStr;
 		std::cout << std::endl << "bin " << sBin;
-		__asm nop
-		string ss = "";
-		ss += '1';
-			ss += '2';
-			ss += '3';
-			stop 
+			
+		stop 
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

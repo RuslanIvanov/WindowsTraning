@@ -77,7 +77,7 @@ public:
         return MyQueueIter<T>( &m_pmass[m_last]);
     }//*/
     MyQueueIter<T> begin()
-    {
+    {// подобное огранизовать надо бы в operator++()
         size_t l = ((m_first + m_n) % m_cap);
         if (m_first < l)
             return MyQueueIter<T>( &m_pmass[m_first]);

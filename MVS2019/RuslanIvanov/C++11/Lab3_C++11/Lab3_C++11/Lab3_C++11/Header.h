@@ -66,24 +66,35 @@ constexpr  int operator""_b(const char* str)
 
 inline std::string operator""_toBinStr(unsigned long long l) 
 {
-	std::string s = "";
-	std::cout <<"\nl = "<< l;
-	size_t bits = CHAR_BIT +1;
-	std::cout << "\nbits = " << bits;
-	for (size_t i = bits; i > 0; i--)
+	std::string s="0";
+	int bits = CHAR_BIT;
+	const unsigned char K = 0xff;
+
+	for (unsigned long long ki = K; ki < l; ki += K)
 	{
-		if (l & (1 << i))
+		bits=bits + CHAR_BIT;
+	}
+	std::cout << "\nbits in '"<<l<<"' = " << bits;
+	bool findFirstBit = false;
+	for (unsigned long long i = bits; i > 0; i--)
+	{
+		if (l & (1 << (i-1)))
 		{
-			s += '1';
-			
+			if (!findFirstBit)
+				s = '1';
+			else 
+				s += '1';
+
+			findFirstBit = true;
 		}
 		else 
 		{ 
+			if(findFirstBit)
 			s += '0'; 
 		}
-		std::cout << "\ns = " << s;
+		//std::cout << "\n#"<<i<<" s = " << s;
 	}
-	
+
 	return s;
 }
 
