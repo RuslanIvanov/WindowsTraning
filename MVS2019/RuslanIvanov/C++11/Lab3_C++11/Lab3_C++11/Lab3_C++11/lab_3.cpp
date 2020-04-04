@@ -327,8 +327,20 @@ int main(int,char**)
 			}
 
 			std::list<unique_ptr<string>> l;
-
-			std::copy(std::make_move_iterator(vv.begin()), std::make_move_iterator(vv.end()), std::ostream_iterator<int>(std::cout, " "));
+			
+			std::copy(std::make_move_iterator(vv.begin()), std::make_move_iterator(vv.end()), std::back_inserter(l));
+			//list<unique_ptr<string>>::iterator itl = l.begin();
+			for (auto i = l.begin(); i != l.end(); ++i)
+			{
+				std::cout << "\n#l-> " <<*(i->get());
+			}
+			stop
+			//vector<unique_ptr<string>>vvv;
+			//std::copy(std::make_move_iterator(vv.begin()), std::make_move_iterator(vv.end()), std::back_inserter(vvv));
+			//for (size_t i = 0; i < vvv.size(); i++)
+			//{
+			//	std::cout << "\n#vvv-> " << *vvv[i];
+			//}
 			__asm nop
 
 		}
