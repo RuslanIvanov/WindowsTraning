@@ -11,6 +11,11 @@ struct trans2
         { return (*m) * 2; }; 
 };
 
+inline void delTest()
+{
+    std::cout << " del test ";
+}
+
 int main(int,char**)
 {
     auto transFunc = [](const std::unique_ptr<int>& m) -> std::unique_ptr<int>
@@ -34,6 +39,20 @@ int main(int,char**)
     {
         std::cout << "v: " << *v[i];
     }
+
+    int a[3] = { 0 };
+    {
+        std::unique_ptr<int[]> p2 = std::make_unique<int[]>(3);// (a, delTest);
+    }
+    
+    {
+       // std::unique_ptr<int[], std::default_delete< int[]>> p1(&a[0]);
+        std::unique_ptr<int[], decltype(&delTest)> p1(a, delTest);
+        p1[1] = 3;
+        unsigned int size = 16000;
+        std::unique_ptr<unsigned char[], std::default_delete<unsigned char[]>> pData(new unsigned char[size]);
+    }
+
     return 0;
 }
 

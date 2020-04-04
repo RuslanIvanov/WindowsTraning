@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include <list>
 
 using namespace std;
 #include "Header.h"
@@ -288,7 +289,7 @@ int main(int,char**)
 			}
 
 			__asm nop
-		}//освобождение 
+		}//освобождение ~ptrV4 => delete[] 
 
 		{//5.e - массивы динамических объектов и пользовательская delete-функция (функтор)
 		 //Задан стековый массив указателей на динамически созданные объекты
@@ -297,7 +298,19 @@ int main(int,char**)
 		 //освобождения памяти
 
 			std::string* arStrPtr[] = { new std::string("aa"), new std::string("bb"), new std::string("cc") };
+			
+			//std::unique_ptr<string*[], std::default_delete< string*[] >> p(arStrPtr);//??? -  не удаляет строки - error
+		  
+			myDelString killer(3);// OK
+			std::unique_ptr<string*[],decltype(killer)> p(arStrPtr, killer);
+			
+			//std::unique_ptr<string* [], decltype(&delMass)> p(arStrPtr, delMass(arStrPtr, 3));//?? error ??
+			//std::unique_ptr<string*[], void(*)(string**,size_t n)> p(arStrPtr,delMass);//?? error ??
+			std::cout << "\n# " << *p[0];
+			std::cout << "\n# " << *p[1];
+			std::cout << "\n# " << *p[2];//*/
 
+		
 			__asm nop
 		}
 
@@ -305,7 +318,17 @@ int main(int,char**)
 			//Посредством алгоритмя copy() скопируйте элементы вектора в пустой список с элементами 
 			//того же типа
 			//Подсказка: перемещающие итераторы и шаблон std::make_move_iterator
+			std::string* s[] { new std::string("one"), new std::string("two"), new std::string("three") };
+			vector<unique_ptr<string>>vv(std::make_move_iterator(std::begin(s)),std::make_move_iterator(std::end(s)));
+			vv.push_back(std::unique_ptr<string>(new string("four")));
+			for (size_t i = 0; i < vv.size(); i++)
+			{
+				std::cout << "\n# " << *vv[i];
+			}
 
+			std::list<unique_ptr<string>> l;
+
+			std::copy(std::make_move_iterator(vv.begin()), std::make_move_iterator(vv.end()), std::ostream_iterator<int>(std::cout, " "));
 			__asm nop
 
 		}

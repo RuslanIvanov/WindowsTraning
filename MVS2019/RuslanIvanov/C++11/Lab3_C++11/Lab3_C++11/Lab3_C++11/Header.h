@@ -124,8 +124,41 @@ public:
 	}
 };
 
-template<typename D>
-void dl(D* s) 
+class myDelString
+{
+	size_t n;
+	
+public:
+	myDelString(size_t _n)
+	{
+		n = _n;
+	}
+
+	void operator()(std::string** s)//(std::unique_ptr<string*[]>& s)
+	{
+		
+		for (size_t i = 0; i < n; i++)
+		{
+			std::cout << "\ndelet str -> "<< *s[i];
+			delete s[i];
+		}
+		//.s.release();//возвращает указатель на управляемый объект и освобождает собственность
+		
+	}
+};
+
+//inline void delMass2(string* s)
+//{	
+//		std::cout << "\ndelet str -> " << s;
+//		delete s;	
+//}
+inline void delMass (std::string** s, size_t n)
+//inline void delMass (std::unique_ptr<string* []>& s, size_t n)
 { 
-	delete s; 
+	for (size_t i = 0; i < n; i++)
+	{
+		std::cout << "\ndelet str -> " << *s[i];
+		delete s[i];
+	}
 }
+
