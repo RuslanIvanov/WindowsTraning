@@ -203,7 +203,24 @@ int main(int,char**)
 			 //и освобождение ресурсов
 			 //
 
-		{
+		{/*
+		 unique_ptr не может быть скопирован или задан через операцию присвоения. 
+		 Неконстантный unique_ptr может передать владение управляемым объектом другому указателю unique_ptr. 
+		 const std::unique_ptr не может быть передан, ограничивая время жизни управляемого объекта областью, 
+		 в которой указатель был создан. Когда unique_ptr уничтожается, он удаляет объект с помощью Deleter.
+
+		 Существует две версии std::unique_ptr:
+		 1) управляет временем жизни одного объекта, например, созданного с помощью оператора new
+		 2) управляет временем жизни массива, с длиной, определенной во время выполнения, созданного с помощью new[]
+		 Типичные случаи применения std::unique_ptr включают:
+		- обеспечение безопасности исключений для классов и функций, которые управляют объектами с динамическим временем жизни,
+		 гарантируя удаление в случае нормального завершения и завершения по исключению
+		-	передача владения динамически созданным объектом в функции
+		-	получение владения динамически созданным объектом из функций
+		-	в качестве типа элемента в контейнерах, поддерживающих семантику перемещения, 
+			таких как std::vector, которые хранят указатели на динамически выделенные объекты 
+			(например, если желательно полиморфное поведение)
+		 */
 			//Распечатайте все строки
 			std::unique_ptr<std::string*[]>ptrV = make_unique<std::string*[]>(3);
 			ptrV[0] = new string("s1");
@@ -215,24 +232,11 @@ int main(int,char**)
 				std::cout << "\n " << *ptrV[i];
 			}
 
-			std::unique_ptr<std::string[]>ptrV3(new string[3]);// = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")) }
-			for (int i = 0; i < 3; ++i)
-			{
-				ptrV3[i] = string("a");//move 
-			}
-			std::unique_ptr<string>ptrV2(new std::string("str 'ptrV2'"));
-			std::cout << "\nptrV2 " << *ptrV2;
 			//??list
 			std::initializer_list<std::unique_ptr<string>> list = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")), std::unique_ptr<string>(new std::string("cc")) };
-			//?? видимо нужен move, так как список инициализации требует исп. классического к_копирования 
-			std::vector<std::unique_ptr<string>> vl;//={ std::unique_ptr<string>(new std::string("a")), std::unique_ptr<string>(new std::string("b"))};
-			for (size_t i = 0; i < vl.size(); i++)
-			{
-				std::cout << "\nstr vl: " << *vl[i];
-			}
-			
+			//?? видимо нужен move, так как список инициализации требует исп. классического к_копирования, кот. запрещено
 			vector<std::unique_ptr<string>> vs;// = { std::unique_ptr<string>(new std::string("aa")),  std::unique_ptr<string>(new std::string("bb")) };
-			vs.push_back(std::unique_ptr<string>(new std::string("aaa")));
+			vs.push_back(std::unique_ptr<string>(new std::string("aaa")));//push_back(T &&)
 			vs.push_back(std::unique_ptr<string>(new std::string("bbb")));
 			vs.push_back(std::unique_ptr<string>(new std::string("ccc")));
 		    for (size_t i = 0; i < vs.size(); i++)
@@ -247,8 +251,22 @@ int main(int,char**)
 		{//5.c - дополните задание 5.b добавьте возможность изменять хранящиеся строки
 		 //следующим образом (например, добавить указанный суффикс: "AAA" -> "AAA_1")  
 		
-
+			vector<std::unique_ptr<string>> vs;
+			vs.push_back(std::unique_ptr<string>(new std::string("aaa")));
+			vs.push_back(std::unique_ptr<string>(new std::string("bbb")));
+			vs.push_back(std::unique_ptr<string>(new std::string("ccc")));
+			for (size_t i = 0; i < vs.size(); i++)
+			{
+				std::cout << "\nstr vs: " << *vs[i];
+			}
 	
+		
+			transform(vs.begin(), vs.end(), vs.begin(), myModyString("_1"));
+
+			for (size_t i = 0; i < vs.size(); i++)
+			{
+				std::cout << "\nmody str vs: " << *vs[i];
+			}
 			__asm nop
 		}
 
@@ -258,9 +276,19 @@ int main(int,char**)
 		 //с элементами std::string
 		 //С помощью unique_ptr::operator[] заполните обернутый массив значениями
 		 //Когда происходит освобождения памяти?
+			std::unique_ptr<std::string[]>ptrV4(new string[3]);
+			for (int i = 0; i < 3; ++i)
+			{
+				ptrV4[i] = string("bbb");//move 
+			}
+
+			for (size_t i = 0; i < 3; i++)
+			{
+				std::cout << "\nstr: " << ptrV4[i];
+			}
 
 			__asm nop
-		}
+		}//освобождение 
 
 		{//5.e - массивы динамических объектов и пользовательская delete-функция (функтор)
 		 //Задан стековый массив указателей на динамически созданные объекты

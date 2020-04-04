@@ -98,6 +98,32 @@ inline std::string operator""_toBinStr(unsigned long long l)
 	return s;
 }
 
+inline string& func_myModyString( string& st)
+{
+	string s_new;
+	return st;
+
+}//*/
+
+class myModyString
+{
+	std::string m_s;
+public:
+	myModyString( const char * s)
+	{
+		m_s += s;
+	}
+
+	std::unique_ptr<string> operator()(std::unique_ptr<string>& sMody)
+	{
+		*sMody+= m_s;
+		std::unique_ptr<string> p(new string(*sMody));
+		sMody.release();//возвращает указатель на управляемый объект и освобождает собственность
+		return std::move(p);
+	
+	}
+};
+
 template<typename D>
 void dl(D* s) 
 { 
