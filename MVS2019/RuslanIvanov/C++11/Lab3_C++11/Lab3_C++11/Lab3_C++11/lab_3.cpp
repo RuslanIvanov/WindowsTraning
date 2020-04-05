@@ -344,7 +344,7 @@ int main(int,char**)
 			__asm nop
 
 		}
-		__asm nop
+ 		__asm nop
 
 	}
 
@@ -361,26 +361,39 @@ int main(int,char**)
 	//в. Последний владелец указателя должен закрыть файл
 
 	//Подсказка: имитировать порядок записи можно с помощью функции rand()
-	/*
+	
 	{
-
+	//test:////////////////////////////////////////////////
+	shared_ptr<string>sh1(new string("A"));
+	shared_ptr<string>sh2 = sh1;
+	std::cout << "\nusage sh1 " << sh1.use_count();
+	std::cout << "\nusage sh2 " << sh2.use_count();
+	std::cout << "\nstr1 " << *sh1;
+	std::cout << "\nstr2 " << *sh2;
+	////////////////////////////////////////////////////////
 	//"писатели":
 	//Создать writer1, writer2
-
-
+	shared_ptr<FILE>writer1(fopen("test.txt", "w"), &fclose);
+	shared_ptr<FILE>writer2 = writer1;
+	std::cout << "\nusage writer1 " << writer1.use_count();
+	std::cout << "\nusage writer2 " << writer2.use_count();
 	//например, источники данных:
-	char ar1[] = "Writer1";
-	char ar2[] = "Writer2";
+	char ar1[] = "\nWriter1";
+	char ar2[] = "\n Writer2";
 
 	//заданное число итераций случайным образом позволяем одному из "писателей" записать в файл
 	//свою строчку
 	//Подсказка: строчки удобно записывать в файл посредством функции fputs()
-
-
+	for (int i = 0; i < (rand() % 10 + 1); i++)// диапазон равен от 1 до 3 включительно
+	{
+		fputs(ar1, &(*writer1));
+		fputs(ar2, &(*writer2));
+	}
+	
 	__asm nop
-	}//закрытие файла???
+	}//закрытие файла??? -> пользов_ий делитер fclose
 
-	*/
+	stop
 
 	
 }
