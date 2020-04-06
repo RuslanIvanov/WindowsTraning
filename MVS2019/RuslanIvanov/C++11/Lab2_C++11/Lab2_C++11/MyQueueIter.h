@@ -58,7 +58,7 @@ public:
         return pm; 
     }
 
-    inline T& operator[](int j) const { return pm[j]; }
+    inline T& operator[](int j) /*const*/ { return pm[j]; }
     inline bool operator==(const MyQueueIter& o) const { return pm == o.pm; }
     inline bool operator!=(const MyQueueIter& o) const 
     { 
@@ -69,20 +69,29 @@ public:
     inline bool operator>(const MyQueueIter& other) const { return pm > other.pm; }
     inline bool operator>=(const MyQueueIter& other) const { return pm >= other.pm; }
 
-    inline MyQueueIter& operator++() 
-    {       
+    /*inline MyQueueIter& operator++() 
+    {  //?????     
         //size_t ind1 = m_first % m_cap;
-       // pm += ind1;// friend //??
+        //pm += ind1;// friend //??
         
-        //size_t ind1 = f % cap;
-        //pm += ind1;
-        //f++;
+       //size_t ind1 = m_f % m_cap;
+       //pm += ind1;
+       //m_f++;
 
-        //pm = pm + m_ind;
-
-        pm++;
+        pm= &pm[m_f%m_cap];
+        std::cout << " : "<<*pm;
+        m_f++;
+ 
         return *this; 
-    }
+    }//*/
+
+    
+    inline MyQueueIter& operator++()
+    {      
+        pm++;
+        return *this;
+    }//*/
+
     inline MyQueueIter operator++(int) { T* n = pm; ++pm; return n; }
     inline MyQueueIter& operator--() { pm--; return *this; }
     inline MyQueueIter operator--(int) { T* n = pm; pm--; return n; }

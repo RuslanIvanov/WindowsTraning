@@ -40,7 +40,7 @@ public:
 	MyQueue& operator=(const MyQueue&);
 	MyQueue& operator=(MyQueue&&);
 
- //   MyQueueIter<T> iter;
+ // MyQueueIter<T> iter;
 
 	void push(const T&);
 	T pop();
@@ -57,8 +57,18 @@ public:
         return MyQueueIter<T>(&m_pmass[m_last], (m_first+m_n) % m_cap);
 
     }//*/
+    /*
+    MyQueueIter<T> begin()//????
+    {
+        return MyQueueIter<T>(&m_pmass[0], m_first, m_last, m_n, m_cap);
+    }
 
-  /* MyQueueIter<T> begin()//????
+    MyQueueIter<T> end()
+    {
+        return MyQueueIter<T>(&m_pmass[0], m_first, m_last, m_n, m_cap);
+    }//*/
+
+  /*MyQueueIter<T> begin()//????
    {
        return MyQueueIter<T>(&m_pmass[m_first],m_first,m_last,m_n,m_cap);
    }
@@ -68,14 +78,9 @@ public:
        return MyQueueIter<T>( &m_pmass[m_last], m_first, m_last, m_n, m_cap);
    }//*/
     
-   /* MyQueueIter<T> begin()//????
-    {
-        return MyQueueIter<T>(&m_pmass[m_first]);
-    }
-    MyQueueIter<T> end()
-    {
-        return MyQueueIter<T>( &m_pmass[m_last]);
-    }//*/
+    //итератор
+    //работает
+   
     MyQueueIter<T> begin()
     {// подобное огранизовать надо бы в operator++()
         size_t l = ((m_first + m_n) % m_cap);
@@ -85,6 +90,7 @@ public:
             return MyQueueIter<T>( m_pmass );
        
     }
+
     MyQueueIter<T> end()
     {
         size_t l = ((m_first + m_n) % m_cap);

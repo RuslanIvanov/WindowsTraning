@@ -6,9 +6,9 @@ template <class T>
 class B
 {
     friend class A<T>;
- 	const char* name = "class B";
+ 	const char* nameB = "class B";
     T t;
     public:
   
-     //   void f() { std::cout << using A<T>::str; }
+       void f() { std::cout << nameB; }
 };
