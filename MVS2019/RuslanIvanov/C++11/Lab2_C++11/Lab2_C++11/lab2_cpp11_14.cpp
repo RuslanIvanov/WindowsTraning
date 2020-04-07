@@ -109,7 +109,7 @@ int main(int, char**)
         std::cout <<"\npop "<< el[1];
         }catch(const char *e) {std::cout<<e; }
         mq3.printQueue();
-        std::cout <<"\nMyQueue 3[.]: ";
+        std::cout <<"\n!MyQueue 3[.]: ";
         for (auto& el : mq3) {std::cout << el << '.';}
         stop
         mq3.push(22);

@@ -73,14 +73,15 @@ public:
 
         T& operator++()
         {
-          /*  T* p = pm->m_pmass;
-            size_t l = ((pm->m_first + pm->m_n) % pm->m_cap);
-            if (pm->m_first < l)
-                return p[m_ind++];
-            else
-                return (*p++);*/
+           
+           size_t l = ((pm->m_first +pm->m_n) % pm->m_cap);
+           if (pm->m_first < l)
+                return pm->m_pmass[pm->m_first+m_ind++];
+            else  
+               return  pm->m_pmass[++m_ind % pm->m_cap];
+               // return  pm->m_pmass[m_ind++ % pm->m_cap];//*/
 
-            return pm->m_pmass[m_ind++ % pm->m_cap];
+         //   return pm->m_pmass[m_ind++ % pm->m_cap];
 
           //  return  pm->m_pmass[m_ind++];//*this;
         }//*/
