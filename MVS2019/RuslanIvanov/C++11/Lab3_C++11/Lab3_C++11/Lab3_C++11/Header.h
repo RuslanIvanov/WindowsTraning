@@ -50,12 +50,12 @@ constexpr int  mystrlen(const char* str)
 
 constexpr  int mypow( int base,  int exp) noexcept
 {
-	return (exp == 0 ? 1 : base * mypow(base, exp - 1));//exp - степень
+	return (exp == 0 ? 1 : base * mypow(base, exp - 1));//exp - степень 
 }
 
 constexpr  int conv (const char* str)
 {
-	return (*str) ? conv(str + 1)+( (*str=='1') ? mypow(2, mystrlen(str)-1)  : 0) : 0;
+	return (*str) ? conv(str + 1)+( (*str=='1') ? mypow(2, mystrlen(str)-1)  : 0) : 0; //можно 1<i -> степень двойки
 }
 
 constexpr  int operator""_b(const char* str) 

@@ -4,21 +4,12 @@
 #include <iterator>
 #include <utility>
 #include <initializer_list>
-#include "MyQueueIter.h"
 
-template <typename T> class MyQueueIter;
 
 template<typename T>
 class MyQueue
 {
-    typedef MyQueueIter<T> iterator;
-    typedef size_t size_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
-    typedef T& reference;
-    typedef const T& const_reference;
-    typedef T value_type;
-
+   
 	T* m_pmass;
     size_t m_n;// kol-vo elementov v buf
     size_t m_cap;// razmer buf        
@@ -39,48 +30,97 @@ public:
 	MyQueue(MyQueue&&);
 	MyQueue& operator=(const MyQueue&);
 	MyQueue& operator=(MyQueue&&);
+           
+    //friend
+    class MyQueueIter
+    {
+        const MyQueue<T> *pm;        
+        size_t m_ind;
 
- // MyQueueIter<T> iter;
+        public:
+               
+        MyQueueIter(const MyQueue<T>* t, size_t i) : pm(t), m_ind(i)
+        {
+            std::cout << "\nMyQueueIter(Q*,ind)";
+        }       
+
+        T& operator*() const
+        {
+            return pm->m_pmass[m_ind];
+        }
+
+        T* operator->() const
+        {
+            return &pm->m_pmass[m_ind];
+        }
+
+        T& operator*()
+        {
+            return pm->m_pmass[m_ind];
+        }
+
+        T* operator->()
+        {
+            return &pm->m_pmass[m_ind];
+        }
+
+        bool operator==(const MyQueueIter& o) const { return m_ind == o.m_ind; }
+        bool operator!=(const MyQueueIter& o) const
+        {
+            return m_ind != o.m_ind;
+        }      
+       
+
+        T& operator++()
+        {
+          /*  T* p = pm->m_pmass;
+            size_t l = ((pm->m_first + pm->m_n) % pm->m_cap);
+            if (pm->m_first < l)
+                return p[m_ind++];
+            else
+                return (*p++);*/
+
+            return pm->m_pmass[m_ind++ % pm->m_cap];
+
+          //  return  pm->m_pmass[m_ind++];//*this;
+        }//*/
+
+        /*
+        MyQueueIter& operator++() 
+        {
+            pm++;
+            return *this;
+        }//*/
+
+       // MyQueueIter operator++(int) { T* n = pm; ++pm; return n; }
+       // MyQueueIter& operator--() { pm--; return *this; }
+       // MyQueueIter operator--(int) { T* n = pm; pm--; return n; }
+       // MyQueueIter& operator+=(int j) { pm += j; return *this; }
+       // MyQueueIter& operator-=(int j) { pm -= j; return *this; }
+       // MyQueueIter operator+(int j) const { return MyQueueIter(pm + j); }
+       // MyQueueIter operator-(int j) const { return MyQueueIter(pm - j); }
+       // int operator-(MyQueueIter j) const { return int(pm - j.pm); }
+    };
 
 	void push(const T&);
 	T pop();
 	void printQueue();
     void printQueueRaw();
 
-    /*MyQueueIter<T> begin()//????
+    MyQueueIter begin()
     {
-        return MyQueueIter<T>(&m_pmass[m_first], m_first%m_cap);
+        return MyQueueIter(this, m_first);
     }
 
-    MyQueueIter<T> end()
+    MyQueueIter end()
     {
-        return MyQueueIter<T>(&m_pmass[m_last], (m_first+m_n) % m_cap);
+        return MyQueueIter(this, (m_first+m_n));
 
     }//*/
-    /*
-    MyQueueIter<T> begin()//????
-    {
-        return MyQueueIter<T>(&m_pmass[0], m_first, m_last, m_n, m_cap);
-    }
-
-    MyQueueIter<T> end()
-    {
-        return MyQueueIter<T>(&m_pmass[0], m_first, m_last, m_n, m_cap);
-    }//*/
-
-  /*MyQueueIter<T> begin()//????
-   {
-       return MyQueueIter<T>(&m_pmass[m_first],m_first,m_last,m_n,m_cap);
-   }
-
-   MyQueueIter<T> end()
-   {
-       return MyQueueIter<T>( &m_pmass[m_last], m_first, m_last, m_n, m_cap);
-   }//*/
-    
+       
     //итератор
     //работает
-   
+   /*
     MyQueueIter<T> begin()
     {// подобное огранизовать надо бы в operator++()
         size_t l = ((m_first + m_n) % m_cap);
@@ -120,18 +160,19 @@ public:
        else
            return m_pmass + m_n;
    }//*/
+
    //////////////////////////////////////////////////
-    //  T* operator->()  { return m_pmass;   }
+    //   T* operator->()  { return m_pmass;   }
     //   operator T*() { return m_pmass; }
-//////////////////////////////////////////////////
-///////////////////////////////////////////////
-//   T* begin(){return m_pmass;}
-//   T* end() { return m_pmass + m_n;}//*/
-////////////////////////////////////////////
+    //////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    //   T* begin(){return m_pmass;}
+    //   T* end() { return m_pmass + m_n;}//*/
+    ////////////////////////////////////////////
     size_t size() { return  m_n;}
     size_t capacity() { return m_cap;}
 
-    friend class MyQueueIter<T>;
+    friend class MyQueueIter;
 	friend  std::ostream& operator<< (std::ostream& os, const MyQueue& s)
 	{
         for (size_t i = s.m_first; (i < s.m_n); ++i)
@@ -286,7 +327,7 @@ MyQueue<T>::MyQueue(MyQueue&& r)
 
 /*template<typename T> 
 MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
-{
+{//было стало
         std::cout<<"\nMyQueue::oper=()\n";
 
 	    if (&r == this) return *this;
@@ -343,7 +384,7 @@ MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
 
 template<typename T>
 MyQueue<T>& MyQueue<T>::operator=(const MyQueue& r)
-{
+{//стало
     std::cout << "\nMyQueue::oper=()\n";
 
     if (&r == this) return *this;

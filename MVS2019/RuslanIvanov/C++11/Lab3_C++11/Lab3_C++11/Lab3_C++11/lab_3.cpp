@@ -223,6 +223,7 @@ int main(int,char**)
 			(например, если желательно полиморфное поведение)
 		 */
 			//Распечатайте все строки
+			//mytest
 			std::unique_ptr<std::string*[]>ptrV = make_unique<std::string*[]>(3);
 			ptrV[0] = new string("s1");
 			ptrV[1] = new string("s11");
@@ -231,7 +232,7 @@ int main(int,char**)
 			for (size_t i = 0; i < 3; i++)
 			{
 				std::cout << "\n " << *ptrV[i];
-			}
+			}///////////////////////////////////////////////////////////////////////////
 
 			//??list
 			std::initializer_list<std::unique_ptr<string>> list = { std::unique_ptr<string>(new std::string("aa")), std::unique_ptr<string>(new std::string("bb")), std::unique_ptr<string>(new std::string("cc")) };
@@ -301,7 +302,7 @@ int main(int,char**)
 			
 			//std::unique_ptr<string*[], std::default_delete< string*[] >> p(arStrPtr);//??? -  не удаляет строки - error
 		  
-			myDelString killer(3);// OK
+			myDelString killer(3);// OK , а можно было сразу создавать автом объект
 			std::unique_ptr<string*[],decltype(killer)> p(arStrPtr, killer);
 			
 			//std::unique_ptr<string* [], decltype(&delMass)> p(arStrPtr, delMass(arStrPtr, 3));//?? error ??
@@ -387,7 +388,7 @@ int main(int,char**)
 	for (int i = 0; i < (rand() % 10 + 1); i++)// диапазон равен от 1 до 3 включительно
 	{
 		fputs(ar1, &(*writer1));
-		fputs(ar2, &(*writer2));
+		fputs(ar2, &(*writer2));//get...
 	}
 	
 	__asm nop
