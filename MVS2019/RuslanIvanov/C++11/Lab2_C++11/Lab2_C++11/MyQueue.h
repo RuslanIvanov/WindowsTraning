@@ -79,27 +79,12 @@ public:
         {
            size_t i = 0;
            size_t l = ((pm->m_first +pm->m_n) % pm->m_cap);
-          /* if (pm->m_first < l)
-           {
-               i = pm->m_first + m_ind;
-               std::cout << " [" << i << "] ";
-            
-           }
-           else*/
-           {
-               i = m_ind % pm->m_cap;
-               std::cout << " [" << i <<"] ";
-               
-           }
+        
+           i = m_ind % pm->m_cap;
+           //std::cout << " [" << i <<"] ";               
+           
            m_ind++;
            return  pm->m_pmass[i];
-        }//*/
-
-        /*
-        MyQueueIter& operator++() 
-        {
-            pm++;
-            return *this;
         }//*/
 
        // MyQueueIter operator++(int) { T* n = pm; ++pm; return n; }
