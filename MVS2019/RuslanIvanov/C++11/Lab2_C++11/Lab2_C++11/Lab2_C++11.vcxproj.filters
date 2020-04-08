@@ -35,8 +35,5 @@
     <ClInclude Include="MyUniquePTR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyQueueIter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
