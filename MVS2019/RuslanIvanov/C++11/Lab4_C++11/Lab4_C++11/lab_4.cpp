@@ -64,6 +64,9 @@ int main(int,char**)
 		PRINTF(s);
 		PRINTF(vs);
 		//PRINTF(ptrV);
+		PRINTF2(s);
+		PRINTF2(ar);
+		PRINTF2(vs);
 		stop
 	}
 
