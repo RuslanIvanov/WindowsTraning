@@ -1,15 +1,22 @@
 #pragma once
 
 template <typename TT>
-TT VALIDATE(TT tt)
+ auto& VALIDATE(TT& tt) 
 {
 	if constexpr (std::is_pointer<TT>::value)
+	{
+		std::cout << "\nis_pointer";
 		return *tt;
-	else return tt;
+	}
+	else
+	{
+		std::cout << "\nno pointer";
+		return tt;
+	}
 }
 
 template <typename T>
-void PRINTF(const T& t) 
+void PRINTF(/*const*/ T& t) 
 {
 	std::cout << "\nPRINTF:\n";
 	for (auto it = std::begin(t); it != std::end(t); ++it)

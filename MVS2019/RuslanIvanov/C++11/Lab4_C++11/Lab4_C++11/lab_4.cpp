@@ -63,6 +63,7 @@ int main(int,char**)
 		PRINTF(d);
 		PRINTF(s);
 		PRINTF(vs);
+		//PRINTF(ptrV);
 		stop
 	}
 
