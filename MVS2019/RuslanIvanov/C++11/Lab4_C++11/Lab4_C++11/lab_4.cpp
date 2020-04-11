@@ -6,9 +6,11 @@
 #include <string>
 #include <list>
 #include <queue>
+#include <stack>
 #include <iterator>
 
 using namespace std;
+#include "Point.h"
 #include "Header.h"
 
 #if  _WIN32 
@@ -43,6 +45,7 @@ int main(int,char**)
 	Подсказки: if constexpr
 	*/
 	{
+		Point* point[3] = { new Point(0,0),new Point(0,0) ,new Point(0,0) };
 		size_t ar[] = { 1,3,6,7,4,5,2 };
 		vector<int> v = { 11,22,33,44,55 };
 		list<string> l = {"s6","s7","s8","s9","s10"};
@@ -57,27 +60,45 @@ int main(int,char**)
 		ptrV[1] = new string("s11");
 		ptrV[2] = new string("s111");
 
+		PRINTF(point);
 		PRINTF(ar);
 		PRINTF(v);
 		PRINTF(l);
 		PRINTF(d);
 		PRINTF(s);
 		PRINTF(vs);
-		//PRINTF(ptrV);
-		PRINTF2(s);
+		//PRINTF(ptrV);//??
+
+		PRINTF2(point);
 		PRINTF2(ar);
+		PRINTF2(v);
+		PRINTF2(l);
+		PRINTF2(d);
+		PRINTF2(s);
 		PRINTF2(vs);
 		stop
+
+		for (size_t i = 0; i < 3; i++)
+		{
+				delete point[i];
+		}
 	}
 
 /***************************************************************/
 //Задание 2.
 	/* Реализуйте шаблон функции сложения двух значений.
-	Если первое слагаемое является вектором, то все элементы вектора нужно увеличить на значение второго параметра. При этом элементы вектора и второй параметр должны быть одного и того же типа.
+	Если первое слагаемое является вектором, то все элементы вектора нужно увеличить на значение второго параметра. 
+	При этом элементы вектора и второй параметр должны быть одного и того же типа.
 	Подсказки: if constexpr, is_same
 	*/
 	{
-
+		vector<int> v = { 1,2,3,4 };
+		sumV(v, 1);
+		PRINTF(v);
+		int n = 2;
+		sumV(n, 1);
+		std::cout << "\nn = "<< n;
+		stop
 	}
 
 
@@ -88,7 +109,40 @@ int main(int,char**)
 	Предусмотрите вывод значений, если в адаптере хранятся указатели.
 	*/
 	{
+		std::queue<int> q1;
+		q1.push(-1);
+		q1.push(3);
+		q1.push(-2);
 
+
+		std::queue<Point*> ppq1;
+		ppq1.push(new Point(1, 1));
+		ppq1.push(new Point(1, 3));
+		ppq1.push(new Point(1, 2));
+
+		std::stack<char> st1;
+		st1.push('A');
+		st1.push('C');
+		st1.push('B');
+
+		std::priority_queue<Point> pq1;
+		pq1.push(Point(1, 1));
+		pq1.push(Point(1, 3));
+		pq1.push(Point(1, 2));
+
+		 PRINT_ADAPT(q1);
+		 PRINT_ADAPT(st1);
+		 PRINT_ADAPT(pq1);
+		 PRINT_ADAPT(ppq1);
+
+		 while (!ppq1.empty())
+		 {
+			 std::cout << "|del: " << ppq1.front();
+			 delete ppq1.front();
+			 ppq1.pop();
+		 }
+
+		 stop
 	}
 
 /***************************************************************/
