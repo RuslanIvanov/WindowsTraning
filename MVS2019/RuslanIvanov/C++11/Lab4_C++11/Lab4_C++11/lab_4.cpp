@@ -137,7 +137,6 @@ int main(int,char**)
 
 		 while (!ppq1.empty())
 		 {
-			 std::cout << "|del: " << ppq1.front();
 			 delete ppq1.front();
 			 ppq1.pop();
 		 }
