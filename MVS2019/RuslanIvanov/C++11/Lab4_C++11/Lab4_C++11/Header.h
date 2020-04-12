@@ -79,7 +79,7 @@ void sumV( T& t,TT tt )
 
 template <typename T>
 //void PRINT_ADAPT(const T& t) 
-void PRINT_ADAPT( T t)
+void PRINT_ADAPT(T t)
 {
 
 	if constexpr (std::is_same<T, std::queue<typename T::value_type>>::value)

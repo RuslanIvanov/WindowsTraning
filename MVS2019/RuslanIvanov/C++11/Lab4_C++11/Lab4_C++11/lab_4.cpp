@@ -149,15 +149,17 @@ int main(int,char**)
 //Задание 4.
 	{
 		//Дан массив элементов типа string
-		std::string strings[] = {"ccc","abc", "123", "qwerty", "#$%"};
+		std::string strings[] = {"ccc","abc", "123", "qwerty", "#$%","321"};
 		//До завершения фрагмента строки должны существовать в единственном экземпляре.
 		//Требуется обеспечить манипулирование строками а) без копирования и б) без изменения порядка
 		//элементов в массиве!
 		
 		//В std::set "складываем" по алфавиту обертки для строк, которые содержат только буквы 
 		auto DelStr = [](string*) { std::cout << "\nDelStr"; };
-		std::shared_ptr<string> s1[] = { shared_ptr<string>(&strings[0], DelStr), shared_ptr<string>(&strings[1], DelStr),
-										shared_ptr<string>(&strings[2], DelStr),shared_ptr<string>(&strings[3], DelStr) };
+
+		std::shared_ptr<string> s1[] = {shared_ptr<string>(&strings[0], DelStr), shared_ptr<string>(&strings[1], DelStr),
+										shared_ptr<string>(&strings[2], DelStr),shared_ptr<string>(&strings[3], DelStr),
+										shared_ptr<string>(&strings[4], DelStr) ,shared_ptr<string>(&strings[5], DelStr) };
 
 		std::set<std::shared_ptr<string>, SORT_SET> sp;
 		//std::set < std::shared_ptr<string>, decltype(&cmp)>sp(cmp);
@@ -179,7 +181,7 @@ int main(int,char**)
 		}
 		);//*/
 		
-		//мой страшый вывод
+		//мой страшный вывод
 		for (auto i = sp.begin(); i != sp.end(); ++i)
 		{
 			std::cout << "\nsp: ";
@@ -188,6 +190,7 @@ int main(int,char**)
 				std::cout << "" << *((*i)->begin()+j);
 			}
 		}
+
 		__asm nop
 		/******************************************************************************************/
 
@@ -195,13 +198,51 @@ int main(int,char**)
 		//Выводим на экран
 		//Находим сумму
 		
-		//std::vector<std::shared_ptr < std::string>>
+		std::vector<std::shared_ptr <std::string>> v;
+		std::copy_if((std::begin(s1)), (std::end(s1)), std::back_inserter(v), [](std::shared_ptr<string>& s)
+			{
+				if ((*s->begin() >= '0' && *s->begin() <= '9'))
+					return true;
+				else return false;
+			}
+		);
 
+		for (auto i = v.begin(); i != v.end(); ++i)
+		{
+			std::cout << "\nv: "<< (*i)->c_str();			
+		}
+
+		int sum = 0;
+		for (auto i = v.begin(); i != v.end(); ++i)
+		{
+			sum+=std::atoi((*i)->c_str());
+		}
+		std::cout << "\nsum: " << sum<<"\n";
+		stop
 		/******************************************************************************************/
 		//сюда "складываем" обертки для строк, которые не содержат ни символов букв, ни символов цифр
 		//и просто выводим
 
+		ostream_iterator<std::shared_ptr <std::string>> out_it(cout, " ");
+		//std::copy_if((std::begin(s1)), (std::end(s1)), out_it, [](std::shared_ptr<string>& s)
+		std::vector<std::shared_ptr <std::string>> v2;
+		std::copy_if((std::begin(s1)), (std::end(s1)), back_inserter(v2), [](std::shared_ptr<string>& s)
+			{
+				if ((*s->begin() >= '0' && *s->begin() <= '9') ||
+					(*s->begin() >= 'a' && *s->begin() <= 'z') ||
+					(*s->begin() >= 'A' && *s->begin() <= 'Z'))
+					return false;
+				else 
+					return true;
+			}
+		);
 
+		for (auto i = v2.begin(); i != v2.end(); ++i)
+		{
+			std::cout << "\nv2: "<< (*i)->c_str();	
+		}
+
+		stop
 	}
 
 	
