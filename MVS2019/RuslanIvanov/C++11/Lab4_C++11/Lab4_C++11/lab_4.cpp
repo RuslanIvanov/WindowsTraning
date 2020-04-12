@@ -8,6 +8,7 @@
 #include <queue>
 #include <stack>
 #include <iterator>
+#include <set>
 
 using namespace std;
 #include "Point.h"
@@ -148,14 +149,45 @@ int main(int,char**)
 //Задание 4.
 	{
 		//Дан массив элементов типа string
-		std::string strings[] = {"abc", "123", "qwerty", "#$%"};
+		std::string strings[] = {"ccc","abc", "123", "qwerty", "#$%"};
 		//До завершения фрагмента строки должны существовать в единственном экземпляре.
 		//Требуется обеспечить манипулирование строками а) без копирования и б) без изменения порядка
 		//элементов в массиве!
 		
 		//В std::set "складываем" по алфавиту обертки для строк, которые содержат только буквы 
-		
+		auto DelStr = [](string*) { std::cout << "\nDelStr"; };
+		std::shared_ptr<string> s1[] = { shared_ptr<string>(&strings[0], DelStr), shared_ptr<string>(&strings[1], DelStr),
+										shared_ptr<string>(&strings[2], DelStr),shared_ptr<string>(&strings[3], DelStr) };
 
+		std::set<std::shared_ptr<string>, SORT_SET> sp;
+		//std::set < std::shared_ptr<string>, decltype(&cmp)>sp(cmp);
+		//лямбда?
+
+		std::copy_if((std::begin(s1)), (std::end(s1)), std::inserter(sp, sp.begin()), [](std::shared_ptr<string>& s)
+		{
+				if ((*s->begin() >= 'a' && *s->begin() <= 'z') || (*s->begin() >= 'A' && *s->begin() <= 'Z'))
+					return true;
+				else return false;
+		}		
+		);//*/
+		
+		//set уже упорядочен должен быть
+		/*std::sort(sp.begin(), sp.end(), [](const std::shared_ptr<string>& l, const std::shared_ptr<string>& r) 
+		{
+				return (*l.get() > *r.get());
+			//	return (*l->begin() > *r->begin());
+		}
+		);//*/
+		
+		//мой страшый вывод
+		for (auto i = sp.begin(); i != sp.end(); ++i)
+		{
+			std::cout << "\nsp: ";
+			for (size_t j = 0; j < (*i)->size(); j++)
+			{
+				std::cout << "" << *((*i)->begin()+j);
+			}
+		}
 		__asm nop
 		/******************************************************************************************/
 

@@ -155,3 +155,20 @@ void PRINT_ADAPT( T t)
 
 	std::cout << "  end\n";
 }
+
+class SORT_SET
+{
+public:
+	SORT_SET() {}
+
+	bool operator()(const  std::shared_ptr<string>&  l, const  std::shared_ptr<string>& r) const
+	{
+		return (*l->begin() < *r->begin());
+	}
+
+};
+
+bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
+{
+	return (*l->begin() < *r->begin());
+}
