@@ -252,28 +252,25 @@ int main(int,char**)
 		//Дано:
 		std::string ar[] = {"my","Hello", "World"};
 		std::vector < std::shared_ptr<std::string>> v = {std::make_shared<std::string>("good"), std::make_shared<std::string>("bye")};
-		
-
+		//make_shared - соzдает динамичски => delete
 
 		//а) Требуется добавить в вектор обертки для элементов массива, НЕ копируя элементы массива! 
 		//б) Отсортировать вектор по алфавиту и вывести на экран
 		//в) Обеспечить корректное освобождение памяти
 		auto DelStr2 = [](string*) { std::cout << "\nDelStr2"; };
-		auto DelStr1 = [](string*) { std::cout << "\nDelStr1"; };
+		
 		for(size_t i = 0 ; i<sizeof(ar)/sizeof(ar[0]);i++)
 			v.push_back(shared_ptr<string>(&ar[i], DelStr2));
 
 		sort(v.begin(), v.end(), [](const std::shared_ptr<string>& l, const std::shared_ptr<string>& r)
 		{
 				return (*l.get() < * r.get());
-				//	return (*l->begin() > *r->begin());
 		}
 		);
 
 		for (auto i = v.begin(); i != v.end(); ++i)
 		{
 			std::cout << "\nv sort: " << (*i)->c_str();
-			//i->reset(nullptr, DelStr1);
 		}
 		__asm nop
 	}
@@ -321,15 +318,15 @@ int main(int,char**)
 	/*Пользовательский deduction guide – для вывода типов параметров шаблона
 	Задан шаблон класса, который инкапсулирует внедренный ограниченный массив известной
 	размерности с элементами любого типа. */
-/*
+		/*
 template<typename T, size_t size> class MyArray
 	{
 		T ar[size]; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
 		…
 	};
 
-*/
-/*
+//*/
+
 //Требуется обеспечить работоспособность приведенных примеров использования.
 	{
 		MyArray<int, 5> ar1;//MyArray<int,5>
@@ -338,7 +335,7 @@ template<typename T, size_t size> class MyArray
 		MyArray ar3{ ar };
 
 	}
-*/
+//*/
 
 	__asm nop
 
