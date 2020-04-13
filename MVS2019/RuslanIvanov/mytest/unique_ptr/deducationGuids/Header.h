@@ -12,20 +12,26 @@
 // };
 
  template<typename T, typename U>
- struct S { T m_t; U m_u; };
+ struct S { T m_t; U m_u; S(const T& t, U u) {};  S(const T& t, int) {} S() = default; };
 
  //My deduction guid
  template<typename T, typename U>
  S(const T& t, const U& u)->S<T, U>;
 
- template<typename T,typename U>
- S(const T& t, U u)->S<T, size_t>;
+ template<typename T, typename U>
+ S(const T& t, U u)->S<T, int>;
 
  template<typename T, typename U>
- S(const T& t, U u)->S<char , size_t>;
+ S(const T& t, U u)->S<int, int>;
 
- template<typename T, typename U>
- S(const T& t, U u)->S<int, size_t>;
+ //template<typename T,typename U>
+ //S(const T& t, U u)->S<T, size_t>;
+
+ //template<typename T, typename U>
+ //S(const T& t, U u)->S<char , size_t>;
+
+ //template<typename T, typename U>
+ //S(const T& t, U u)->S<int, size_t>;
 
 template<typename T, typename U>
  S(const T&,U)->S<std::initializer_list<T>,size_t>;
@@ -44,4 +50,7 @@ template<typename T, typename U>
      MyArray(std::initializer_list<T>) {}
  };
 
+
+ template<class T> struct Ss { Ss(T); };
+ Ss(char const*)->Ss<std::string>;
                 
