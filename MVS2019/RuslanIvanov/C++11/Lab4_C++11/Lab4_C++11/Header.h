@@ -178,7 +178,7 @@ struct S { T m_t; U m_u; };
 
 //My deduction guid
 template<typename T, typename U> 
-S(const T& t,const U& u)->S<T,U>;
+S(const T& t, const U& u)->S<T, U>;
 
 template<typename T>
 S(const T& t, size_t size)->S<T, size_t>;
