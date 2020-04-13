@@ -36,16 +36,23 @@ int main()
     // S<int>::N<int> x{2.0, 1};
 
     {
-     
-        //MyArray<int, 5> ar1;//MyArray<int,5>
-        //MyArray ar2{ "ABC" }; //MyArray<char,4>
-       // int ar[] = { 1,2,3 };
-     //   MyArray ar3{ ar };
 
-        S<int,8> ar11;
+        MyArray<int, 5> ar1;//MyArray<int,5>
+        MyArray ar2{ "ABC" }; //MyArray<char,4>
+        int ar[] = { 1,2,3 };
+        MyArray ar3{ ar };
+    }
+    {
+    
+        S<int,6> ar11;
         S ar22{ "ABC" };
+        int ar11[] = { 1,2,3 };
+        S ar33{ ar11 };
 
+    }
+    {
         Ss ss{ "hello" }; // выводится как S<std::string>
+        Ss ss{ 1 };
     }
 }
 

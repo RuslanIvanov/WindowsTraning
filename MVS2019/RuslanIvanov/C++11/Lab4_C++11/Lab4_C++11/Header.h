@@ -173,19 +173,18 @@ bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
 	return (*l->begin() < *r->begin());
 }
 
-template<typename T,typename U>
-struct S { T m_t; U m_u; };
-
 //My deduction guid
-template<typename T, typename U> 
-S(const T& t, const U& u)->S<T, U>;
+template<typename T, size_t size>
+MyArray(const T& t, size_t)->MyArray<T, size_t>;
 
-template<typename T>
-S(const T& t, size_t size)->S<T, size_t>;
+template<typename T, size_t size>
+MyArray(const T& t)->MyArray<std::initializer_list<T>, size_t>;
 
 template<typename T, size_t size> 
 class MyArray
 {
-	T ar[size] = {T()}; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
+	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
+public:
 	MyArray() = delete;
 };
+

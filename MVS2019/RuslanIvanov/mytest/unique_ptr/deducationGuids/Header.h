@@ -11,33 +11,17 @@
 //      };
 // };
 
- template<typename T, typename U>
- struct S { T m_t; U m_u; S(const T& t, U u) {};  S(const T& t, int) {} S() = default; };
+//////////////////////////////////////////////////////
+ template<typename T,size_t>
+ struct S { T t; size_t s; };
 
  //My deduction guid
- template<typename T, typename U>
- S(const T& t, const U& u)->S<T, U>;
+ template<typename T, size_t>
+ S(const T& t, size_t n)->S<T*,size_t>;
 
- template<typename T, typename U>
- S(const T& t, U u)->S<T, int>;
-
- template<typename T, typename U>
- S(const T& t, U u)->S<int, int>;
-
- //template<typename T,typename U>
- //S(const T& t, U u)->S<T, size_t>;
-
- //template<typename T, typename U>
- //S(const T& t, U u)->S<char , size_t>;
-
- //template<typename T, typename U>
- //S(const T& t, U u)->S<int, size_t>;
-
-template<typename T, typename U>
- S(const T&,U)->S<std::initializer_list<T>,size_t>;
- 
- template<typename T, size_t size>
- S(T*,size_t)->S<char, size_t>;
+ template<typename T >
+ S(const T& t)->S<std::initializer_list<T>>;
+ ///////////////////////////////////////////////////////
 
  template<typename T, size_t size>
  class MyArray
@@ -45,12 +29,21 @@ template<typename T, typename U>
      T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
  public:
      MyArray() = default;
-     MyArray(T, size_t n) {}
-     MyArray(T*) {}
-     MyArray(std::initializer_list<T>) {}
+    // MyArray(T, size_t n) {}
+   //  MyArray(T, int) {}
+   //  MyArray(T*) {}
+  //   MyArray(std::initializer_list<T>) {}
  };
+
+ //My deduction guid
+ template<typename T,size_t n>
+ MyArray(const T& t, size_t)->MyArray<T*, n>;
+
+ template<typename T, size_t n>
+ MyArray(const T& t, size_t)->MyArray<std::initializer_list<T>, n>;
 
 
  template<class T> struct Ss { Ss(T); };
  Ss(char const*)->Ss<std::string>;
+ Ss(const int&)->Ss<char>;
                 
