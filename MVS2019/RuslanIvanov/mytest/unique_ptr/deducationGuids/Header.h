@@ -58,8 +58,8 @@ template<typename T, size_t size> class MyArray
  //template<typename T, size_t size>
  //MyArray(const T& t, size_t)->MyArray<int, size>;
 
-// template<typename T, size_t size>
- //MyArray(const std::initializer_list<T>& t, size_t)->MyArray<const char*, size>;
+template<typename T, size_t size>
+ MyArray(const std::initializer_list<T>& t, size_t)->MyArray<const char*, size>;
 
  //template<typename T, size_t size>
  //MyArray(const T& t, size_t)->MyArray<char, size>;

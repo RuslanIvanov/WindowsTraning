@@ -9,6 +9,7 @@
 #include <stack>
 #include <iterator>
 #include <set>
+#include <stddef.h>
 #include <type_traits>
 
 using namespace std;
@@ -332,8 +333,8 @@ template<typename T, size_t size> class MyArray
 	{
 		MyArray<int, 5> ar1;//MyArray<int,5>
 		MyArray ar2{"ABC"}; //MyArray<char,4>
-		//int ar[] = { 1,2,3 };
-		//MyArray ar3{ ar };
+		int ar[] = { 1,2,3 };
+		MyArray ar3{ ar };
 		stop
 	}
 //*/

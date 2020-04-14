@@ -176,29 +176,75 @@ bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
 template<typename T, size_t size> 
 class MyArray
 {
+
 	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
-	size_t m_n;
+	size_t m_n=size;
 public:
 	MyArray() = default;
-	MyArray(const T&, size_t n) { m_n = n; }
-	MyArray(const T*, size_t n) { m_n = n; }
-	MyArray(std::initializer_list<T> l) {m_n=l.size()}
+	MyArray(const MyArray& r) 
+	{
+		if (r.m_n <= m_n)
+		{
+			m_n = r.m_n;
+			for (size_t i = 0; i < r.m_n; i++)
+			{
+				ar[i] = r.ar[i];
+			}
+		}
+		else throw "error length!!";
+	}
+
+	/*MyArray(MyArray&& r) 
+	{
+		ar = r.ar;
+		m_n = r.m_n;
+	}*/
+
+	MyArray(const int* r, size_t n) 
+	{
+		m_n = n;
+		for (size_t i = 0; i < m_n; i++)
+		{
+			ar[i] = r[i];
+		}
+	}
+
+	MyArray(const std::initializer_list<T>& l) 
+	{
+		if (l.size() <= m_n)
+		{ 
+			m_n = l.size();
+			for (size_t i = 0; i < m_n; i++)
+			{
+				ar[i] = *(l.begin()+i);
+			}
+		}
+		else throw "error length list!!";
+	}
+
 };
 
+template <typename First, typename... Rest> struct EnforceSame 
+{
+	static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
+	using type = First;
+};
+template <typename First, typename... Rest> MyArray(First, Rest...)
+->MyArray<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
 
-//My deduction guid
-template<typename T, size_t size>
-MyArray(const T& t, size_t)->MyArray<T, size >;
-
-//My deduction guid
-template<typename T, size_t size>
-MyArray(const T& t, size_t)->MyArray<int, size>;
-
-//My deduction guid
-template<typename T, size_t size>
-MyArray(const T* t, size_t)->MyArray<char, size>;
-
-//My deduction guid
-template<typename T, size_t size >
-MyArray(const std::initializer_list<T>& t,size)->MyArray<const char,size>;
+////My deduction guid
+//template<typename T, size_t size>
+//MyArray(const T& t, size_t)->MyArray<T, size >;
+//
+////My deduction guid
+//template<typename T, size_t size>
+//MyArray(const T& t, size_t)->MyArray<int, size>;
+//
+////My deduction guid
+//template<typename T, size_t size>
+//MyArray(const T* t, size_t)->MyArray<char, size>;
+//
+////My deduction guid
+//template<typename T, size_t size >
+//MyArray(const std::initializer_list<T>& t,size)->MyArray<const char,size>;
 //
