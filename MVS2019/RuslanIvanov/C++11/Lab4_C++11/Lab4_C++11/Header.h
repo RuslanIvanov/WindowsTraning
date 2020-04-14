@@ -234,7 +234,7 @@ template <typename First, typename... Rest> MyArray(First, Rest...)
 
 ////My deduction guid ???
 template<typename T, size_t size >
-MyArray(const std::initializer_list<T>& t)->MyArray<const T&, size>;
+MyArray(const std::initializer_list<T*> t)->MyArray<const T&, size>;
 
 ////My deduction guid
 //template<typename T, size_t size>

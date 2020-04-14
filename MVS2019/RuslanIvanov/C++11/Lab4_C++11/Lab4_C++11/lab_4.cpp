@@ -332,9 +332,9 @@ template<typename T, size_t size> class MyArray
 //Требуется обеспечить работоспособность приведенных примеров использования.
 	{
 		MyArray<int, 5> ar1;//MyArray<int,5>
-		MyArray ar2{"ABC"}; //MyArray<char,4>
+		MyArray ar2{"ABC","CC"}; //MyArray<char,4>
 		int ar[] = { 1,2,3 };
-		MyArray ar3{ ar };
+		MyArray ar3{ ar };//??
 		MyArray ar4{ 4,5,6,7 };
 		stop
 	}
