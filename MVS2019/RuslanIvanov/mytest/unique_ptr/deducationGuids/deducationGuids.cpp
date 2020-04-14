@@ -36,23 +36,27 @@ int main()
     // S<int>::N<int> x{2.0, 1};
 
     {
-
-        MyArray<int, 5> ar1;//MyArray<int,5>
-        MyArray ar2{ "ABC" }; //MyArray<char,4>
-        int ar[] = { 1,2,3 };
+       std:: string a{ "" };
+       MyArray<int, 5> ar1;//MyArray<int,5>
+       MyArray ar2{ "ABC" }; //MyArray<char,4>
+       int ar[] = { 1,2,3 };
         MyArray ar3{ ar };
     }
     {
     
         S<int,6> ar11;
         S ar22{ "ABC" };
-        int ar11[] = { 1,2,3 };
-        S ar33{ ar11 };
+       // int ar11[] = { 1,2,3 };
+       // S ar33{ ar11 };
 
     }
     {
-        Ss ss{ "hello" }; // выводится как S<std::string>
-        Ss ss{ 1 };
+       // Ss ss{ "hello" }; // выводится как S<std::string>
+       // Ss ss{ 1 };
+    }
+    {
+       // A a{ 1,0 }; // использует #1 для вывода A<int> и #1 для инициализации
+      //  A b{ a,0 }; // использует #2 (более специализирован, чем #3) для вывода A<int> и #2 для инициализации
     }
 }
 

@@ -173,18 +173,32 @@ bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
 	return (*l->begin() < *r->begin());
 }
 
-//My deduction guid
-template<typename T, size_t size>
-MyArray(const T& t, size_t)->MyArray<T, size_t>;
-
-template<typename T, size_t size>
-MyArray(const T& t)->MyArray<std::initializer_list<T>, size_t>;
-
 template<typename T, size_t size> 
 class MyArray
 {
 	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
+	size_t m_n;
 public:
-	MyArray() = delete;
+	MyArray() = default;
+	MyArray(const T&, size_t n) { m_n = n; }
+	MyArray(const T*, size_t n) { m_n = n; }
+	MyArray(std::initializer_list<T> l) {m_n=l.size()}
 };
 
+
+//My deduction guid
+template<typename T, size_t size>
+MyArray(const T& t, size_t)->MyArray<T, size >;
+
+//My deduction guid
+template<typename T, size_t size>
+MyArray(const T& t, size_t)->MyArray<int, size>;
+
+//My deduction guid
+template<typename T, size_t size>
+MyArray(const T* t, size_t)->MyArray<char, size>;
+
+//My deduction guid
+template<typename T, size_t size >
+MyArray(const std::initializer_list<T>& t,size)->MyArray<const char,size>;
+//
