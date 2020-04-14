@@ -200,7 +200,7 @@ public:
 		m_n = r.m_n;
 	}*/
 
-	MyArray(const int* r, size_t n) 
+	MyArray(const int& r, size_t n) 
 	{
 		m_n = n;
 		for (size_t i = 0; i < m_n; i++)
@@ -232,6 +232,10 @@ template <typename First, typename... Rest> struct EnforceSame
 template <typename First, typename... Rest> MyArray(First, Rest...)
 ->MyArray<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
 
+////My deduction guid ???
+template<typename T, size_t size >
+MyArray(const std::initializer_list<T>& t)->MyArray<const T&, size>;
+
 ////My deduction guid
 //template<typename T, size_t size>
 //MyArray(const T& t, size_t)->MyArray<T, size >;
@@ -244,7 +248,5 @@ template <typename First, typename... Rest> MyArray(First, Rest...)
 //template<typename T, size_t size>
 //MyArray(const T* t, size_t)->MyArray<char, size>;
 //
-////My deduction guid
-//template<typename T, size_t size >
-//MyArray(const std::initializer_list<T>& t)->MyArray<T,size>;
+
 //
