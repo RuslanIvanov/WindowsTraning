@@ -15,7 +15,7 @@
 using namespace std;
 #include "Point.h"
 #include "Header.h"
-
+#include "human.h"
 #if  _WIN32 
 
 #define	  stop __asm nop
@@ -79,6 +79,7 @@ int main(int,char**)
 		PRINTF2(d);
 		PRINTF2(s);
 		PRINTF2(vs);
+		//PRINTF(ptrV);
 		stop
 
 		for (size_t i = 0; i < 3; i++)
@@ -162,7 +163,7 @@ int main(int,char**)
 		std::shared_ptr<string> s1[] = {shared_ptr<string>(&strings[0], DelStr), shared_ptr<string>(&strings[1], DelStr),
 										shared_ptr<string>(&strings[2], DelStr),shared_ptr<string>(&strings[3], DelStr),
 										shared_ptr<string>(&strings[4], DelStr) ,shared_ptr<string>(&strings[5], DelStr) };
-
+		//
 		std::set<std::shared_ptr<string>, SORT_SET> sp;
 		//std::set < std::shared_ptr<string>, decltype(&cmp)>sp(cmp);
 		//כÿלבהא?

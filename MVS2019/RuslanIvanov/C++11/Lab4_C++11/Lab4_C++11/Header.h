@@ -37,23 +37,24 @@ auto isPointer(const T& t)
 }
 
 template <typename T>
-void PRINTF2(const T& t)
+constexpr void PRINTF2( T& t)
 {
 	std::cout << "\nPRINTF2:\n";
 
 	for (auto it = std::begin(t); it != std::end(t); ++it)
 	{
 
-		if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
+		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
 		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
-		//if(isPointer(*it))
-		//if constexpr (std::is_pointer<typename T::value_type>::value)
+		//if(isPointer(*it)
+		if constexpr (std::is_pointer< typename T::value_type>::value)
+		//if constexpr (std::is_pointer<std::remove_all_extents<T>>::value)
 		{
 			std::cout << "\npoint2 " << **it << " ";
 		}
 		else
 		{		
-			std::cout << "\nno point2 " << (*it) << " ";//???
+			std::cout << "\nno point2 " << *it << " ";//???
 		}//*/
 	}
 
@@ -180,8 +181,8 @@ class MyArray
 	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
 	size_t m_n=size;
 public:
-	MyArray() = default;
-	MyArray(const MyArray& r) 
+	MyArray() = default; // констр на тип Т*
+	MyArray(const MyArray& r) // не надо
 	{
 		if (r.m_n <= m_n)
 		{
@@ -195,7 +196,7 @@ public:
 	}
 
 	/*MyArray(MyArray&& r) 
-	{
+	{// нет смысла  ??
 		ar = r.ar;
 		m_n = r.m_n;
 	}*/
@@ -223,7 +224,7 @@ public:
 	}
 
 };
-
+//////////////////////////////////////////////////////////////////////////////////
 template <typename First, typename... Rest> struct EnforceSame 
 {
 	//static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
@@ -231,10 +232,12 @@ template <typename First, typename... Rest> struct EnforceSame
 };
 template <typename First, typename... Rest> MyArray(First, Rest...)
 ->MyArray<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
-
+///////////////////////////////////////////////////////////////////////////////////
 ////My deduction guid ???
 template<typename T, size_t size >
-MyArray(const std::initializer_list<T*> t)->MyArray<const T&, size>;
+MyArray(const std::initializer_list<T(&)[]> t)->MyArray<T, size>;
+
+//template<typename T, size_t size> MyArray(const T(&ar)[size])->MyArray<T, size>;
 
 ////My deduction guid
 //template<typename T, size_t size>
