@@ -226,7 +226,7 @@ public:
 
 template <typename First, typename... Rest> struct EnforceSame 
 {
-	static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
+	//static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
 	using type = First;
 };
 template <typename First, typename... Rest> MyArray(First, Rest...)
@@ -246,5 +246,5 @@ template <typename First, typename... Rest> MyArray(First, Rest...)
 //
 ////My deduction guid
 //template<typename T, size_t size >
-//MyArray(const std::initializer_list<T>& t,size)->MyArray<const char,size>;
+//MyArray(const std::initializer_list<T>& t)->MyArray<T,size>;
 //

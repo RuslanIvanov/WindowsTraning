@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <type_traits>
-template <typename T, size_t N> class MyArray {
+template <typename T, size_t N> struct MyArray {
     T m_array[N];
 };
 template <typename First, typename... Rest> struct EnforceSame {
@@ -16,5 +16,6 @@ int main() {
     MyArray<int, 5> ar1;//MyArray<int,5>
     MyArray ar2{ "ABC" }; //MyArray<char,4>
     int ar[] = { 1,2,3 };
-    MyArray ar3{ ar };
+    MyArray ar3{ ar,ar,ar };
+    int y = 0;
 }
