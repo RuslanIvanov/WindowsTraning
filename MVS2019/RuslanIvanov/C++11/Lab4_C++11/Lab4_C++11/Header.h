@@ -37,20 +37,21 @@ auto isPointer(const T& t)
 }
 
 template <typename T>
-constexpr void PRINTF2( T& t)
+constexpr void PRINTF2(const T& t)
 {
 	std::cout << "\nPRINTF2:\n";
-
+	 auto  type = *t;
 	for (auto it = std::begin(t); it != std::end(t); ++it)
 	{
-
+		//it->value;
 		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
 		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
+		if constexpr (std::is_pointer<decltype(type)>::value)
 		//if(isPointer(*it)
-		if constexpr (std::is_pointer< typename T::value_type>::value)
-		//if constexpr (std::is_pointer<std::remove_all_extents<T>>::value)
+		//if constexpr (std::is_pointer< typename T::value_type>::value)
+		//if constexpr (std::is_pointer<std::remove_reference<T&>>::value)
 		{
-			std::cout << "\npoint2 " << **it << " ";
+			std::cout << "\npoint2 " << *it << " ";
 		}
 		else
 		{		
