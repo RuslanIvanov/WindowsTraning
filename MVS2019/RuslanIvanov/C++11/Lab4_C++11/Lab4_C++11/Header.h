@@ -36,20 +36,37 @@ auto isPointer(const T& t)
 	else { return false; }
 }
 
+template<typename T>
+void PRINTF3(const T& t)
+{
+	for ( auto& el: t) 
+	{
+		if constexpr (std::is_pointer<(t)>::value)
+		{
+			std::cout << "\npoint3 " << **el << " ";
+		}
+		else
+		{
+			std::cout << "\nno point3 " << *el << " ";
+		}
+	}
+
+}
+
 template <typename T>
 constexpr void PRINTF2(const T& t)
 {
 	std::cout << "\nPRINTF2:\n";
-	 auto  type = *t;
+	// auto  type = *t;
 	for (auto it = std::begin(t); it != std::end(t); ++it)
 	{
 		//it->value;
-		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
+		if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
 		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
-		if constexpr (std::is_pointer<decltype(type)>::value)
+		//if constexpr (std::is_pointer<decltype(type)>::value)
 		//if(isPointer(*it)
 		//if constexpr (std::is_pointer< typename T::value_type>::value)
-		//if constexpr (std::is_pointer<std::remove_reference<T&>>::value)
+		//if constexpr (std::is_pointer<std::remove_reference<t>>::value)
 		{
 			std::cout << "\npoint2 " << *it << " ";
 		}

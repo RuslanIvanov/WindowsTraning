@@ -80,6 +80,16 @@ int main(int,char**)
 		PRINTF2(s);
 		PRINTF2(vs);
 		//PRINTF(ptrV);
+
+		PRINTF3(point);
+		PRINTF3(ar);
+		PRINTF3(v);
+		PRINTF3(l);
+		PRINTF3(d);
+		PRINTF3(s);
+		PRINTF3(vs);
+		//PRINT3(ptrV);
+
 		stop
 
 		for (size_t i = 0; i < 3; i++)
