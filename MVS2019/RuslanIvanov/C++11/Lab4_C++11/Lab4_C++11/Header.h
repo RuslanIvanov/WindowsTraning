@@ -207,15 +207,16 @@ bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
 	return (*l->begin() < *r->begin());
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
 template<typename T, size_t size> 
-class MyArray
+class MyArray2
 {
 
 	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
 	size_t m_n=size;
 public:
-	MyArray() = default; // констр на тип “*
-	MyArray(const MyArray& r) // не надо
+	MyArray2() = default; // констр на тип “*
+	MyArray2(const MyArray2& r) // не надо
 	{
 		if (r.m_n <= m_n)
 		{
@@ -228,13 +229,13 @@ public:
 		else throw "error length!!";
 	}
 
-	/*MyArray(MyArray&& r) 
+	/*MyArray2(MyArray2&& r) 
 	{// нет смысла  ??
 		ar = r.ar;
 		m_n = r.m_n;
 	}*/
 
-	MyArray(const int& r, size_t n) 
+	MyArray2(const int& r, size_t n) 
 	{
 		m_n = n;
 		for (size_t i = 0; i < m_n; i++)
@@ -243,7 +244,7 @@ public:
 		}
 	}
 
-	MyArray(const std::initializer_list<T>& l) 
+	MyArray2(const std::initializer_list<T>& l) 
 	{
 		if (l.size() <= m_n)
 		{ 
@@ -257,20 +258,39 @@ public:
 	}
 
 };
-//////////////////////////////////////////////////////////////////////////////////
+
 template <typename First, typename... Rest> struct EnforceSame 
 {
-	//static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
+	static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
 	using type = First;
 };
-template <typename First, typename... Rest> MyArray(First, Rest...)
-->MyArray<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
+template <typename First, typename... Rest> MyArray2(First, Rest...)
+->MyArray2<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
 ///////////////////////////////////////////////////////////////////////////////////
-////My deduction guid ???
-template<typename T, size_t size >
-MyArray(const std::initializer_list<T(&)[]> t)->MyArray<T, size>;
 
-//template<typename T, size_t size> MyArray(const T(&ar)[size])->MyArray<T, size>;
+//более верна€ реализ:
+template<typename T, size_t size>
+class MyArray
+{
+	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
+public:
+	MyArray() = default;
+	MyArray(const MyArray(&rar)[size])
+	{
+		for (size_t i = 0; i < size; i++)
+		{
+			ar[i] = rar[i];
+		}
+
+	}
+
+};
+//My deduction guid
+template<typename T, size_t size> 
+MyArray(const T(&ar)[size])->MyArray<T, size>;
+template<typename T, size_t size>
+MyArray(const initializer_list<T>& t)->MyArray<char, size>;
+//////////////////////////////////////////////////////////////////////////////////
 
 ////My deduction guid
 //template<typename T, size_t size>
@@ -283,6 +303,4 @@ MyArray(const std::initializer_list<T(&)[]> t)->MyArray<T, size>;
 ////My deduction guid
 //template<typename T, size_t size>
 //MyArray(const T* t, size_t)->MyArray<char, size>;
-//
 
-//
