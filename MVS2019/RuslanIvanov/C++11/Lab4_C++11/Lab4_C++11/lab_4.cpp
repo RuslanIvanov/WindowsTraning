@@ -88,7 +88,7 @@ int main(int,char**)
 		PRINTF3(d);
 		PRINTF3(s);
 		PRINTF3(vs);
-		//PRINT3(ptrV);
+		//PRINTF3(ptrV);
 
 		stop
 

@@ -40,14 +40,28 @@ template<typename T>
 void PRINTF3(const T& t)
 {
 	for ( auto& el: t) 
-	{
-		if constexpr (std::is_pointer<(t)>::value)
+	{ 
+		if constexpr (std::is_array<T>::value)
 		{
-			std::cout << "\npoint3 " << **el << " ";
+			if constexpr (std::is_pointer<remove_all_extents<T>::type>::value)
+			{
+				std::cout << "\npoint3 " << *el << " ";
+			}
+			else
+			{
+				std::cout << "\nno point3 " << el << " ";
+			}
 		}
 		else
 		{
-			std::cout << "\nno point3 " << *el << " ";
+			if constexpr (std::is_pointer<T::value_type>::value)
+			{
+				std::cout << "\npoint3 " << *el << " ";
+			}
+			else
+			{
+				std::cout << "\nno point3 " << el << " ";
+			}
 		}
 	}
 
@@ -58,21 +72,22 @@ constexpr void PRINTF2(const T& t)
 {
 	std::cout << "\nPRINTF2:\n";
 	// auto  type = *t;
-	for (auto it = std::begin(t); it != std::end(t); ++it)
+	//for (auto it = std::begin(t); it != std::end(t); ++it)
+	for(auto& it: t)
 	{
 		//it->value;
-		if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
+		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
 		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
-		//if constexpr (std::is_pointer<decltype(type)>::value)
+		if constexpr (std::is_pointer<decltype(it)>::value)
 		//if(isPointer(*it)
-		//if constexpr (std::is_pointer< typename T::value_type>::value)
+		//if constexpr (std::is_pointer<decltype(*it)>::value)
 		//if constexpr (std::is_pointer<std::remove_reference<t>>::value)
 		{
 			std::cout << "\npoint2 " << *it << " ";
 		}
 		else
 		{		
-			std::cout << "\nno point2 " << *it << " ";//???
+			std::cout << "\nno point2 " << it << " ";//???
 		}//*/
 	}
 
