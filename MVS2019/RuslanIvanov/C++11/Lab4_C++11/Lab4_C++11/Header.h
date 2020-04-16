@@ -72,22 +72,27 @@ constexpr void PRINTF2(const T& t)
 {
 	std::cout << "\nPRINTF2:\n";
 	// auto  type = *t;
-	//for (auto it = std::begin(t); it != std::end(t); ++it)
-	for(auto& it: t)
+	for (auto it = std::begin(t); it != std::end(t); ++it)
+	//for(auto& it: t)
 	{
 		//it->value;
 		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
 		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
-		if constexpr (std::is_pointer<decltype(it)>::value)
+		if constexpr (std::is_pointer<remove_all_extents_t<T>>::value)
 		//if(isPointer(*it)
 		//if constexpr (std::is_pointer<decltype(*it)>::value)
 		//if constexpr (std::is_pointer<std::remove_reference<t>>::value)
 		{
-			std::cout << "\npoint2 " << *it << " ";
+			std::cout << "\npoint2 " << **it << " ";
 		}
 		else
-		{		
-			std::cout << "\nno point2 " << it << " ";//???
+		{
+			//if constexpr (std::is_pointer <remove_reference<T::value_type>>::value)
+			//{
+			//	std::cout << "\npoint2 " << **it << " ";
+			//}
+			//else
+			std::cout << "\nno point2 " << *it << " ";//???
 		}//*/
 	}
 
@@ -259,13 +264,13 @@ public:
 
 };
 
-template <typename First, typename... Rest> struct EnforceSame 
+template <typename First, typename... Rest> struct EnforceSame2 
 {
 	static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
 	using type = First;
 };
 template <typename First, typename... Rest> MyArray2(First, Rest...)
-->MyArray2<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;
+->MyArray2<typename EnforceSame2<First, Rest...>::type, 1 + sizeof...(Rest)>;
 ///////////////////////////////////////////////////////////////////////////////////
 
 //более верная реализ:
@@ -283,13 +288,13 @@ public:
 		}
 
 	}
-
 };
 //My deduction guid
 template<typename T, size_t size> 
-MyArray(const T(&ar)[size])->MyArray<T, size>;
+MyArray(const T(&ar)[size])->MyArray<T, size>;//??
+
 template<typename T, size_t size>
-MyArray(const initializer_list<T>& t)->MyArray<char, size>;
+MyArray(const initializer_list<T>& t)->MyArray<T,size>;
 //////////////////////////////////////////////////////////////////////////////////
 
 ////My deduction guid
