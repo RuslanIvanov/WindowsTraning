@@ -11,6 +11,7 @@
 #include <set>
 #include <stddef.h>
 #include <type_traits>
+#include <utility>//pair
 
 using namespace std;
 #include "Point.h"
@@ -310,7 +311,7 @@ int main(int,char**)
 		//(то есть на самом деле два деда и две бабы):
 
 
-		//std::shared_ptr<human> grandM1(new human("Eva"));
+		std::shared_ptr<human> grandM1(new human("Eva"));
 		//...
 
 		//у них появились дети - child():
