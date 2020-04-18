@@ -40,7 +40,7 @@ int main()
        MyArray<int, 5> ar1;//MyArray<int,5>
        MyArray ar2{ "ABC" }; //MyArray<char,4>
        int ar[] = { 1,2,3 };
-        MyArray ar3{ ar };
+       MyArray ar3{ ar };
     }
     {
     

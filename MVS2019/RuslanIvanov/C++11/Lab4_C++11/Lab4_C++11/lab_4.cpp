@@ -331,30 +331,33 @@ int main(int,char**)
 	/*Пользовательский deduction guide – для вывода типов параметров шаблона
 	Задан шаблон класса, который инкапсулирует внедренный ограниченный массив известной
 	размерности с элементами любого типа. */
-		/*
-template<typename T, size_t size> class MyArray
+	/*
+	template<typename T, size_t size> class MyArray
 	{
 		T ar[size]; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
 		…
 	};
 
-//*/
+	//*/
 
 //Требуется обеспечить работоспособность приведенных примеров использования.
 	{
-		MyArray<int, 5> ar1;//MyArray<int,5>
-		MyArray ar2{"ABC"}; //MyArray<char,4>
+		MyArray<int, 5> ar1;//MyArray<int,5> //OK
+		MyArray ar2{"ABC"}; //MyArray<char,4> //??
+		
 		int ar[] = { 1,2,3 };
-		MyArray ar3{ ar };//??
-		MyArray ar4{ 4,5,6,7 };
+		MyArray ar3{ ar };//OK
+		MyArray ar6{ 6 };////variadic telmplate
+		MyArray ar7{1,2,3};//variadic telmplate
 		stop
 	}
 	{
 		MyArray2<int, 5> ar1;//MyArray<int,5>
-		MyArray2 ar2{ "ABC","CC" }; //MyArray<char,4>
+		MyArray2 ar2{ "ABC" }; //MyArray<char,4>
 		int ar[] = { 1,2,3 };
-		MyArray2 ar3{ ar };//??
-		MyArray2 ar4{ 4,5,6,7 };
+		MyArray2 ar3{ ar };//разные варианты с ar3 выше
+		MyArray2 ar4{ 4,5,6,7 };//variadic telmplate
+		MyArray2 ar5{ 5 };//variadic telmplate
 		stop
 	}
 //*/

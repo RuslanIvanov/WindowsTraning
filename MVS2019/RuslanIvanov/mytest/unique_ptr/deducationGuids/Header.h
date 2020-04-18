@@ -21,10 +21,10 @@ explicit(необязательно) имя-шаблона ( объявление-параметра ) -> простой-идентифи
 
  //My deduction guid
  template<typename T, size_t size>
- S(const T& t, size_t)->S<T,size>;
+ S(const T(&)[size], size_t)->S<T,size>;
 
  template<typename T, size_t size >
- S(const std::initializer_list<T>& t )->S<char, size>;
+ S(const std::initializer_list<T>& t)->S<T, size>;
  ///////////////////////////////////////////////////////
  //***************************************************************/
 //Задание 7.
@@ -46,20 +46,20 @@ template<typename T, size_t size> class MyArray
      T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
  public:
      MyArray() = default;
-     MyArray(const T&, size_t n) {}
+     MyArray(const T(&)[size]) {}
     // MyArray(T*) {}
-     MyArray(std::initializer_list<T>) {}
+     MyArray(std::initializer_list<T>&) {}
  };
 
  //My deduction guid
- //template<typename T,size_t size>
- //MyArray(const T& t, size_t)->MyArray<T, size>;
+ template<typename T,size_t size>
+ MyArray(const T(&)[size], size_t)->MyArray<T, size>;
 
  //template<typename T, size_t size>
  //MyArray(const T& t, size_t)->MyArray<int, size>;
 
 template<typename T, size_t size>
- MyArray(const std::initializer_list<T>& t, size_t)->MyArray<const char*, size>;
+ MyArray(const std::initializer_list<T>& t, size_t)->MyArray<T, size>;
 
  //template<typename T, size_t size>
  //MyArray(const T& t, size_t)->MyArray<char, size>;

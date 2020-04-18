@@ -39,6 +39,7 @@ auto isPointer(const T& t)
 template<typename T>
 void PRINTF3(const T& t)
 {
+	std::cout << "\nPRINTF3:";
 	for ( auto& el: t) 
 	{ 
 		if constexpr (std::is_array<T>::value)
@@ -70,29 +71,28 @@ void PRINTF3(const T& t)
 template <typename T>
 constexpr void PRINTF2(const T& t)
 {
-	std::cout << "\nPRINTF2:\n";
-	// auto  type = *t;
+	std::cout << "\nPRINTF2:";
 	for (auto it = std::begin(t); it != std::end(t); ++it)
-	//for(auto& it: t)
 	{
-		//it->value;
-		//if constexpr (std::is_pointer<decltype(*it)/*T*/>::value)//??
-		//if constexpr (std::is_member_pointer<decltype(*it)>::value)
+		
 		if constexpr (std::is_pointer<remove_all_extents_t<T>>::value)
-		//if(isPointer(*it)
-		//if constexpr (std::is_pointer<decltype(*it)>::value)
-		//if constexpr (std::is_pointer<std::remove_reference<t>>::value)
 		{
-			std::cout << "\npoint2 " << **it << " ";
+			std::cout << "\npoint2' " << **it << "\ntype:  "<< typeid(t).name();
 		}
 		else
 		{
-			//if constexpr (std::is_pointer <remove_reference<T::value_type>>::value)
-			//{
-			//	std::cout << "\npoint2 " << **it << " ";
-			//}
-			//else
-			std::cout << "\nno point2 " << *it << " ";//???
+			if constexpr (std::is_array<T>::value == false)
+			{
+				if  constexpr (std::is_pointer <T::value_type>::value)
+				{
+					std::cout << "\npoint2'' " << **it << "\ntype:  " << typeid(t).name();
+				}
+				else
+					std::cout << "\nno point2'' " << *it << "\ntype:  " << typeid(t).name();
+			}
+			else
+				std::cout << "\nno point2''' " << *it << "\ntype:  " << typeid(t).name();
+		
 		}//*/
 	}
 
@@ -213,6 +213,7 @@ bool cmp(const  std::shared_ptr<string>& l, const  std::shared_ptr<string>& r)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
+//мой вариант
 template<typename T, size_t size> 
 class MyArray2
 {
@@ -234,11 +235,11 @@ public:
 		else throw "error length!!";
 	}
 
-	/*MyArray2(MyArray2&& r) 
-	{// нет смысла  ??
-		ar = r.ar;
-		m_n = r.m_n;
-	}*/
+	//MyArray2(MyArray2&& r) 
+	//{// нет смысла  ??
+	//	ar = r.ar;
+	//	m_n = r.m_n;
+	//}
 
 	MyArray2(const int& r, size_t n) 
 	{
@@ -260,7 +261,7 @@ public:
 			}
 		}
 		else throw "error length list!!";
-	}
+	}//*/
 
 };
 
@@ -280,32 +281,43 @@ class MyArray
 	T ar[size] = { T() }; //как обеспечить инициализацию элементов базового типа по умолчанию нулем?
 public:
 	MyArray() = default;
-	MyArray(const MyArray(&rar)[size])
+	MyArray(const T(&_ar)[size])
 	{
 		for (size_t i = 0; i < size; i++)
 		{
-			ar[i] = rar[i];
+			ar[i] = _ar[i];
 		}
 
 	}
+
+	MyArray(const initializer_list<T>& l)// for MyArray ar6{ 6 };
+	{
+		for (size_t i = 0; i < l.size(); i++)
+		{
+			ar[i] = *(l.begin()+i);
+		}
+	}
+
 };
+
 //My deduction guid
 template<typename T, size_t size> 
-MyArray(const T(&ar)[size])->MyArray<T, size>;//??
-
-template<typename T, size_t size>
-MyArray(const initializer_list<T>& t)->MyArray<T,size>;
+MyArray(const T(&)[size])->MyArray<T, size>;
+//template<typename T, size_t size> MyArray(const T(&ar)[size])->MyArray<T, size>;//MA
 //////////////////////////////////////////////////////////////////////////////////
 
+template <typename First, typename... Rest> struct EnforceSame
+{
+	static_assert(std::conjunction_v<std::is_same<First, Rest>...>);
+	using type = First;
+};
+template <typename First, typename... Rest> MyArray(First, Rest...)
+->MyArray<typename EnforceSame<First, Rest...>::type, 1 + sizeof...(Rest)>;//*/
+////////////////////////////////////////////////////////////////////////////////////
+//template<typename T,typename... size>
+//MyArray(T)->MyArray<T, sizeof...(size)+1 >;// for MyArray ar6{ 6 };
 ////My deduction guid
-//template<typename T, size_t size>
-//MyArray(const T& t, size_t)->MyArray<T, size >;
-//
-////My deduction guid
-//template<typename T, size_t size>
-//MyArray(const T& t, size_t)->MyArray<int, size>;
-//
-////My deduction guid
-//template<typename T, size_t size>
-//MyArray(const T* t, size_t)->MyArray<char, size>;
+//template<typename T, typename... size>
+//MyArray(const initializer_list<T>&)->MyArray<T, sizeof...(size) + 1>;//??
+///////////////////////////////////////////////////////////////////////////////////
 
