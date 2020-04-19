@@ -319,14 +319,14 @@ int main(int,char**)
 		auto kain = human::child(human{ "Kain",true }, grandM1, grandF1);
 		auto avel = human::child(human("Avel", false), grandM1, grandF1);
 		auto sheil = human::child("Sheil", grandM1, grandF1);
-		//а у детей в свою очередь свои дети:
+		////а у детей в свою очередь свои дети:
 		std::shared_ptr<human> loveGirlSheil(new human("loveGirl_Sheil"));
 		auto childSheilAndGirl1 = human::child(human("ch1", true), sheil, loveGirlSheil);
 		auto childSheilAndGirl2 = human::child("ch2", sheil, loveGirlSheil);
 
 		std::shared_ptr<human> loveGirlKain(new human("loveGirl_Kain"));
 		auto childKainAndGirlKain = human::child(human("ch3", true), kain, loveGirlKain);
-		//...
+		////...
 		__asm nop
 	}
 

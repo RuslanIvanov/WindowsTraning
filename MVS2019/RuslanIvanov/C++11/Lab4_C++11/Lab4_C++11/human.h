@@ -1,4 +1,5 @@
 #pragma once
+
 class human 
 {
 	bool m_bLive;
@@ -11,8 +12,8 @@ class human
 public:
 
 	human() = delete;
-	human(const human&) = delete;
-	human& operator=(const human&) = delete;
+	human(const human&) = delete; //нельзя создавать человека из другого
+	human& operator=(const human&) = delete; //нельзя копировать человека из другого
 
 	human(const char* c,  bool live = true)
 	{
@@ -21,7 +22,7 @@ public:
 		
 	}
 
-	//human(human&& h) {}
+//	human(human&& h) {}
 
 	static  shared_ptr<human> child(human&& c, shared_ptr<human>& m, shared_ptr<human>& f)
 	{
@@ -33,14 +34,14 @@ public:
 
 		ptr->mother = ptr;
 		ptr->father = ptr;
-	  ptr->countChilds++;
-		return ptr;
+		ptr->countChilds++;
+		return move(ptr);
 
 	}
 
 	static  shared_ptr<human> child(const char* ch,shared_ptr<human>& m, shared_ptr<human>& f)
 	{
-		shared_ptr<human> ptr = make_shared<human>(new string(ch));
+		shared_ptr<human> ptr = make_shared<human>(move(human(ch,true)));
 
 		m->childs.push_back(ptr);
 		f->childs.push_back(ptr);
@@ -48,7 +49,7 @@ public:
 		ptr->mother = ptr;
 		ptr->father = ptr;
 		ptr->countChilds++;
-		return ptr;
+		return move(ptr);
 
 	}
 
@@ -71,3 +72,4 @@ public:
 		printH(os, countChilds);
 	}
 };
+size_t human::countChilds;
