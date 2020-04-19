@@ -7,15 +7,19 @@ class human
 	std::pair<shared_ptr<human>, shared_ptr<human>> parent;
 	std::vector<weak_ptr<human>> childs;
 public:
-	human(std::pair<shared_ptr<human>, shared_ptr<human>> p) 
+	human(const std::pair<shared_ptr<human>, shared_ptr<human>>& p) 
 	{
 	}
 
-	human(std::pair<shared_ptr<human>> p)
+	human(const std::shared_ptr<human>& p)
 	{
 	}
 
-	human(weak_ptr<human> c)
+	human(const weak_ptr<human>& c)
+	{
+	}
+
+	static  weak_ptr<human>& child(const char* c) 
 	{
 	}
 };
