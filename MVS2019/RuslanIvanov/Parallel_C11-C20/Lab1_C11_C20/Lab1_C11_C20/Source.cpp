@@ -15,7 +15,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
+using namespace chrono_literals;
 #include "Header.h"
 #if  _WIN32 
 
@@ -49,18 +49,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	vector<thread> tv;
 	string s_rez[sizeof(filespec) / sizeof(filespec[0])] = { "" };
 	tv.reserve(sizeof(filespec) / sizeof(filespec[0]));
+	chrono::time_point<chrono::system_clock> start , end;
 	for (int i = 0; i < sizeof(filespec) / sizeof(filespec[0]); i++)
 	{
-		//
-		//thread th(test);
-		//readFromFile(filespec[i], s_rez[i]);
+		start = chrono::system_clock::now();
 		tv.emplace_back(readFromFile,filespec[i], ref(s_rez[i]));
-				
-		stop
 		tv[i].join();// иначе пардает
+		end = chrono::system_clock::now();
+		chrono::duration<double> diff = end - start;
+		cout << "diff " << diff.count() << " s\n";
+		stop
 	}
 
-	std::transform(begin(s_rez),end(s_rez),begin(s_rez), predUpperStr());// можно было в птоке
+	transform(begin(s_rez),std::end(s_rez),begin(s_rez), predUpperStr());// можно было в птоке
 
 	for (int i = 0; i < sizeof(_filespec) / sizeof(_filespec[0]); i++)
 	{
