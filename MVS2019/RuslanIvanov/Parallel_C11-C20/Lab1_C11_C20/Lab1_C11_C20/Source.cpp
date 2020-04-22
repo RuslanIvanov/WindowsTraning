@@ -45,16 +45,28 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_CTYPE, ".UTF8");
 	cout << "Привет, лаб1 parallel!";
 #endif
-	//thread t[sizeof(filespec) / sizeof(filespec[0])];
-	string s[sizeof(filespec) / sizeof(filespec[0])] = { "" };
-	for (size_t i = 0; i < sizeof(filespec) / sizeof(filespec[0]); i++)
+	
+	vector<thread> tv;
+	string s_rez[sizeof(filespec) / sizeof(filespec[0])] = { "" };
+	tv.reserve(sizeof(filespec) / sizeof(filespec[0]));
+	for (int i = 0; i < sizeof(filespec) / sizeof(filespec[0]); i++)
 	{
 		//
-		readFromFile(filespec[i], s[i]);
-		{
-			// t[i].(test);
-		}
+		//thread th(test);
+		//readFromFile(filespec[i], s_rez[i]);
+		tv.emplace_back(readFromFile,filespec[i], ref(s_rez[i]));
+				
 		stop
+		tv[i].join();// иначе пардает
+	}
+
+	std::transform(begin(s_rez),end(s_rez),begin(s_rez), predUpperStr());// можно было в птоке
+
+	for (int i = 0; i < sizeof(_filespec) / sizeof(_filespec[0]); i++)
+	{
+		thread th(writeToFile, _filespec[i], ref(s_rez[i]));
+		stop
+		th.join();// иначе пардает
 	}
 
 	return  0;
