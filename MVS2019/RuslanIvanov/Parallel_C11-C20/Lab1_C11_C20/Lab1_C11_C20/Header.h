@@ -10,10 +10,9 @@ inline void writeToFile(const char* filename, const string& str)
 	if (f.is_open())
 	{
 		std::cout << "\nfile "<< filename <<" is opened:\n";
-		//while (!f.eof())
-		{
-			f << str;
-		}
+
+		f << str;
+	
 	}else 	throw "file open write is error";
 
 	f.close();
@@ -36,11 +35,25 @@ inline void readFromFile(const char* filename, string& str)
 			str += " ";
 		}
 		
-		cout << "\n'" << str<< "'";
+		//cout << "\n'" << str<< "'";
 
 	}else 	str+= "file open for read is error";
 
 	f.close();
+}
+
+inline void readWriteAndChangeFromFile(const string& filename)
+{
+	ifstream f(filename);
+	ofstream f2(filename+'_');
+
+	if (f.is_open() && f2.is_open())
+	{
+		std::cout << "\nfile " << filename << " is opened\n";
+		transform(istreambuf_iterator<char>(f), istreambuf_iterator<char>(), 
+			ostreambuf_iterator<char>(f2), toupper);
+	}
+	
 }
 
 inline string& mytolowerString(std::string& st)
@@ -75,3 +88,16 @@ public:
 	}
 
 };
+
+inline void MyBeep(unsigned int F, unsigned int MC) 
+{
+	//test
+	/*for (unsigned int i = 0; i < MC; i++)
+	{
+		cout << "\nvoice F ='"<<F<<"' mc "<<i;
+		cout << '\a';
+		std::this_thread::sleep_for(1ms);
+	}//*/
+
+	Beep(F, MC);
+}
