@@ -245,5 +245,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			stop
 		}
 	}
+	//5
+	{
+    }
 	return  0;
 }
