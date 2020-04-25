@@ -136,25 +136,62 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//4)
 		{
-			vector<int> vi;
-			vector<int> vrez;
-			unsigned char nThreads = 1;
-			const unsigned char ELEMENTS = 100;
-			unsigned char ELEMENS_FOR_TASK = 0;// если 0, то попток сразу завершиться
-
+			//vector<int> values(1250000);
+			//generate(begin(values), end(values), mt19937(42));
+			
+			unsigned short nThreads = 1;
+			const unsigned short ELEMENTS = 100;
+			unsigned short ELEMENS_FOR_TASK = 0;// если 0, то попток сразу завершиться
+			unsigned short ELEMENS_FOR_MAIN = 0;
+			vector<int> vi(ELEMENTS);
+			vector<int> vrez(vi.size());
 			for (size_t i = 0; i < ELEMENTS; i++)
 			{
-				vi.push_back((i+1)*-1);
+				vi[i] = (i+1)*(-1);
 			}
-			vrez.reserve(vi.size());
+			//vrez.reserve(vi.size());
 
 			unsigned int nKernel = std::thread::hardware_concurrency();
 			std::cout << "\n\nKernels " << nKernel << " supported.\n";
 
 			cout << "Enter thread count: ";
 			std::cin >> nThreads;
-			nThreads = nThreads - 1;
 
+			if (nThreads > ELEMENTS) { nThreads = ELEMENTS; }
+			nThreads = nThreads - 1;
+			
+			ELEMENS_FOR_TASK = ELEMENTS/nThreads;//100/3 = 33 => ELEMENTS - (33*nThreads) =  ost
+			//int _ELEMENS_FOR_MAIN = ELEMENTS % nThreads;
+			ELEMENS_FOR_MAIN = ELEMENTS - (ELEMENS_FOR_TASK * nThreads);
+		
+			//transform( vi.begin(), vi.end(), back_inserter(vrez), std::negate<int>());
+			
+			int last = ELEMENS_FOR_TASK;
+			int first = 0;
+			for (size_t i = 0; i < nThreads; i++)
+			{
+				first = (i * ELEMENS_FOR_TASK);
+				
+				//transform(std::execution::par, vi.begin() + first, vi.begin()+last, vrez.begin() + first, std::negate<int>());
+				transform(std::execution::par, vi.begin() + first, vi.begin() + last, vrez.begin() + first, [](int n)
+					{
+						return abs(n);
+					}
+				);
+				last+= ELEMENS_FOR_TASK;
+			}
+
+			if (ELEMENS_FOR_MAIN)
+			{
+				last = (ELEMENTS - ELEMENS_FOR_MAIN);
+				//
+				//transform(vi.begin() + first, vi.begin() + last, vrez.begin() + first, std::negate<int>());
+				transform(std::execution::par, vi.begin() + last, vi.end(), vrez.begin() + last, [](int n)
+					{
+						return abs(n);
+					}
+				);
+			}
 			stop
 		}
 	}
