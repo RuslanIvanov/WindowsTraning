@@ -1,6 +1,7 @@
 
 #include "Header.h"
 #include "functions.h"
+#include "templates.h"
 
 using namespace std;
 using namespace chrono_literals;
@@ -145,11 +146,11 @@ int _tmain(int argc, _TCHAR* argv[])
 			unsigned short ELEMENS_FOR_MAIN = 0;
 			vector<int> vi(ELEMENTS);
 			vector<int> vrez(vi.size());
+
 			for (size_t i = 0; i < ELEMENTS; i++)
 			{
 				vi[i] = (i+1)*(-1);
 			}
-			//vrez.reserve(vi.size());
 
 			unsigned int nKernel = std::thread::hardware_concurrency();
 			std::cout << "\n\nKernels " << nKernel << " supported.\n";
@@ -168,16 +169,21 @@ int _tmain(int argc, _TCHAR* argv[])
 			
 			int last = ELEMENS_FOR_TASK;
 			int first = 0;
+			//Вариант 1
+			////////////////////////////////////////////////////////////////////////////////////
 			for (size_t i = 0; i < nThreads; i++)
 			{
 				first = (i * ELEMENS_FOR_TASK);
-				
+				auto start = std::chrono::steady_clock::now();
 				//transform(std::execution::par, vi.begin() + first, vi.begin()+last, vrez.begin() + first, std::negate<int>());
-				transform(std::execution::par, vi.begin() + first, vi.begin() + last, vrez.begin() + first, [](int n)
+				transform(std::execution::par, vi.begin() + first, vi.begin() + last, vrez.begin() + first, [first](int n)
 					{
+						std::cout << "i" << first;
 						return abs(n);
 					}
 				);
+				auto end = std::chrono::steady_clock::now();
+				std::cout << "\n time: " << std::chrono::duration <double, std::milli>(end - start).count() << " ms\n";
 				last+= ELEMENS_FOR_TASK;
 			}
 
@@ -186,12 +192,56 @@ int _tmain(int argc, _TCHAR* argv[])
 				last = (ELEMENTS - ELEMENS_FOR_MAIN);
 				//
 				//transform(vi.begin() + first, vi.begin() + last, vrez.begin() + first, std::negate<int>());
-				transform(std::execution::par, vi.begin() + last, vi.end(), vrez.begin() + last, [](int n)
+				auto start = std::chrono::steady_clock::now();
+				transform(std::execution::par, vi.begin() + last, vi.end(), vrez.begin() + last, [last](int n)
 					{
+						std::cout << "i" << last;
 						return abs(n);
 					}
 				);
+				auto end = std::chrono::steady_clock::now();
+				std::cout <<"\n time: "<< std::chrono::duration <double, std::milli>(end - start).count() << " ms\n";
 			}
+			std::cout << "\n\n";
+			printCont(vrez);
+
+			//Вариант2
+			///////////////////////////////////////////////////////////////////////////////////////////////////
+			last = ELEMENS_FOR_TASK;
+			first = 0;
+			vector<thread> tv;//(nThreads);
+			vector<int> vrez2(vi.size());
+			double* t = new double [nThreads+1];
+			for (int i = 0; i < nThreads; i++)
+			{
+				first = (i * ELEMENS_FOR_TASK);
+				tv.emplace_back(tr, cref(vi), ref(vrez2),first,last,ref(t[i]));	
+				last += ELEMENS_FOR_TASK;
+			}
+
+			if (ELEMENS_FOR_MAIN)
+			{
+				last = (ELEMENTS - ELEMENS_FOR_MAIN);
+				tr(vi, vrez2, last, ELEMENTS,t[nThreads-1]);
+			}
+			stop
+
+			std::cout << "\nSLEEP MAIN";
+			this_thread::sleep_for(5s);
+			std::cout << "\nRESUME MAIN";
+
+			for (int i = 0; i < tv.size(); i++)
+			{
+				tv[i].join();
+			}
+
+			for (int i = 0; i < nThreads+1; i++)
+			{
+				std::cout << "\ntime run transform th " << i <<":  "<< t[i] << " ms";
+			}
+			delete[] t;
+			std::cout << "\n\n";
+			printCont(vrez);
 			stop
 		}
 	}

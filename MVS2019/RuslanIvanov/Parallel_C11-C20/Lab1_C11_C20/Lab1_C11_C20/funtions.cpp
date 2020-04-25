@@ -80,3 +80,19 @@ void MyBeep(unsigned int F, unsigned int MC)
 {
 	Beep(F, MC);
 }
+
+void tr(const vector<int>& v, vector<int>& r, int first, int last, double& t)
+{
+	auto start = std::chrono::steady_clock::now();
+	std::cout << " [" << first << "," << last << "]";
+	
+	transform(/*std::execution::par,*/ v.begin() + first, v.begin()+last, r.begin() + first, [](int n)
+	{
+			return abs(n);
+	}
+	);
+	auto end = std::chrono::steady_clock::now();
+	t = std::chrono::duration <double, std::milli>(end - start).count();
+//	std::cout << std::chrono::duration <double, std::milli>(end - start).count() << " ms";;
+	
+}

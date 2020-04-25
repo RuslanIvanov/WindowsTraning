@@ -36,3 +36,14 @@ template <typename TFunc> void RunAndMeasure(const char* title, TFunc func)
               std::chrono::duration <double, std::milli>(end - start).count() 
               << " ms, res " << ret << "\n";
 }
+
+template <typename T> 
+void printCont(const T& t)
+{
+	
+	for (auto i = t.begin(); i != t.end(); ++i)
+	{
+		std::cout << *i << " ";
+	}
+
+}
