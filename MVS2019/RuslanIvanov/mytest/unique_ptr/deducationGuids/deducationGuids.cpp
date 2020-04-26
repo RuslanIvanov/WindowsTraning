@@ -11,10 +11,32 @@
 #include <iterator>
 #include <type_traits>
 #include"Header.h"
+#include <sstream>
+#include <vector>
+#include <future>
+int sum(const std::vector<int>& v) {
+    int res = 0;
+    for (auto i : v) { res += i; }
+    return res;
+}
+
 
 int main()
 {
     std::cout << "Hello World!\n";
+
+    std::vector<int> v = { 1, 2, 3, 4 };
+    std::future<int> f = std::async(sum, std::cref(v));
+    //…какие-то вычисления
+    std::cout << f.get(); //дожидаемся окончания,
+   // получаем результат
+
+    std::stringstream ss;
+    ss << "22"; 
+    ss << 11;
+    int k = 0;
+    ss >> k;
+    std::cout << k << std::endl;
 
     std::pair p(2, 4.5);     // выводится как std::pair<int, double> p(2, 4.5);
     std::tuple t(4, 3, 2.5); // эквивалентно auto t = std::make_tuple(4, 3, 2.5);
@@ -45,7 +67,7 @@ int main()
     {
     
         S<int,6> ar11;
-        S ar22{ "ABC" };
+      //  S ar22{ "ABC" };
        // int ar11[] = { 1,2,3 };
        // S ar33{ ar11 };
 

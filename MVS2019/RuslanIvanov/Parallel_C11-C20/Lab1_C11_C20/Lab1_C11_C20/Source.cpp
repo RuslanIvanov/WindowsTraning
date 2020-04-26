@@ -87,7 +87,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//2)
 	{//Beep(261, <интервал_в_мс>);
-		/*
+		
 		vector<thread> tv;
 		pair<unsigned int, unsigned int> gamma[] = 
 		{ 
@@ -139,7 +139,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			//vector<int> values(1250000);
 			//generate(begin(values), end(values), mt19937(42));
-			
+
 			unsigned short nThreads = 1;
 			const unsigned short ELEMENTS = 100;
 			unsigned short ELEMENS_FOR_TASK = 0;// если 0, то попток сразу завершиться
@@ -149,7 +149,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			for (size_t i = 0; i < ELEMENTS; i++)
 			{
-				vi[i] = (i+1)*(-1);
+				vi[i] = (i + 1) * (-1);
 			}
 
 			unsigned int nKernel = std::thread::hardware_concurrency();
@@ -158,8 +158,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			cout << "Enter thread count: ";
 			std::cin >> nThreads;
 
-			if (nThreads > ELEMENTS) { nThreads = ELEMENTS; }
-			nThreads = nThreads - 1;
+			if (nThreads > ELEMENTS || nThreads == 0)
+			{ nThreads = 1; }
+			else if (nThreads > 1 ) 
+			{
+				nThreads = nThreads - 1;
+			}
 			
 			ELEMENS_FOR_TASK = ELEMENTS/nThreads;//100/3 = 33 => ELEMENTS - (33*nThreads) =  ost
 			//int _ELEMENS_FOR_MAIN = ELEMENTS % nThreads;
@@ -246,7 +250,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 	//5
-	{
+	{// пока не сделал
     }
+
+	std::cout << "\nPress any key for exit...\n";
+	getchar();
+
 	return  0;
 }

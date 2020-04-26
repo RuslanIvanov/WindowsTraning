@@ -18,6 +18,7 @@
 #include <execution>
 #include <random>
 #include <functional>
+#include <future>
 
 #if  _WIN32 
 
