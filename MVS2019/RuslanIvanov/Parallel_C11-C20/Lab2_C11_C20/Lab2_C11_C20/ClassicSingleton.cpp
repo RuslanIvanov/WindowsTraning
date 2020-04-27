@@ -10,13 +10,18 @@ ClassicSingleton* ClassicSingleton::getInstance()
 	}
 
 	return instance;
-};
+}
 
 ClassicSingleton* ClassicSingleton::getInstanceForThread()
 {
+	if (instanceTh == nullptr)
+	{
+		instanceTh = new ClassicSingleton();
+	}
 
+	return instanceTh;
 }
 
-ClassicSingleton::ClassicSingleton() {};
+ClassicSingleton::ClassicSingleton() {}
 ClassicSingleton::~ClassicSingleton() { delete instance;  }
 void ClassicSingleton::printName() { std::cout << "\nClassicSingleton"; }
