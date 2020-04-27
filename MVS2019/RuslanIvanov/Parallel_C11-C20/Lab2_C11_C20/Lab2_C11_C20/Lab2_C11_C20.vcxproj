@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClassA.cpp" />
+    <ClCompile Include="ClassicSingleton.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassA.h" />
+    <ClInclude Include="ClassicSingleton.h" />
     <ClInclude Include="functions.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="templates.h" />

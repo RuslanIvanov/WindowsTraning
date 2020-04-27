@@ -128,7 +128,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 		//3)
-
+		//duration...
 		for (char o = 'A'; o <= 'Z'; o++)
 		{
 			this_thread::sleep_for(75ms*('Z' - o )); 
@@ -215,7 +215,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			first = 0;
 			vector<thread> tv;//(nThreads);
 			vector<int> vrez2(vi.size());
-			double* t = new double [nThreads+1];
+			double* t = new double [nThreads+1];//время работы transform ?? а надо ли так
 			for (int i = 0; i < nThreads; i++)
 			{
 				first = (i * ELEMENS_FOR_TASK);

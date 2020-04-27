@@ -13,6 +13,7 @@ public:
 	ClassA();
 	~ClassA();
 
+	static void setZero() { m_countInTh = 0; }
 	static size_t getCount() { return  m_count; }
 	static size_t getCountInTh() { return  m_countInTh; }
 	void printName() { std::cout<<"\nclass: "<<m_name; }

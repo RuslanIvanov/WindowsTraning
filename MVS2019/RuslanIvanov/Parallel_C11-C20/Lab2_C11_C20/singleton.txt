@@ -1,0 +1,185 @@
+#include <iostream>
+class ClassicSingleton
+{
+private:
+	static ClassicSingleton* instance;
+	ClassicSingleton() {}
+
+public:
+
+	static ClassicSingleton *getInstance()
+	{
+		if (instance == nullptr)
+		{
+			instance = new ClassicSingleton();
+		}
+
+		return instance;
+	}
+
+	~ClassicSingleton() { delete instance;  }
+
+	void printName() { std::cout << "\nClassicSingleton"; }
+};
+
+class Singleton
+{
+  public:
+    static Singleton& Instance()
+    {
+        // согласно стандарту, этот код ленивый и потокобезопасный
+        static Singleton s;
+        return s;
+    }
+
+  private:
+    Singleton() { ... }  // конструктор недоступен
+    ~Singleton() { ... } // и деструктор
+
+    // необходимо также запретить копирование
+    Singleton(Singleton const&); // реализация не нужна
+    Singleton& operator= (Singleton const&);  // и тут
+};
+Начиная с C++11, правильнее писать так:
+
+Singleton(Singleton const&) = delete;
+Singleton& operator= (Singleton const&) = delete;
+
+///////////////////////////////////////////////////////////////////
+/*
+ * Example of a singleton design pattern.
+ * Copyright (C) 2011 Radek Pazdera
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <iostream>
+
+class Singleton
+{
+    private:
+        /* Here will be the instance stored. */
+        static Singleton* instance;
+
+        /* Private constructor to prevent instancing. */
+        Singleton();
+
+    public:
+        /* Static access method. */
+        static Singleton* getInstance();
+};
+
+/* Null, because instance will be initialized on demand. */
+Singleton* Singleton::instance = 0;
+
+Singleton* Singleton::getInstance()
+{
+    if (instance == 0)
+    {
+        instance = new Singleton();
+    }
+
+    return instance;
+}
+
+Singleton::Singleton()
+{}
+
+int main()
+{
+    //new Singleton(); // Won't work
+    Singleton* s = Singleton::getInstance(); // Ok
+    Singleton* r = Singleton::getInstance();
+
+    /* The addresses will be the same. */
+    std::cout << s << std::endl;
+    std::cout << r << std::endl;
+}
+
+/////////////////////////////////////////////////////
+
+#include <iostream>
+#include <thread>
+ 
+namespace thread_local_test
+{
+    
+class CurrencyPairs
+{
+  public:
+    static CurrencyPairs *getInstance();
+ 
+  private:
+    CurrencyPairs() {};
+    ~CurrencyPairs() {};
+    CurrencyPairs(CurrencyPairs const&) = delete;
+    CurrencyPairs& operator= (CurrencyPairs const&) = delete;
+};
+ 
+CurrencyPairs *CurrencyPairs::getInstance()
+{
+  static thread_local CurrencyPairs singletone;
+  return &singletone;
+}
+ 
+}
+ 
+ 
+namespace non_thread_local_test
+{
+ 
+class CurrencyPairs
+{
+  public:
+    static CurrencyPairs *getInstance();
+ 
+  private:
+    CurrencyPairs() {};
+    ~CurrencyPairs() {};
+    CurrencyPairs(CurrencyPairs const&) = delete;
+    CurrencyPairs& operator= (CurrencyPairs const&) = delete;
+};
+ 
+CurrencyPairs *CurrencyPairs::getInstance()
+{
+  static CurrencyPairs singletone;
+  return &singletone;
+}
+ 
+}
+ 
+template<typename Singleton>
+void test()
+{
+    auto thFunc =[]() {
+        std::cout << std::hex << "Addr of singleton object: " << Singleton::getInstance() << std::endl;
+    };
+    
+    std::thread arr[] = {
+        std::thread(thFunc), std::thread(thFunc), std::thread(thFunc)    
+    };
+ 
+    for(std::thread & thr : arr)
+    {
+        thr.join();
+    }
+    std::cout << "Test end\n";
+    
+}
+ 
+ 
+int main()
+{
+    std::cout << "Non thread local addresses: \n";
+    test<non_thread_local_test::CurrencyPairs>();
+    std::cout << "Thread local addresses: \n";
+    test<thread_local_test::CurrencyPairs>();
+}

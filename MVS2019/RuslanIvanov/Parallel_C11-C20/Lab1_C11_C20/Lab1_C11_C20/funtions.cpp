@@ -83,7 +83,7 @@ void MyBeep(unsigned int F, unsigned int MC)
 
 void tr(const vector<int>& v, vector<int>& r, int first, int last, double& t)
 {
-	auto start = std::chrono::steady_clock::now();
+	auto start = std::chrono::steady_clock::now(); //вынести, тут измер вемени особо не имеет смысла
 	std::cout << " [" << first << "," << last << "]";
 	
 	transform(/*std::execution::par,*/ v.begin() + first, v.begin()+last, r.begin() + first, [](int n)

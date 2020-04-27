@@ -2,6 +2,7 @@
 #include "functions.h"
 #include "templates.h"
 #include "ClassA.h"
+#include "ClassicSingleton.h"
 
 using namespace std;
 using namespace chrono_literals;
@@ -128,18 +129,21 @@ int _tmain(int argc, _TCHAR* argv[])
 			sprintf_s(buf, 80, "thread name_%d", i);
 			string name(buf);
 			//tv.emplace_back(funcMakeA, name,i);
-			tf.push_back( async(std::launch::async,funcMakeA, name, i) );//????
+			tf.push_back( async(std::launch::async,funcMakeA, name, i) );//Создание и исполнение птока в произвольном порядке
+			//tf.push_back(async(std::launch::deferred, funcMakeA, name, i));//в get(), при вызове начинасется последовательно ваполн функции потока
 		}
 
-		cout<<"th: "<<ClassA::getCount();
-		//for (unsigned int i = 0; i < tv.size(); i++){tv[i].join();}
-
+		cout << "\nHEADER N threads :\n"<<N;
+		
+		/*
+		пока запущенные потоки работают, делаем ПОЛЕЗНУЮ работу, например, выводим заголовок - что за заголовок ???
+		*/
 		for (unsigned int i = 0; i < tf.size(); i++)
 		{
-			tf[i].wait();
-			cout << "\nth stop id" << tf[i].get();		
+			//tf[i].wait();//лишний
+			cout << "\nTHREAD STOP id = " << tf[i].get();//---> wait		
 		}
-
+		stop
 	}
 	//3)
 	{
@@ -212,6 +216,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 
 	}
+
+	//5
+	{
+		ClassicSingleton* cs =	ClassicSingleton::getInstance();
+		
+		stop
+	}
+
 	std::cout << "\nPress any key for exit...\n";
 	getchar();
 
