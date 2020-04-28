@@ -183,3 +183,86 @@ int main()
     std::cout << "Thread local addresses: \n";
     test<thread_local_test::CurrencyPairs>();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//Title of this code
+//clang 3.6.0
+
+#include <iostream>
+#include <thread>
+
+namespace thread_local_test
+{
+    
+class CurrencyPairs
+{
+  public:
+    static CurrencyPairs *getInstance();
+ 
+  private:
+    CurrencyPairs() {};
+    ~CurrencyPairs() {};
+    CurrencyPairs(CurrencyPairs const&) = delete;
+    CurrencyPairs& operator= (CurrencyPairs const&) = delete;
+};
+ 
+CurrencyPairs *CurrencyPairs::getInstance()
+{
+  static thread_local CurrencyPairs singletone;
+  return &singletone;
+}
+
+}
+
+
+namespace non_thread_local_test
+{
+
+class CurrencyPairs
+{
+  public:
+    static CurrencyPairs *getInstance();
+ 
+  private:
+    CurrencyPairs() {};
+    ~CurrencyPairs() {};
+    CurrencyPairs(CurrencyPairs const&) = delete;
+    CurrencyPairs& operator= (CurrencyPairs const&) = delete;
+};
+ 
+CurrencyPairs *CurrencyPairs::getInstance()
+{
+  static CurrencyPairs singletone;
+  return &singletone;
+}
+
+}
+ 
+template<typename Singleton>
+void test()
+{
+    auto thFunc =[]() {
+        std::cout << std::hex << "Addr of singleton object: " << Singleton::getInstance() << std::endl;
+    };
+    
+    std::thread arr[] = {
+        std::thread(thFunc), std::thread(thFunc), std::thread(thFunc)    
+    };
+
+    for(std::thread & thr : arr)
+    {
+        thr.join();
+    }
+    std::cout << "Test end\n";
+    
+}
+
+
+int main()
+{
+    std::cout << "Non thread local addresses: \n";
+    test<non_thread_local_test::CurrencyPairs>();
+    std::cout << "Thread local addresses: \n";
+    test<thread_local_test::CurrencyPairs>();
+}

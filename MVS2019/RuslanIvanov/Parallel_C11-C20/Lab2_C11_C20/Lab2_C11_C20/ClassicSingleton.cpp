@@ -1,27 +1,20 @@
 #include "ClassicSingleton.h"
 
-ClassicSingleton* ClassicSingleton::instance;
-
-ClassicSingleton* ClassicSingleton::getInstance()
+ClassSingleton* ClassSingleton::getInstance()
 {
-	if (instance == nullptr)
-	{
-		instance = new ClassicSingleton();
-	}
+	//if (instance == nullptr){instance = new ClassSingleton();}	return instance;
 
-	return instance;
+	static ClassSingleton singletone;
+	return &singletone;
 }
 
-ClassicSingleton* ClassicSingleton::getInstanceForThread()
-{
-	if (instanceTh == nullptr)
-	{
-		instanceTh = new ClassicSingleton();
-	}
+void ClassSingleton::printName() { std::cout << "\nClassSingleton"; }
 
-	return instanceTh;
+
+ ClassSingletonThread* ClassSingletonThread::getInstance() 
+{
+	 static thread_local ClassSingletonThread singletone;
+	 return &singletone;
 }
 
-ClassicSingleton::ClassicSingleton() {}
-ClassicSingleton::~ClassicSingleton() { delete instance;  }
-void ClassicSingleton::printName() { std::cout << "\nClassicSingleton"; }
+void ClassSingletonThread::printName() { std::cout << "\nClassSingletonThread"; }

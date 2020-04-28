@@ -219,8 +219,39 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//5
 	{
-		ClassicSingleton* cs =	ClassicSingleton::getInstance();
-		
+
+		auto thFunc = []() 
+		{
+			std::cout << std::hex << "\nAddr of singleton object: " << ClassSingleton::getInstance() << std::endl;
+		};
+
+		std::thread arr[] =
+		{
+			std::thread(thFunc), std::thread(thFunc), std::thread(thFunc)
+		};
+
+		for (std::thread& thr : arr)
+		{
+			thr.join();
+		}
+		std::cout << "\nTest end singl\n";
+		stop
+		auto thFunc2 = []()
+		{
+			std::cout << std::hex << "\nAddr of singleton object: " << ClassSingletonThread::getInstance() << std::endl;
+		};
+
+		std::thread arr2[] =
+		{
+			std::thread(thFunc2), std::thread(thFunc2), std::thread(thFunc2)
+		};
+
+		for (std::thread& thr : arr2)
+		{
+			thr.join();
+		}
+
+		std::cout << "\nTest end singl thread\n";
 		stop
 	}
 
