@@ -142,6 +142,7 @@
     <ClCompile Include="ClassA.cpp" />
     <ClCompile Include="ClassicSingleton.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="thread_pool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassA.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="functions.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="templates.h" />
+    <ClInclude Include="thread_pool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,7 +8,7 @@ void writeToFile(const char* filename, const string& str);
 void readFromFile(const char* filename, string& str);
 void readWriteAndChangeFromFile(const string& filename);
 void MyBeep(unsigned int F, unsigned int MC);
-void tr(const vector<int>& v, vector<int>& r, int first, int last,double& );
+void tr(const vector<int>& v, vector<int>& r, int first, int last);
 
 inline void  SLEEP(int ss)
 {

@@ -129,12 +129,16 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//3)
 		//duration...
+		using milliseconds = std::chrono::duration<long long, milli>;
+		milliseconds ms = static_cast<milliseconds>('Z');
 		for (char o = 'A'; o <= 'Z'; o++)
 		{
-			this_thread::sleep_for(75ms*('Z' - o )); 
+			//this_thread::sleep_for(75ms*('Z' - o )); 
+			this_thread::sleep_for(ms);
+			ms = ms - 3ms;
 			cout << "\n" << o<<" "<<static_cast<int>(o);
 		}//*/
-
+		stop
 		//4)
 		{
 			//vector<int> values(1250000);
@@ -194,8 +198,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			if (ELEMENS_FOR_MAIN)
 			{
 				last = (ELEMENTS - ELEMENS_FOR_MAIN);
-				//
-				//transform(vi.begin() + first, vi.begin() + last, vrez.begin() + first, std::negate<int>());
+				
 				auto start = std::chrono::steady_clock::now();
 				transform(std::execution::par, vi.begin() + last, vi.end(), vrez.begin() + last, [last](int n)
 					{
@@ -213,37 +216,31 @@ int _tmain(int argc, _TCHAR* argv[])
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			last = ELEMENS_FOR_TASK;
 			first = 0;
-			vector<thread> tv;//(nThreads);
+			vector<thread> tv;
 			vector<int> vrez2(vi.size());
-			double* t = new double [nThreads+1];//время работы transform ?? а надо ли так
+			auto start_th = std::chrono::steady_clock::now();
 			for (int i = 0; i < nThreads; i++)
 			{
 				first = (i * ELEMENS_FOR_TASK);
-				tv.emplace_back(tr, cref(vi), ref(vrez2),first,last,ref(t[i]));	
+				tv.emplace_back(tr, cref(vi), ref(vrez2), first, last);
 				last += ELEMENS_FOR_TASK;
 			}
 
 			if (ELEMENS_FOR_MAIN)
 			{
 				last = (ELEMENTS - ELEMENS_FOR_MAIN);
-				tr(vi, vrez2, last, ELEMENTS,t[nThreads-1]);
+				tr(vi, vrez2, last, ELEMENTS);
 			}
-			stop
-
-			std::cout << "\nSLEEP MAIN";
-			this_thread::sleep_for(5s);
-			std::cout << "\nRESUME MAIN";
+			stop			
 
 			for (int i = 0; i < tv.size(); i++)
 			{
 				tv[i].join();
 			}
+			auto end_th = std::chrono::steady_clock::now();
 
-			for (int i = 0; i < nThreads+1; i++)
-			{
-				std::cout << "\ntime run transform th " << i <<":  "<< t[i] << " ms";
-			}
-			delete[] t;
+			double t = std::chrono::duration <double, std::milli>(end_th - start_th).count();
+			std::cout << "\ntime run transform in threads: " << t <<" ms";
 			std::cout << "\n\n";
 			printCont(vrez);
 			stop
@@ -253,8 +250,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	{// пока не сделал
     }
 
-	std::cout << "\nPress any key for exit...\n";
-	getchar();
-
+	
 	return  0;
 }
