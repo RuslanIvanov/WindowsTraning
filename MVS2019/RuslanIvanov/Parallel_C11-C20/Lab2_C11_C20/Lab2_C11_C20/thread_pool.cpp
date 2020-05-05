@@ -16,6 +16,32 @@ thread_pool::thread_pool()
 	}
 }
 
+void thread_pool::task_thread_cv()
+{
+	thread_local size_t countTask = 0;
+
+	while (!m_stop) // atomic
+	{
+		std::function<void()> task;
+		
+		std::cout << "\nwait...";
+		std::unique_lock <std::mutex > l(m);
+		cv.wait(l, [this](auto& t, auto& stop) { return !t.empty() || stop; });//gdать пока не добавят кого то в очередь
+		
+		task = tasks.front();
+		tasks.pop();
+		
+		if (task)
+		{
+			task();
+			countTask++;
+		}
+		
+	}
+
+	std::cout << "\nid thread =  " << std::this_thread::get_id() << ", number of completed tasks = " << countTask; 
+}
+
 void thread_pool::task_thread() 
 {
 	thread_local size_t countTask= 0;
@@ -28,9 +54,7 @@ void thread_pool::task_thread()
 		{
 			m.unlock();
 			std::this_thread::yield();
-			std::cout << "\nwait...";
-			//std::unique_lock <std::mutex > l(m);
-			//cv.wait(l);//gdать пока не добавят кого то в очередь
+			std::cout << "\nwait with yield...";
 		}
 		else
 		{
@@ -40,7 +64,7 @@ void thread_pool::task_thread()
 
 			if (task)
 			{
-				task(); //или на всякий случай if (task) task();
+				task(); 
 				countTask++;
 			}
 		}
@@ -54,6 +78,17 @@ void  thread_pool::stopRun()
 	m_stop = true;
 }
 
+void  thread_pool::stopRun_cv()
+{
+	{
+		std::lock_guard<std::mutex> lk{ m };
+		m_stop = true;
+
+	}
+	cv.notify_all();
+	
+}
+
 bool thread_pool::isEmpty() 
 {
 	bool b = false;
@@ -65,6 +100,17 @@ bool thread_pool::isEmpty()
 	}
 	return b;
 
+}
+
+void thread_pool::add_task_cv(std::function<void()>& pfunc)
+{
+	{
+		std::lock_guard<std::mutex> lk{ m };
+		tasks.push(pfunc);
+		
+	}
+	cv.notify_all();
+	std::cout << "\npush...";
 }
 
 void thread_pool::add_task(std::function<void()>& pfunc/*параметры*/)

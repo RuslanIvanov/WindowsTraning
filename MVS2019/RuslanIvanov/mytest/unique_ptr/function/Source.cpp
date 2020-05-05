@@ -1,5 +1,9 @@
 #include <functional>
 #include <iostream>
+#include <mutex>
+#include <thread>
+#include <vector>
+#include <condition_variable>
 
 struct Foo 
 {
@@ -17,6 +21,22 @@ void func(std::function<void(int)>& f)
 {
    // f(5);
     f(99);
+}
+
+std::vector<int> data;
+std::condition_variable cv;
+std::mutex m;
+void thread_writer() 
+{
+    std::lock_guard<std::mutex> lock(m);
+    data.push_back(1);
+    cv.notify_one();
+}
+void thread_reader() 
+{
+    std::unique_lock<std::mutex> lock(m);
+    cv.wait(lock, []() { return !data.empty(); });
+    std::cout << data.back() << std::endl;
 }
 
 int main()
