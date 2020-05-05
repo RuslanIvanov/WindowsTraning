@@ -1,5 +1,10 @@
 #pragma once
 #include<string>
+#include <random>
+#include <chrono>
+#include <ratio>
+#include <thread>
+
 inline short incShort(short st)
 {
     st++;
@@ -19,4 +24,15 @@ inline int makeIntFormStr(std::string  str)
   //  catch (...) { throw "undefine exception"; }
 
     return r;
+}
+
+inline void mytask()
+{
+    using milliseconds = std::chrono::duration<long long, std::milli>;
+    milliseconds ms = static_cast<milliseconds>(0);
+    char c = std::rand() % 'Z';
+    ms = static_cast<milliseconds> (c);
+    std::cout << "\nrun task '" << c << "' sleep " << static_cast<int>(c) << " ms\n";
+   // std::cout << "\nrun task " << c <<" ms "<< std::chrono::duration <double, std::milli>(ms);
+    std::this_thread::sleep_for(ms);
 }

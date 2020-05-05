@@ -2,7 +2,8 @@
 
 thread_pool::thread_pool()
 {// constructor
-	size_t nThreads = 4;//<количество потоков в пуле>;
+	size_t nThreads = std::thread::hardware_concurrency();//4;//<количество потоков в пуле>;
+	m_stop = false;
 	//Запускаем потоки:
 	for (size_t i = 0; i < nThreads; i++)
 	{
@@ -11,13 +12,13 @@ thread_pool::thread_pool()
 			threads.emplace_back(&thread_pool::task_thread, this);
 			//может быть сгенерировано исключение => по-хорошему нужно обработать
 		}
-		catch (...) { std::cout << "\nError start thread number "<<i+1; }
+		catch (std::system_error) { std::cout << "\nError start thread number "<<i+1; }
 	}
 }
 
 void thread_pool::task_thread() 
 {
-	while (!stop) // сигнальная
+	while (!m_stop) // сигнальная
 	{
 		std::function<void()> task;
 		m.lock();
@@ -31,12 +32,27 @@ void thread_pool::task_thread()
 			task = tasks.front();
 			tasks.pop();
 			m.unlock();
+
+			if(task)
 			task(); //или на всякий случай if (task) task();
 		}
 	}
 }
 
-void thread_pool::add_task(std::function<void()> pfunc/*параметры*/)
+bool thread_pool::isEmpty() 
+{
+	bool b = false;
+	
+	if (m.try_lock())
+	{
+		b = tasks.empty();
+		m.unlock();
+	}
+	return b;
+
+}
+
+void thread_pool::add_task(std::function<void()>& pfunc/*параметры*/)
 {
 	m.lock();
 	tasks.push(pfunc);
@@ -45,9 +61,14 @@ void thread_pool::add_task(std::function<void()> pfunc/*параметры*/)
 
 thread_pool:: ~thread_pool() 
 {
-	stop = true;
+	m_stop = true;
 	for (std::thread& t : threads)
 	{
-		if (t.joinable()) t.join();
+		if (t.joinable())
+		{
+			std::cout << "\ndelete th id = " << t.get_id();
+			t.join();
+			
+		}
 	}
 }

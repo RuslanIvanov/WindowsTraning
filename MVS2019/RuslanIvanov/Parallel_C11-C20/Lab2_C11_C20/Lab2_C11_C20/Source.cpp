@@ -3,6 +3,7 @@
 #include "templates.h"
 #include "ClassA.h"
 #include "ClassicSingleton.h"
+#include "thread_pool.h"
 
 using namespace std;
 using namespace chrono_literals;
@@ -255,8 +256,24 @@ int _tmain(int argc, _TCHAR* argv[])
 		stop
 	}
 
-	std::cout << "\nPress any key for exit...\n";
-	getchar();
+	//6
+	{
+		std::cout << "\nEnter count tasks : ";
 
+		size_t nTask = 0;
+		std::cin >> nTask;
+
+		thread_pool tp;
+		for (size_t i = 0; i < nTask; i++)
+		{
+			std::function<void()> f_display = mytask;
+			tp.add_task(f_display);
+			//tp.add_task(std::function<void()>{mytask});
+		}
+
+		if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }
+		stop
+		
+	}
 	return 0;
 }
