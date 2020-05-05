@@ -1,24 +1,33 @@
 #include "thread_pool.h"
 
 thread_pool::thread_pool()
-{
-	size_t nThreads = <количество потоков в пуле>;
+{// constructor
+	size_t nThreads = 4;//<количество потоков в пуле>;
 	//«апускаем потоки:
-	for (size_t i = 0; i < nThreads; i++) {
-		threads.emplace_back(&thread_pool::task_thread, this);
-		//может быть сгенерировано исключение => по-хорошему нужно обработать
+	for (size_t i = 0; i < nThreads; i++)
+	{
+		try
+		{
+			threads.emplace_back(&thread_pool::task_thread, this);
+			//может быть сгенерировано исключение => по-хорошему нужно обработать
+		}
+		catch (...) { std::cout << "\nError start thread number "<<i+1; }
 	}
 }
 
-void thread_pool::task_thread() {
-	while (!stop) {
+void thread_pool::task_thread() 
+{
+	while (!stop) // сигнальна€
+	{
 		std::function<void()> task;
 		m.lock();
-		if (tasks.empty()) {
+		if (tasks.empty())
+		{
 			m.unlock();
 			std::this_thread::yield(); //отдыхаем
 		}
-		else {
+		else
+		{
 			task = tasks.front();
 			tasks.pop();
 			m.unlock();
@@ -26,12 +35,11 @@ void thread_pool::task_thread() {
 		}
 	}
 }
-ћ
 
-void thread_pool::add_task(параметры)
+void thread_pool::add_task(std::function<void()> pfunc/*параметры*/)
 {
 	m.lock();
-	tasks.push(<задание_с_полученными_параметрами>);
+	tasks.push(pfunc);
 	m.unlock();
 }
 
@@ -43,4 +51,3 @@ thread_pool:: ~thread_pool()
 		if (t.joinable()) t.join();
 	}
 }
-ћ

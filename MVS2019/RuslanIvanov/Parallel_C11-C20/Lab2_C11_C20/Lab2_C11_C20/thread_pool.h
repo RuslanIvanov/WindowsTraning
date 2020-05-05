@@ -16,8 +16,8 @@ class thread_pool
 public:
 	thread_pool();
 	~thread_pool();
-	void add_task(); //в общем случае принимает параметры для задания
-	thread_pool(const thread_pool&); //???
-	thread_pool& operator=(const thread_pool&); //???
+	void add_task(std::function<void()>); //в общем случае принимает параметры для задания
+	thread_pool(const thread_pool&) = delete; 
+	thread_pool& operator=(const thread_pool&) = delete;
 };
 
