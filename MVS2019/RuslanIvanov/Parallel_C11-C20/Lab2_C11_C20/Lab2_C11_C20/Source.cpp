@@ -264,16 +264,35 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::cin >> nTask;
 
 		thread_pool tp;
+		auto begin = std::chrono::steady_clock::now();
+		{
+			for (size_t i = 0; i < nTask; i++)
+			{
+				std::function<void()> f_display = mytask;
+				tp.add_task(f_display);
+				//tp.add_task(std::function<void()>{mytask});
+			}
+		}// or	//	if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }
+		auto end = std::chrono::steady_clock::now();
+		std::cout << "\ntime run pool: ";
+		printTime(begin, end);
+		stop
+		//////////////////////////////////////////////////////////////
+		vector<std::thread> tv;
+		
+		begin = std::chrono::steady_clock::now();
 		for (size_t i = 0; i < nTask; i++)
 		{
-			std::function<void()> f_display = mytask;
-			tp.add_task(f_display);
-			//tp.add_task(std::function<void()>{mytask});
+			tv.emplace_back(mytask);//mutex in mytask
 		}
 
-		if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }
+		for (size_t s = 0; s < nTask; s++)
+			tv[s].join();
+
+		end = std::chrono::steady_clock::now();
+		std::cout << "\ntime run threads: ";
+		printTime(begin, end);
 		stop
-		
 	}
 	return 0;
 }

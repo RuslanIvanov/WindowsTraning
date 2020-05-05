@@ -18,14 +18,19 @@ thread_pool::thread_pool()
 
 void thread_pool::task_thread() 
 {
-	while (!m_stop) // сигнальная
+	thread_local size_t countTask= 0;
+
+	while (!m_stop) // atomic
 	{
 		std::function<void()> task;
 		m.lock();
 		if (tasks.empty())
 		{
 			m.unlock();
-			std::this_thread::yield(); //отдыхаем
+			std::this_thread::yield();
+			std::cout << "\nwait...";
+			//std::unique_lock <std::mutex > l(m);
+			//cv.wait(l);//gdать пока не добавят кого то в очередь
 		}
 		else
 		{
@@ -33,10 +38,20 @@ void thread_pool::task_thread()
 			tasks.pop();
 			m.unlock();
 
-			if(task)
-			task(); //или на всякий случай if (task) task();
+			if (task)
+			{
+				task(); //или на всякий случай if (task) task();
+				countTask++;
+			}
 		}
 	}
+
+	std::cout << "\nid thread =  " << std::this_thread::get_id() << ", number of completed tasks = " << countTask;
+}
+
+void  thread_pool::stopRun()
+{
+	m_stop = true;
 }
 
 bool thread_pool::isEmpty() 
@@ -57,6 +72,14 @@ void thread_pool::add_task(std::function<void()>& pfunc/*параметры*/)
 	m.lock();
 	tasks.push(pfunc);
 	m.unlock();
+//	or
+
+	//std::lock_guard<std::mutex> lk {m}; 	
+	//
+	//tasks.push(pfunc);
+	//cv.notify_all();
+
+	std::cout << "\npush...";
 }
 
 thread_pool:: ~thread_pool() 

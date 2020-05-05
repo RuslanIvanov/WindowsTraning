@@ -26,13 +26,28 @@ inline int makeIntFormStr(std::string  str)
     return r;
 }
 
+//inline void mytask()
+//{
+//    using milliseconds = std::chrono::duration<long long, std::milli>;
+//    milliseconds ms = static_cast<milliseconds>(1);
+//    char c = std::rand() % 'A';
+//   // ms = static_cast<milliseconds> (c);
+//    std::cout << "\nrun task '" << c << "' sleep " << static_cast<int>(c) << " ms\n";
+//   // std::cout << "\nrun task " << c <<" ms "<< std::chrono::duration <double, std::milli>(ms);
+//    std::this_thread::sleep_for(ms);
+//}
+
 inline void mytask()
 {
+    static std::mutex mut;
+    static unsigned  char count;
+    char c = 'A'+(count++);
+   
+    mut.lock();
+    std::cout << "\nrun task '" << c;
+    mut.unlock();
+
     using milliseconds = std::chrono::duration<long long, std::milli>;
-    milliseconds ms = static_cast<milliseconds>(0);
-    char c = std::rand() % 'Z';
-    ms = static_cast<milliseconds> (c);
-    std::cout << "\nrun task '" << c << "' sleep " << static_cast<int>(c) << " ms\n";
-   // std::cout << "\nrun task " << c <<" ms "<< std::chrono::duration <double, std::milli>(ms);
+    milliseconds ms = static_cast<milliseconds>(1);
     std::this_thread::sleep_for(ms);
 }
