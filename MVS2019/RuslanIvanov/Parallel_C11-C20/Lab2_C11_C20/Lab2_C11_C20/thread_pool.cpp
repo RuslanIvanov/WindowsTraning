@@ -25,8 +25,12 @@ void thread_pool::task_thread_cv()
 		std::function<void()> task;
 		
 		std::cout << "\nwait...";
+
+		/*Любой поток, который намерен ждать на std::condition_variable должен сначала приобрести std::unique_lock. 
+		Операция ожидания атомарно освобождает мьютекс и приостанавливает выполнение потока. 
+		Когда переменная условия уведомляется, поток пробуждается, и мьютекс снова приобретается.*/
 		std::unique_lock <std::mutex > l(m);
-		cv.wait(l, [this](auto& t, auto& stop) { return !t.empty() || stop; });//gdать пока не добавят кого то в очередь
+		cv.wait(l, [this]() { return !tasks.empty() || m_stop; });//gdать пока не добавят кого то в очередь
 		
 		task = tasks.front();
 		tasks.pop();

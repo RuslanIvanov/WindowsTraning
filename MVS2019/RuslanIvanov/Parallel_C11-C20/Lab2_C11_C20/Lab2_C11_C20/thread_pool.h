@@ -11,7 +11,7 @@ class thread_pool
 {
 	mutable std::mutex m; //для безопасной многопоточной работы с очередью
 	std::condition_variable cv;
-	//std::unique_lock
+
 	std::queue<std::function<void()>> tasks; //очередь заданий
 	std::vector<std::thread> threads; //совокупность рабочих потоков
 	bool m_stop; //по-хорошему это должна быть atomic-переменная
