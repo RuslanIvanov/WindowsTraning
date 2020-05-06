@@ -269,7 +269,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			for (size_t i = 0; i < nTask; i++)
 			{
 				std::function<void()> f_display = mytask;
-				tp.add_task(f_display);
+				tp.add_task_cv(f_display);
 				//tp.add_task(std::function<void()>{mytask});
 			}
 		}// or	//	if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }

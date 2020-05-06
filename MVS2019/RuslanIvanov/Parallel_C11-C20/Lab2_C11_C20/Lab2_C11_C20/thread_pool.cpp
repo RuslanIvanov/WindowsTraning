@@ -9,7 +9,7 @@ thread_pool::thread_pool()
 	{
 		try
 		{
-			threads.emplace_back(&thread_pool::task_thread, this);
+			threads.emplace_back(&thread_pool::task_thread_cv, this);
 			//может быть сгенерировано исключение => по-хорошему нужно обработать
 		}
 		catch (std::system_error) { std::cout << "\nError start thread number "<<i+1; }
