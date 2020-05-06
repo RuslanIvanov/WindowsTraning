@@ -31,7 +31,8 @@ void thread_pool::task_thread_cv()
 		Когда переменная условия уведомляется, поток пробуждается, и мьютекс снова приобретается.*/
 		std::unique_lock <std::mutex > l(m);
 		cv.wait(l, [this]() { return !tasks.empty() || m_stop; });//gdать пока не добавят кого то в очередь
-		
+		if (m_stop) break;
+
 		task = tasks.front();
 		tasks.pop();
 		
@@ -135,6 +136,7 @@ void thread_pool::add_task(std::function<void()>& pfunc/*параметры*/)
 thread_pool:: ~thread_pool() 
 {
 	m_stop = true;
+	cv.notify_all();
 	for (std::thread& t : threads)
 	{
 		if (t.joinable())
