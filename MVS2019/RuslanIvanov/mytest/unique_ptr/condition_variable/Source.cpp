@@ -31,7 +31,7 @@ int main()
         std::unique_lock<std::mutex> lock(m);
         while (!done) {
             while (!notified) {  // loop to avoid spurious wakeups
-                cond_var.wait(lock);
+                cond_var.wait(lock/*, []() {return false; }*/);
             }
             while (!produced_nums.empty()) {
                 std::cout << "consuming " << produced_nums.front() << '\n';

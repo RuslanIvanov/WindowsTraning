@@ -270,7 +270,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			{
 				std::function<void()> f_display = mytask;
 				tp.add_task_cv(f_display);
-				//tp.add_task(std::function<void()>{mytask});
+				//tp.add_task_cv(std::move(std::function<void()>{mytask}));
 			}
 		}// or	//	if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }
 		auto end = std::chrono::steady_clock::now();

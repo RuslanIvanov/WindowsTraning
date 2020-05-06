@@ -3,6 +3,7 @@
 thread_pool::thread_pool()
 {// constructor
 	size_t nThreads = std::thread::hardware_concurrency();//4;//<количество потоков в пуле>;
+	std::cout << "\nkernels  = " << nThreads<<"\n";
 	m_stop = false;
 	//«апускаем потоки:
 	for (size_t i = 0; i < nThreads; i++)
@@ -24,13 +25,14 @@ void thread_pool::task_thread_cv()
 	{
 		std::function<void()> task;
 		
-		std::cout << "\nwait...";
+		std::cout << "\nwait...id  = "<<std::this_thread::get_id();
 
 		/*Ћюбой поток, который намерен ждать на std::condition_variable должен сначала приобрести std::unique_lock. 
 		ќпераци€ ожидани€ атомарно освобождает мьютекс и приостанавливает выполнение потока. 
 		 огда переменна€ услови€ уведомл€етс€, поток пробуждаетс€, и мьютекс снова приобретаетс€.*/
 		std::unique_lock <std::mutex > l(m);
-		cv.wait(l, [this]() { return !tasks.empty() || m_stop; });//gdать пока не добав€т кого то в очередь
+		//cv.wait(lock,pred = false, если ожиданеи должно быть продолжено)
+		cv.wait(l, [this]() { return !tasks.empty() || m_stop; });//gdать пока не добав€т кого то в очередь или не скажут стоп
 		if (m_stop) break;
 
 		task = tasks.front();
@@ -86,7 +88,7 @@ void  thread_pool::stopRun()
 void  thread_pool::stopRun_cv()
 {
 	{
-		std::lock_guard<std::mutex> lk{ m };
+		std::lock_guard<std::mutex> lk{ m };//?? может лишнее из за cv
 		m_stop = true;
 
 	}
@@ -123,13 +125,6 @@ void thread_pool::add_task(std::function<void()>& pfunc/*параметры*/)
 	m.lock();
 	tasks.push(pfunc);
 	m.unlock();
-//	or
-
-	//std::lock_guard<std::mutex> lk {m}; 	
-	//
-	//tasks.push(pfunc);
-	//cv.notify_all();
-
 	std::cout << "\npush...";
 }
 
@@ -141,7 +136,7 @@ thread_pool:: ~thread_pool()
 	{
 		if (t.joinable())
 		{
-			std::cout << "\ndelete th id = " << t.get_id();
+			std::cout << "\ndelete th id = " << t.get_id()<<"\n";
 			t.join();
 			
 		}
