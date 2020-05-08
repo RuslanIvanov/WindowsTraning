@@ -2,7 +2,7 @@
 #include "Header.h"
 #include "functions.h"
 #include "templates.h"
-
+#include "threadsafe_stack.h"
 using namespace std;
 using namespace chrono_literals;
 
@@ -50,7 +50,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		tv.reserve(sizeof(_filespec) / sizeof(_filespec[0]));
 		chrono::time_point<chrono::system_clock> start, end;
 
-		size_t N =  (sizeof(_filespec) / sizeof(_filespec[0])) - nKernel;
+		size_t N =  (sizeof(_filespec) / sizeof(_filespec[0])) - nKernel;//4 ?
+		//if (N == 0) { N = nKernel/2; };
+
 		for (unsigned int i = 0; i < N; i++)
 		{
 			start = chrono::system_clock::now();
@@ -73,7 +75,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		for (unsigned int i = 0; i < (sizeof(_filespec) / sizeof(_filespec[0])); i++)
 		{//при параллельном запуске потоков на разных ядрах
-			tv[i].join();//ждем
+			try
+			{
+				tv.at(i).join();//ждем
+			}
+			catch (std::out_of_range) 
+			{
+				cout << "\nerror: out_of_range";
+			}
 		}
 
 		size_t N2 = sizeof(_filespec) / sizeof(_filespec[0]);
@@ -248,6 +257,32 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	//5
 	{// пока не сделал
+		threadsafe_stack st;
+		vector<thread> readers;
+		int NR=0;
+		cout << "\nEnter readers count: ";
+		std::cin >> NR;
+		st.push(0xff);
+		for (int i = 0; i < NR; i++)
+		{
+			st.push(i);
+			//readers.emplace_back(&threadsafe_stack::top,st);
+			readers.emplace_back(funThread, ref(st));
+			st.push(i*10);
+		}
+				
+		std::cout << "\nrun main";
+		std::cout << "\nSLEEP MAIN";
+		this_thread::sleep_for(3s);
+		std::cout << "\nRESUME MAIN";
+
+		size_t NV = readers.size();
+		for (size_t i = 0; i < NV; i++)
+		{
+			readers[i].join();
+		}
+
+		std::cout << "\nTHE END";
     }
 
 	
