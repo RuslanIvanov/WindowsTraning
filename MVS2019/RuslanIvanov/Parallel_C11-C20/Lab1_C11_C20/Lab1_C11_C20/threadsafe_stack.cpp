@@ -2,6 +2,7 @@
 using namespace std;
 //#include "Header.h"
 #include "threadsafe_stack.h"
+mutex mut_sinx_out;
 unsigned short threadsafe_stack::countReads;
 threadsafe_stack::threadsafe_stack(const threadsafe_stack& r)
 {
@@ -36,19 +37,17 @@ int threadsafe_stack::top() const
 {//Доступ к верхнему элементу (вычитать может кто угодно )
 	int r=int();
 	
-	m_mut.lock_shared();
-	std::cout << "\n top";
+	m_mut.lock_shared();// будет освобожден когда последний вляделец скажет unlock  в коллективном режиме,  а доступ в эксклюзивном режиме до unlock запрещен
+	
 	if (m_v.size())
 	{
+		//std::cout << "\n top";
 		r = m_v[0];
-
-	//	countReads++;
-	//	std::cout << "\n top["<<countReads<<"] = "<< r ;
 	}
 	else
 	{
 		m_mut.unlock_shared();
-		throw "top: stack is empty";
+		throw "exception  top: stack is empty";
 	}
 	m_mut.unlock_shared();
 
@@ -56,30 +55,20 @@ int threadsafe_stack::top() const
 }
 
 void threadsafe_stack::pop(int &r) 
-{//Удаляет верхний элемент. (а удалить кто-то один, - один из читателей(последний)= понимать сколько читателей)
+{//Удаляет верхний элемент.
 	m_mut.lock_shared();
 
 	if (m_v.size())
 	{
 		r = m_v[0];
-	//	if (countReads == 1)
-		{
-			m_v.erase(m_v.begin());
-			countReads = 0;
-			//std::cout << "\n pop "<<r<<" size after erase  "<< m_v.size();
-		}
 
-	/*	if (countReads > 0)
-		{
-			std::cout << "\n pop wait.."<< countReads;
-			countReads--;
-		}*/
+		m_v.erase(m_v.begin());
 	}
 	else
 	{
 		//m_mut.unlock();
 		m_mut.unlock_shared();
-		throw "pop: stack is empty";
+		throw "exception pop: stack is empty";
 	}
 	m_mut.unlock_shared();
 	//m_mut.unlock();
@@ -104,17 +93,39 @@ size_t threadsafe_stack::size()
 
 void fReaders(threadsafe_stack& s)
 {
-	if (s.empty()) { std::cout << "\nstack is empty!"; }
+	if (s.empty()) { std::cout << "\nstack is empty!";  return;  }
 
 	while (s.empty() == false)
 	{
-		//auto resTop = s.top();
-		//std::cout << "\nidTh = " << this_thread::get_id() << " resTop = " << resTop;
+		try
+		{
+			auto resTop = s.top();
+
+			lock_guard<mutex> m(mut_sinx_out);
+			std::cout << "\nth[" << this_thread::get_id() << "]" << " resTop = " << resTop;
+		}
+		catch (const char* e) 
+		{
+			std::cout << "\n"<<e;
+			return;
+		}	
 
 		int resPop = 0;
-		s.pop(resPop);
-		std::cout << "\nth[" << this_thread::get_id()<<"]" << " resPop = " << resPop;
+
+		try
+		{
+			s.pop(resPop);
+			//lock_guard<mutex> m(mut_sinx_out);
+			//std::cout << "\nth[" << this_thread::get_id()<<"]" << " resPop = " << resPop;
+		}
+		catch (const char* e) { std::cout  << "\n"<< e; }
+		
 	
 	}
 
+}
+
+void fWriters(threadsafe_stack& s,int el)
+{
+		s.push(el);
 }

@@ -256,13 +256,16 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 	//5
-	{// пока не сделал
+	{
 		threadsafe_stack st;
 		vector<thread> readers;
-		int NR=0;
+		vector<thread> writers;
+
+		int NR=0; const int NPUSH = 10;
+
 		cout << "\nEnter readers count: ";
 		std::cin >> NR;
-		const int NPUSH = 10;
+		
 		st.push(-1);
 		//заполнить стек
 		for (int i = 0; i < NPUSH; i++)
@@ -279,16 +282,24 @@ int _tmain(int argc, _TCHAR* argv[])
 			readers.emplace_back(fReaders, ref(st));
 		}
 			
-		st.push(NPUSH);
-		st.push(NPUSH +1);
+		writers.emplace_back(fWriters, ref(st), NPUSH);
+		writers.emplace_back(fWriters, ref(st), NPUSH+1);
+		//st.push(NPUSH);
+		//st.push(NPUSH +1);
 		readers.emplace_back(fReaders, ref(st));
-		st.push(NPUSH +2);
+		//st.push(NPUSH +2);
+		writers.emplace_back(fWriters, ref(st), NPUSH+2);
 		readers.emplace_back(fReaders, ref(st));
 
 		std::cout << "\nrun main";
 		std::cout << "\nSLEEP MAIN";
 		this_thread::sleep_for(3s);
 		std::cout << "\nRESUME MAIN";
+
+		for (size_t i = 0; i < writers.size(); i++)
+		{
+			writers[i].join();
+		}
 
 		size_t NV = readers.size();
 		for (size_t i = 0; i < NV; i++)
