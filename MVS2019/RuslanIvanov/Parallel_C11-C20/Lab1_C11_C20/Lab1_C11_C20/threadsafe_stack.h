@@ -12,12 +12,13 @@ class threadsafe_stack
 	std::vector<int> m_v;
 public:
 
-	threadsafe_stack() { m_v.resize(N); }
+	threadsafe_stack() { m_v.reserve(N); }
 
 	threadsafe_stack(const threadsafe_stack&);
 	threadsafe_stack(threadsafe_stack&&);
 	threadsafe_stack& operator=(threadsafe_stack&& st);
 	threadsafe_stack& operator=(threadsafe_stack& st);
+
 	void push(int );
 	int top() const;
 	void pop(int&);
@@ -25,4 +26,4 @@ public:
 	size_t size();
 };
 
-void funThread(threadsafe_stack& s);
+void fReaders(threadsafe_stack& s);

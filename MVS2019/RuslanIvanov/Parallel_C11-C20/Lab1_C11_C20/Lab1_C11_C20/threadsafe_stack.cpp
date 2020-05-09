@@ -27,7 +27,7 @@ threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack& st)
 void threadsafe_stack::push(int val)
 {//Вставляет элемент на верх.
 	m_mut.lock();
-	std::cout << "\n push";
+	std::cout << "\npush = "<<val;
 	m_v.push_back(val);
 	m_mut.unlock();
 }
@@ -42,8 +42,8 @@ int threadsafe_stack::top() const
 	{
 		r = m_v[0];
 
-		countReads++;
-		std::cout << "\n top["<<countReads<<"] = "<< r ;
+	//	countReads++;
+	//	std::cout << "\n top["<<countReads<<"] = "<< r ;
 	}
 	else
 	{
@@ -58,23 +58,22 @@ int threadsafe_stack::top() const
 void threadsafe_stack::pop(int &r) 
 {//Удаляет верхний элемент. (а удалить кто-то один, - один из читателей(последний)= понимать сколько читателей)
 	m_mut.lock_shared();
-	//m_mut.lock();
-	std::cout << "\n pop";
+
 	if (m_v.size())
 	{
 		r = m_v[0];
-		if (countReads == 1)
+	//	if (countReads == 1)
 		{
 			m_v.erase(m_v.begin());
 			countReads = 0;
-			std::cout << "\n pop erase ";
+			//std::cout << "\n pop "<<r<<" size after erase  "<< m_v.size();
 		}
 
-		if (countReads > 0)
+	/*	if (countReads > 0)
 		{
 			std::cout << "\n pop wait.."<< countReads;
 			countReads--;
-		}
+		}*/
 	}
 	else
 	{
@@ -103,14 +102,19 @@ size_t threadsafe_stack::size()
 	return size;
 }
 
-void funThread(threadsafe_stack& s)
+void fReaders(threadsafe_stack& s)
 {
-	if (!s.empty())
+	if (s.empty()) { std::cout << "\nstack is empty!"; }
+
+	while (s.empty() == false)
 	{
-		auto res = s.top();
-		auto res2 = res;
-		s.pop(res2);
-		std::cout <<"\nidTh = "<<this_thread::get_id() <<" res = " <<res;
+		//auto resTop = s.top();
+		//std::cout << "\nidTh = " << this_thread::get_id() << " resTop = " << resTop;
+
+		int resPop = 0;
+		s.pop(resPop);
+		std::cout << "\nth[" << this_thread::get_id()<<"]" << " resPop = " << resPop;
+	
 	}
 
 }

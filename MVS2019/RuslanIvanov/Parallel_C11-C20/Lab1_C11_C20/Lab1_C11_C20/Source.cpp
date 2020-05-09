@@ -262,15 +262,29 @@ int _tmain(int argc, _TCHAR* argv[])
 		int NR=0;
 		cout << "\nEnter readers count: ";
 		std::cin >> NR;
-		st.push(0xff);
-		for (int i = 0; i < NR; i++)
+		const int NPUSH = 10;
+		st.push(-1);
+		//заполнить стек
+		for (int i = 0; i < NPUSH; i++)
 		{
 			st.push(i);
 			//readers.emplace_back(&threadsafe_stack::top,st);
-			readers.emplace_back(funThread, ref(st));
-			st.push(i*10);
+			//readers.emplace_back(fReaders, ref(st));
+		
 		}
-				
+
+		//читать стек		
+		for (int i = 0; i < NR; i++)
+		{
+			readers.emplace_back(fReaders, ref(st));
+		}
+			
+		st.push(NPUSH);
+		st.push(NPUSH +1);
+		readers.emplace_back(fReaders, ref(st));
+		st.push(NPUSH +2);
+		readers.emplace_back(fReaders, ref(st));
+
 		std::cout << "\nrun main";
 		std::cout << "\nSLEEP MAIN";
 		this_thread::sleep_for(3s);
