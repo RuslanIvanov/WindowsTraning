@@ -271,11 +271,22 @@ int _tmain(int argc, _TCHAR* argv[])
 		for (int i = 0; i < NPUSH; i++)
 		{
 			st.push(i);
-			//readers.emplace_back(&threadsafe_stack::top,st);
-			//readers.emplace_back(fReaders, ref(st));
-		
 		}
 
+		threadsafe_stack st2 = st;
+		st2.print();
+
+		threadsafe_stack st3 = move(st2);
+		st3.print();
+		if (st2.empty()) { std::cout << "\nst2 is empty!"; }
+
+		threadsafe_stack st4;
+		st4.push(100); 
+		st4.push(200);
+		st4.push(300);
+		st3 = move(st4);
+		st2 = st3;
+		stop
 		//читать стек		
 		for (int i = 0; i < NR; i++)
 		{
@@ -284,11 +295,11 @@ int _tmain(int argc, _TCHAR* argv[])
 			
 		writers.emplace_back(fWriters, ref(st), NPUSH);
 		writers.emplace_back(fWriters, ref(st), NPUSH+1);
-		//st.push(NPUSH);
-		//st.push(NPUSH +1);
+		
 		readers.emplace_back(fReaders, ref(st));
-		//st.push(NPUSH +2);
+		
 		writers.emplace_back(fWriters, ref(st), NPUSH+2);
+
 		readers.emplace_back(fReaders, ref(st));
 
 		std::cout << "\nrun main";

@@ -3,25 +3,57 @@ using namespace std;
 //#include "Header.h"
 #include "threadsafe_stack.h"
 mutex mut_sinx_out;
-unsigned short threadsafe_stack::countReads;
+
 threadsafe_stack::threadsafe_stack(const threadsafe_stack& r)
 {
-
+	//mut
+	for (size_t i = 0; i < r.m_v.size(); i++)
+	{
+		r.sh_lock();
+		m_v.push_back(r.m_v[i]);
+		r.sh_unlock();
+	}
+	
 }
 
-threadsafe_stack::threadsafe_stack(threadsafe_stack&&)
+threadsafe_stack::threadsafe_stack(threadsafe_stack&& r)
 {
+	r.lock();
+	std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
+	r.m_v.clear();
+	r.unlock();
 }
 
-threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack&& st)
+threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack&& r)
 {
-	if (this == &st) { return *this; }
+	if (this == &r) { return *this; }
+
+	std::lock(m_mut, r.m_mut);
+
+	m_v.clear();
+
+	std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
+	r.m_v.clear();
+
+	r.m_mut.unlock();
+	m_mut.unlock();
+
 	return *this;
 }
 
-threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack& st)
+threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack& r)
 {
-	if (this == &st) { return *this; }
+	if (this == &r) { return *this; }
+
+	std::lock(m_mut, r.m_mut);
+
+	m_v.clear();
+
+	std::copy(r.m_v.begin(), r.m_v.end(), std::back_inserter(m_v));
+	
+	r.m_mut.unlock();
+	m_mut.unlock();
+
 	return *this;
 }
 
@@ -38,7 +70,7 @@ int threadsafe_stack::top() const
 	int r=int();
 	
 	m_mut.lock_shared();// будет освобожден когда последний вляделец скажет unlock  в коллективном режиме,  а доступ в эксклюзивном режиме до unlock запрещен
-	
+	//читать можно всем, если нет модификации
 	if (m_v.size())
 	{
 		//std::cout << "\n top";
@@ -56,8 +88,8 @@ int threadsafe_stack::top() const
 
 void threadsafe_stack::pop(int &r) 
 {//Удаляет верхний элемент.
-	m_mut.lock_shared();
-
+	//m_mut.lock_shared(); 
+	m_mut.lock();// так как удалять будем => эксклюзивно
 	if (m_v.size())
 	{
 		r = m_v[0];
@@ -66,14 +98,14 @@ void threadsafe_stack::pop(int &r)
 	}
 	else
 	{
-		//m_mut.unlock();
-		m_mut.unlock_shared();
+		m_mut.unlock();
+		//m_mut.unlock_shared();
 		throw "exception pop: stack is empty";
 	}
-	m_mut.unlock_shared();
-	//m_mut.unlock();
+//	m_mut.unlock_shared();
+	m_mut.unlock();
 }
-bool threadsafe_stack::empty() 
+bool threadsafe_stack::empty() const
 {
 	m_mut.lock_shared();
 	size_t size = m_v.size();
@@ -82,13 +114,16 @@ bool threadsafe_stack::empty()
 	return (size == 0) ? true : false;
 }
 
-size_t threadsafe_stack::size()
+size_t threadsafe_stack::size() const
 {
-	m_mut.lock_shared();
-	size_t size = m_v.size();
-	m_mut.unlock_shared();
+	//m_mut.lock_shared();
+	//size_t size = m_v.size();
+	//m_mut.unlock_shared();
 
-	return size;
+	//return size;
+	// альтернатива:
+	std::shared_lock lock(m_mut);
+	return m_v.size();
 }
 
 void fReaders(threadsafe_stack& s)
