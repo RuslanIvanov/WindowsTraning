@@ -7,13 +7,12 @@ mutex mut_sinx_out;
 threadsafe_stack::threadsafe_stack(const threadsafe_stack& r)
 {
 	//mut
+	r.sh_lock();
 	for (size_t i = 0; i < r.m_v.size(); i++)
-	{
-		r.sh_lock();
-		m_v.push_back(r.m_v[i]);
-		r.sh_unlock();
+	{		
+		m_v.push_back(r.m_v[i]);		
 	}
-	
+	r.sh_unlock();
 }
 
 threadsafe_stack::threadsafe_stack(threadsafe_stack&& r)
@@ -45,7 +44,7 @@ threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack& r)
 {
 	if (this == &r) { return *this; }
 
-	std::lock(m_mut, r.m_mut);
+	std::lock(m_mut, r.m_mut);//הכÿ במנüבû ס deadlock
 
 	m_v.clear();
 
