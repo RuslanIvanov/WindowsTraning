@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{1921F18C-39E3-47CC-8157-1BC62A551855}</ProjectGuid>
-    <RootNamespace>Lab3C11C20</RootNamespace>
+    <ProjectGuid>{4EDD4410-0A03-4A64-A4A8-B0C54E889763}</ProjectGuid>
+    <RootNamespace>barier2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,14 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="functions.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="spinlock.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="functions.h" />
-    <ClInclude Include="Header.h" />
-    <ClInclude Include="spinlock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,7 +19,7 @@
 #include <random>
 #include <functional>
 #include <future>
-
+#include <atomic>
 #if  _WIN32 
 
 #define	  stop __asm nop
