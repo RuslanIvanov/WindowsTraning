@@ -46,7 +46,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::thread th2(myThreadLockGuard, ref(sp), ref(s));
 		std::thread th3(myThreadUniqGuard, ref(sp), ref(s));
 
-
+		th1.join();
+		th2.join();
+		th3.join();
 
 		stop
 	}
