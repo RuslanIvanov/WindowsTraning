@@ -1,5 +1,5 @@
 #include "spinlock.h"
-
+size_t spinlock::count;
 void spinlock::lock() 
 {
     //исп. только атомарность
@@ -10,13 +10,39 @@ void spinlock::lock()
 void spinlock::unlock() 
 {
 	f.clear(); //атомарно устанавливает флаг false
-	std::cout << "\nunlock";
+	std::cout << "\n...unlock";
 }
 
 bool spinlock::try_lock()
 {
 	return !f.test_and_set();
 }
+
+void spinlock::lock_shared() 
+{
+   /* if (try_lock()==true)
+    {
+        numLock.fetch_add(1);
+    }
+   
+    a.fetch_add(1);*/
+
+    lock();
+
+}
+void spinlock::unlock_shared() 
+{
+ 
+   /* if (a == numLock)
+    {
+        unlock();
+    }
+
+    a.fetch_sub(1);*/
+
+    unlock();
+}
+
 
 /*
 std::memory_order

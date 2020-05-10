@@ -265,7 +265,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		cout << "\nEnter readers count: ";
 		std::cin >> NR;
-		
+
+		auto begin = std::chrono::steady_clock::now();
+	
 		st.push(-1);
 		//заполнить стек
 		for (int i = 0; i < NPUSH; i++)
@@ -317,6 +319,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			readers[i].join();
 		}
+
+		auto end = std::chrono::steady_clock::now();
+		std::cout << "\ntime run stack: ";
+		printTime(begin, end);
 
 		std::cout << "\nTHE END";
     }

@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <thread>
 #include <future>
+#include <chrono>
 #include "spinlock.h"
 
 template <typename T>
@@ -18,6 +19,12 @@ void printCont(const T& t)
 	{
 		std::cout << *i << " ";
 	}
+}
+
+template <typename T>
+void printTime(T start, T end)
+{
+	std::cout << "\ntime: " << std::chrono::duration <double, std::milli>(end - start).count() << " ms\n";
 }
 
 void thread_func1(std::vector<int>& v, int N, std::mutex& m, std::promise<int>&);

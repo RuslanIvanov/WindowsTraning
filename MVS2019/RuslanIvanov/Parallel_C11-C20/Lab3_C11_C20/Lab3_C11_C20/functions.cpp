@@ -47,23 +47,23 @@ void thread_transform(std::vector<int>& v, std::promise<int>& promise1,std::prom
 void myThread(spinlock& m, std::string& s)
 {
 	m.lock();
-	s += "_SpinLock";
-	std::cout <<"idSpinLock ["<<std::this_thread::get_id()<<"] = " << s;
+	s += "_SpinLock_ ";
+	std::cout <<"\nidSpinLock ["<<std::this_thread::get_id()<<"] = " << s << std::endl;
 	m.unlock();
 }
 
 void myThreadLockGuard(spinlock& m, std::string& s)
 {
 	std::lock_guard<spinlock> lgsp(m);
-	s += "_LockGuard";
-	std::cout << "idLockGuard ["<<std::this_thread::get_id() << "] = " << s;
+	s += "_LockGuard_ ";
+	std::cout << "\nidLockGuard ["<<std::this_thread::get_id() << "] = " << s<<std::endl;
 	
 }
 
 void myThreadUniqGuard(spinlock& m, std::string& s)
 {
 	std::unique_lock<spinlock> lgsp(m);
-	s += "_UniqGuard";
-	std::cout << "idUniqGuard [" << std::this_thread::get_id() << "] = "<< s;
+	s += "_UniqGuard_ ";
+	std::cout << "\nidUniqGuard [" << std::this_thread::get_id() << "] = "<< s << std::endl;
 
 }

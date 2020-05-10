@@ -139,14 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="A.cpp" />
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="spinlock.cpp" />
+    <ClCompile Include="threadsafe_stack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A.h" />
     <ClInclude Include="functions.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="spinlock.h" />
+    <ClInclude Include="threadsafe_stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
