@@ -22,10 +22,10 @@ void thread_func3()
 void thread_func2()
 { 
 	int ii = 0;
-	while (ii!=34) 
+	//while (ii!=34) 
 	{
 		std::cout << "_(";
-		ii = promise.get_future().share;//.get_future().get();
+		ii = promise.get_future().get();
 		std::cout << ii;
 		std::cout << "}";
 	}
