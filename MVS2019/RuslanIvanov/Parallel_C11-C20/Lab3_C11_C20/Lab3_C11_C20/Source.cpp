@@ -3,6 +3,7 @@
 #include "spinlock.h"
 #include "threadsafe_stack.h"
 #include "A.h"
+#include "MyThQueue.h"
 
 using namespace std;
 using namespace chrono_literals;
@@ -52,8 +53,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		th1.join();
 		th2.join();
 		th3.join();
-
-		{
+		
+		{//тест spinlock
 			
 				threadsafe_stack st;
 				vector<thread> readers;
@@ -120,7 +121,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				std::cout << "\ntime run stack: ";
 				printTime(begin, end);
 
-		}
+		}//*/
 
 		stop
 	}
@@ -171,7 +172,38 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		stop
 	}
+	
+	//4)
+	{
+		vector<thread> w;
+		vector<thread> r;
+		MyQueue q;
+		size_t countR = 0;
+		size_t countW = 0;
+		cout << "\nEnter readers count: ";
+		std::cin >> countR;
+		cout << "\nEnter writers count: ";
+		std::cin >> countW;
 
+		for(size_t i=0; i< countW;i++)
+			w.emplace_back(fWritersQ ,ref(q), 'A'+i);
+		
+		for (size_t i = 0; i < countR; i++)
+			r.emplace_back(fReadersQ, ref(q));
+		
+
+		size_t NR = r.size();
+		size_t NW = w.size();
+
+		for (size_t i = 0; i < NW; i++)
+			w[i].join();
+
+		for (size_t i = 0; i < NR; i++)
+			r[i].join();
+
+			stop
+
+	}
 	std::cout << "\nTHE END!\n";
 	return 0;
 }

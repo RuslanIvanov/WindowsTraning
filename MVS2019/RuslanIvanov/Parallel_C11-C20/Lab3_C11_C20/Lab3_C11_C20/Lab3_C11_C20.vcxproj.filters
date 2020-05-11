@@ -30,6 +30,9 @@
     <ClCompile Include="A.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyThQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="A.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyThQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

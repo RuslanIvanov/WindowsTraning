@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{1921F18C-39E3-47CC-8157-1BC62A551855}</ProjectGuid>
-    <RootNamespace>Lab3C11C20</RootNamespace>
+    <ProjectGuid>{595E7DB7-7488-4C40-8D79-F82351DF4698}</ProjectGuid>
+    <RootNamespace>conditionvariablewait</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -84,10 +84,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,20 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="A.cpp" />
-    <ClCompile Include="functions.cpp" />
-    <ClCompile Include="MyThQueue.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="spinlock.cpp" />
-    <ClCompile Include="threadsafe_stack.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="A.h" />
-    <ClInclude Include="functions.h" />
-    <ClInclude Include="Header.h" />
-    <ClInclude Include="MyThQueue.h" />
-    <ClInclude Include="spinlock.h" />
-    <ClInclude Include="threadsafe_stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

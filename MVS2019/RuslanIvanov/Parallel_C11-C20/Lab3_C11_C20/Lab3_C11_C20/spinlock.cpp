@@ -4,13 +4,19 @@ void spinlock::lock()
 {
     //исп. только атомарность
 	while (f.test_and_set(std::memory_order_relaxed))////атомарно устанавливает флаг true и получает его предыдущее значение 
-	{ std::cout<<"\nlock..."; }	
+	{ 
+       // std::cout<<"\nlock...";  
+        m_write_entered = 1;
+    }
+   
+    //std::cout << "\nlock once";
 }
 
 void spinlock::unlock() 
 {
 	f.clear(); //атомарно устанавливает флаг false
-	std::cout << "\n...unlock";
+	//std::cout << "\n...unlock";
+    m_write_entered = 0;
 }
 
 bool spinlock::try_lock()
@@ -26,12 +32,12 @@ void spinlock::lock_shared()
     }
    
     a.fetch_add(1);*/
-
-    lock();
+    do_lock_shared();
 
 }
 void spinlock::unlock_shared() 
 {
+  // std::shared_lock<spinlock> sh()
  
    /* if (a == numLock)
     {
@@ -40,7 +46,75 @@ void spinlock::unlock_shared()
 
     a.fetch_sub(1);*/
 
-    unlock();
+     do_unlock_shared();
+}
+
+unsigned long spinlock::number_of_readers() const
+{
+    return m_state;//m_num_readers;
+}
+
+bool spinlock::maximal_number_of_readers_reached() const
+{
+    return number_of_readers() == m_max_readers;
+}
+
+
+bool spinlock::someone_has_exclusive_lock() const 
+{
+    return  (m_write_entered != 0);//1!=0 - true
+}
+
+void spinlock::increment_readers() 
+{
+    if (m_num_readers < 32u)
+    {     
+        m_state |= (1 << m_num_readers);
+        m_num_readers++;
+    }
+}
+
+void spinlock::decrement_readers() 
+{
+    if (m_num_readers > 0)
+    {
+        m_num_readers--;
+        m_state &= ~(1 << (m_num_readers));
+  
+    }
+}
+
+void spinlock::do_lock_shared() 
+{//ѕеред установкой флага, читатель провер€ет есть ли писатель Ц т.е. есть ли эксклюзивна€ блокировка
+    while (someone_has_exclusive_lock() || maximal_number_of_readers_reached()) 
+    {//ѕри первом вызове lock_shared() поток автоматически будет регистрироватьс€ Ц взвод€ определеный бит.
+     //≈сли потоков больше, чем размер ulong, то остальные потоки при вызове lock_shared() будут вызывать эксклюзивную блокировку писател€.
+       // lock();//wait
+       bool b = f.test_and_set(std::memory_order_relaxed);//??
+       //std::condition_variable_any
+    }
+
+    increment_readers();//чтобы читатели не мешали друг другу, дл€ этого они должны писать информацию о своих
+    //shared-блокировках в разные €чейки пам€т
+}
+
+void spinlock::do_unlock_shared()
+{
+    decrement_readers();
+   
+    if (someone_has_exclusive_lock())// если была экскл. блокировка и нет читателей
+    {
+        if (number_of_readers() == 0) 
+        {           
+            unlock();//notify_one
+        }
+    }
+    else 
+    {//last
+        
+        if (number_of_readers() == 0)//когда последний читатель
+            unlock();//notify_one
+    }
 }
 
 

@@ -59,9 +59,44 @@ inline std::string toBinStr(unsigned long long l)
 	return s;
 }
 
+unsigned long  m_num_readers, m_num_readers_dead,m_state;
+unsigned long  m_max_readers = 32;
+
+void increment_readers()
+{
+	if (m_num_readers < m_max_readers)
+	{
+		m_state |= (1 << m_num_readers);
+		m_num_readers++;
+	}
+}
+
+void decrement_readers()
+{
+	if (m_num_readers > 0)
+	{
+		m_num_readers_dead++;
+		m_num_readers--;
+		//m_state = m_state & (m_state >> m_num_readers_dead);
+		m_state &= ~(1 << (m_num_readers));
+		int a = 1;
+
+	}
+	else m_num_readers_dead = 0;
+}
 
 int main(int, char**)
 {
+
+	for(int i = 0; i<32;i++)
+	increment_readers();
+	
+
+	for (int i = 0; i < 32; i++)
+	decrement_readers();
+
+
+
 	int ar[] = {1,2};
 
 	auto [a, b] = ar;

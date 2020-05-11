@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "barier2", "barier2\barier2.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared_future", "shared_future\shared_future.vcxproj", "{5FDD2474-F0AC-4AD5-B241-AEE63F5B0867}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "condition_variable_wait", "condition_variable_wait\condition_variable_wait.vcxproj", "{595E7DB7-7488-4C40-8D79-F82351DF4698}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -181,6 +183,14 @@ Global
 		{5FDD2474-F0AC-4AD5-B241-AEE63F5B0867}.Release|x64.Build.0 = Release|x64
 		{5FDD2474-F0AC-4AD5-B241-AEE63F5B0867}.Release|x86.ActiveCfg = Release|Win32
 		{5FDD2474-F0AC-4AD5-B241-AEE63F5B0867}.Release|x86.Build.0 = Release|Win32
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Debug|x64.ActiveCfg = Debug|x64
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Debug|x64.Build.0 = Debug|x64
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Debug|x86.ActiveCfg = Debug|Win32
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Debug|x86.Build.0 = Debug|Win32
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Release|x64.ActiveCfg = Release|x64
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Release|x64.Build.0 = Release|x64
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Release|x86.ActiveCfg = Release|Win32
+		{595E7DB7-7488-4C40-8D79-F82351DF4698}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
