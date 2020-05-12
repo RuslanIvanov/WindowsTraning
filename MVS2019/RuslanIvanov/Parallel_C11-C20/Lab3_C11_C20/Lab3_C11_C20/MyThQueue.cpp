@@ -207,8 +207,8 @@ std::mutex mut_out;
 void fReadersQ(MyQueue& s)
 {
 
-    auto resPop = s.pop();
-
+   // auto resPop = s.pop();
+    auto resPop = static_cast<char>(tolower(static_cast<unsigned char>(s.pop())));
     std::lock_guard<std::mutex> m(mut_out);
     std::cout << "\nth[" << std::this_thread::get_id() << "]" << " resPop = " << resPop;
 }
