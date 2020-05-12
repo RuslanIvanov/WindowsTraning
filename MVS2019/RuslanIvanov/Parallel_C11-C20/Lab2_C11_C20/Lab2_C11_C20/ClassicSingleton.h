@@ -3,12 +3,12 @@
 #include <mutex>
 class ClassSingleton
 {
-
+	ClassSingleton() = default;
 public:
 
 	static ClassSingleton* getInstance();
 
-	ClassSingleton() = default;
+	//ClassSingleton() = default;
 	ClassSingleton(ClassSingleton const&) = delete; // реализация не нужна
 	ClassSingleton& operator= (ClassSingleton const&) = delete;  // и тут
 
@@ -19,12 +19,13 @@ public:
 
 class ClassSingletonThread
 {
+	ClassSingletonThread() = default;
 public:
 
 	static ClassSingletonThread* getInstance();
 	//static void setNull() { ClassSingletonThread = nullptr; };
 	
-	ClassSingletonThread() = default;
+	//ClassSingletonThread() = default;
 	ClassSingletonThread(ClassSingletonThread const&) = delete; // реализация не нужна
 	ClassSingletonThread& operator= (ClassSingletonThread const&) = delete;  // и тут
 

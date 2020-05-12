@@ -3,13 +3,7 @@
 std::atomic<int> MyQueue::m_stopAll;
 MyQueue::~MyQueue()
 {
-    stopQ();
-}
-
-void MyQueue ::stopQ() 
-{ 
-    m_stopAll = 1; 
-    std::cout << "\nSTOP QUEUE\n";
+ 
 }
 
 MyQueue::MyQueue()
@@ -18,8 +12,6 @@ MyQueue::MyQueue()
     m_n = 0;
     m_first = 0;
     m_last = 0;
-
-    m_stopAll = 0;
    
 }
 
@@ -29,7 +21,7 @@ MyQueue::MyQueue(size_t n, const char& t)
     m_cap =  MAX_SIZE;
     m_first = 0;
     m_last = 0;
-    m_stopAll = 0;
+   
 
     for (; m_last < m_n; m_last++)
     {
@@ -45,7 +37,6 @@ MyQueue::MyQueue(size_t n)
     m_n = n;
     m_first = 0;
     m_last = 0;
-    m_stopAll = 0;
    
 }
 
@@ -57,7 +48,7 @@ MyQueue::MyQueue(std::initializer_list<char> list)
     m_cap = MAX_SIZE;
     m_first = 0;
     m_last = 0;
-    m_stopAll = 0;
+
     for (auto& l : list)
     {
          m_pmass[m_last] = l;
@@ -108,34 +99,29 @@ MyQueue& MyQueue::operator=(MyQueue&& r)
 
 void MyQueue::push(const char& t)
 {//producer-производитель
+    std::cout << "\npush: m_n = " << m_n << " m_cap = " << m_cap << "";
 
-    if (m_stopAll == 0)
+    if (m_n < m_cap)//m_n - atom
     {
+       // m.lock();
+        m_pmass[(m_first + m_n) % m_cap] = t;//в m_last
+        std::cout << " add in mass[" << (m_first + m_n) % m_cap << "] = " << m_pmass[(m_first + m_n) % m_cap];
 
-        std::cout << "\npush: m_n = " << m_n << " m_cap = " << m_cap << "";
+        m_last = (m_last + 1) % m_cap; 
+        m_n++;
+        //m.unlock();
 
-        if (m_n < m_cap)//m_n - atom
-        {
-            m2.lock();
-            m_pmass[(m_first + m_n) % m_cap] = t;//в m_last
-           // std::cout << " add in mass[" << (m_first + m_n) % m_cap << "] = " << m_pmass[(m_first + m_n) % m_cap];
+        m_bInsert = true;
+        m_cvInsert.notify_all();// всем или первому ожид
 
-            m_last = (m_last + 1) % m_cap;
-            m_n++;
-            m2.unlock();
+    }
+    else
+    {// wait отработки pop
 
-            m_bInsert = true;
-            m_cvInsert.notify_all();// всем или первому ожид...
-
-        }
-        else
-        {// wait отработки pop
-
-            std::unique_lock <std::mutex > l(m);
-            m_cvClear.wait(l, [this]() { return !isEmpty() || m_bClear; });//ждать по ка что то не освободится
-
-
-        }
+        std::unique_lock <std::mutex > l(m);
+        m_cvClear.wait(l, [this]() { return !isEmpty() || m_bClear ; });//ждать по ка что то не освободится
+     
+       
     }
 }
 
@@ -143,62 +129,41 @@ void MyQueue::push(const char& t)
 char MyQueue::pop()
 {//error
 
-    if (m_stopAll == 0)
-    {
+   // std::lock_guard<std::mutex> l(m);
 
-        //size_t ind1 = m_first;
+    size_t ind1 = m_first;
 
-        if (m_n == 0)
-        {
-            std::cout << "\nQueue is empty! Wait notify...\n";
+    if (m_n == 0)
+    { 
+             std::cout<<"\nQueue is empty! Wait notify\n"; 
 
-            std::unique_lock <std::mutex > l(m);
-          
-            using seconds = std::chrono::duration<long long>;
-            seconds sec = static_cast<seconds>(5);
-
-            if (m_cvInsert.wait_for(l, sec, [this]() { return  m_bInsert; })) //m_n = 0
+             std::unique_lock <std::mutex > l(m);
+             //m_cvInsert.wait_for(l, [this]() { return  m_bInsert; });
+             using seconds = std::chrono::duration<long long>;
+             seconds sec = static_cast<seconds>(3);
+            if( m_cvInsert.wait_for(l,sec, [this]() { return  m_bInsert; }))
             {
-                std::lock_guard<std::mutex> lm(m2);//лишнее , защита от m здесь
-                std::cout << "\nfinished waiting"; 
-                size_t ind1 = m_first;
-                m_first = (m_first + 1) % m_cap;
-                m_n--;
-                
-                return m_pmass[ind1];
-
+                std::cout << "\nfinished waiting";
             }
-            else
+            else 
             {
-                std::cout << "\ntimed out pop, no writers\n";
-                m_stopAll = 1;               
+                std::cout << "\ntimed out pop";
+                m_stopAll = 1;
             }
-
-            m_bClear = true;
-            m_cvClear.notify_all();// уведомить что очередь пуста
 
             return 0;
-        }
-
-        std::unique_lock <std::mutex > ll(m);
-        m_cvInsert.wait(ll, [this]() { return  m_bInsert; });
-
-        std::lock_guard<std::mutex> lm(m2);
-
-        size_t ind1 = m_first;
-        m_first = (m_first + 1) % m_cap;
-        ////std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
-        m_n--;
-
-        return m_pmass[ind1];
     }
 
-    return 0;
+    m_first = (m_first + 1) % m_cap;
+    //std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
+    m_n--;
+  
+    return m_pmass[ind1];
 }
 
 void MyQueue::printQueueRaw()
 {
-    std::lock_guard<std::mutex> l(m2);
+    std::lock_guard<std::mutex> l(m);
 
     std::cout << "\nPRINTF RAW MyQueue: ";
     std::cout << " m_n " << m_n << " m_cap = " << m_cap << "";
@@ -217,7 +182,7 @@ void MyQueue::printQueueRaw()
 
 void MyQueue::printQueue()
 {
-    std::lock_guard<std::mutex> l(m2);
+    std::lock_guard<std::mutex> l(m);
 
     std::cout << "\nPRINTF MyQueue: ";
     std::cout << " m_n " << m_n << " m_cap = " << m_cap << "";
@@ -242,16 +207,10 @@ std::mutex mut_out;
 void fReadersQ(MyQueue& s)
 {
 
-   // while (1)
-    {
-        auto resPop = static_cast<char>(tolower(static_cast<unsigned char>(s.pop())));
-        std::lock_guard<std::mutex> m(mut_out);
-
-       // if(resPop)
-        std::cout << "\nth[" << std::this_thread::get_id() << "]" << " resPop = " << resPop;
-
-     //   if (resPop == 0) break;
-    }
+   // auto resPop = s.pop();
+    auto resPop = static_cast<char>(tolower(static_cast<unsigned char>(s.pop())));
+    std::lock_guard<std::mutex> m(mut_out);
+    std::cout << "\nth[" << std::this_thread::get_id() << "]" << " resPop = " << resPop;
 }
 
 void fWritersQ(MyQueue& s, char el)

@@ -17,7 +17,7 @@ public:
 	threadsafe_stack(const threadsafe_stack&);
 	threadsafe_stack(threadsafe_stack&&);
 	threadsafe_stack& operator=(threadsafe_stack&& st);
-	threadsafe_stack& operator=(threadsafe_stack& st);
+	threadsafe_stack& operator=(const threadsafe_stack& st);
 
 	void push(int );
 	int top() const;
@@ -31,7 +31,7 @@ public:
 	void lock() const { m_mut.lock(); }
 	void unlock() const { m_mut.unlock(); }
 
-	void print()
+	void print() const
 	{
 		sh_lock();
 		for (size_t pos = 0; pos < m_v.size(); pos++)

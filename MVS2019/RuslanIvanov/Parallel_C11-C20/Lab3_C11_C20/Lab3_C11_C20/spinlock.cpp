@@ -90,12 +90,13 @@ void spinlock::do_lock_shared()
     {//При первом вызове lock_shared() поток автоматически будет регистрироваться – взводя определеный бит.
      //Если потоков больше, чем размер ulong (32bits), то остальные потоки при вызове lock_shared() будут вызывать эксклюзивную блокировку писателя.
        // lock();//wait
-       bool b = f.test_and_set(std::memory_order_relaxed);//?? //Не всегда суда поподаю
-       if (b)
+       bool b = f.test_and_set(std::memory_order_relaxed);//?? //Не всегда сюда поподаю
+      /* if (b)
        {
            std::cout << "\ndo_lock_shared TRUE";
        }
-       else { std::cout << "\ndo_lock_shared FALSE"; }
+       else { std::cout << "\ndo_lock_shared FALSE"; }*/
+
        //std::condition_variable_any
     }
 

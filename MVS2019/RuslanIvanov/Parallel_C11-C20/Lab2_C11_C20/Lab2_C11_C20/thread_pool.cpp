@@ -30,18 +30,18 @@ void thread_pool::task_thread_cv()
 		/*Любой поток, который намерен ждать на std::condition_variable должен сначала приобрести std::unique_lock. 
 		Операция ожидания атомарно освобождает мьютекс и приостанавливает выполнение потока. 
 		Когда переменная условия уведомляется, поток пробуждается, и мьютекс снова приобретается.*/
-		std::unique_lock <std::mutex > l(m);
+		std::unique_lock <std::mutex > l(m);//m.lock()
 		//cv.wait(lock,pred = false, если ожиданеи должно быть продолжено)
 		cv.wait(l, [this]() { return !tasks.empty() || m_stop; });//gdать пока не добавят кого то в очередь или не скажут стоп
 		if (m_stop) break;
 
 		task = tasks.front();
 		tasks.pop();
-		
+		//m.unock();
 		if (task)
 		{
-			task();
-			countTask++;
+			task();//убрать из секцции => дорого
+			countTask++;//atom ??
 		}
 		
 	}
@@ -82,22 +82,22 @@ void thread_pool::task_thread()
 
 void  thread_pool::stopRun()
 {
-	m_stop = true;
+	m_stop = true;//atomic
 }
 
 void  thread_pool::stopRun_cv()
 {
 	{
 		std::lock_guard<std::mutex> lk{ m };//?? может лишнее из за cv
-		m_stop = true;
+		m_stop = true;//atomic
 
 	}
-	cv.notify_all();
+	cv.notify_all();// надо пробудить 1 го в очереди а не всех
 	
 }
 
-bool thread_pool::isEmpty() 
-{
+bool thread_pool::isEmpty() //const ??
+{/// зачем
 	bool b = false;
 	
 	if (m.try_lock())

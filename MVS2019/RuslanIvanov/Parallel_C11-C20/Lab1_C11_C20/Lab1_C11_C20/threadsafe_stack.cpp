@@ -18,8 +18,9 @@ threadsafe_stack::threadsafe_stack(const threadsafe_stack& r)
 threadsafe_stack::threadsafe_stack(threadsafe_stack&& r)
 {
 	r.lock();
-	std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
-	r.m_v.clear();
+	//std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
+	//r.m_v.clear();
+	m_v = move(r.m_v);
 	r.unlock();
 }
 
@@ -31,8 +32,9 @@ threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack&& r)
 
 	m_v.clear();
 
-	std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
-	r.m_v.clear();
+	//std::copy(std::make_move_iterator(r.m_v.begin()), std::make_move_iterator(r.m_v.end()), std::back_inserter(m_v));
+	//r.m_v.clear();
+	m_v = move(r.m_v);
 
 	r.m_mut.unlock();
 	m_mut.unlock();
@@ -40,10 +42,10 @@ threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack&& r)
 	return *this;
 }
 
-threadsafe_stack& threadsafe_stack::operator=(threadsafe_stack& r)
+threadsafe_stack& threadsafe_stack::operator=(const threadsafe_stack& r)
 {
 	if (this == &r) { return *this; }
-
+	//r.m_v - разр 
 	std::lock(m_mut, r.m_mut);//для борьбы с deadlock
 
 	m_v.clear();
@@ -66,7 +68,7 @@ void threadsafe_stack::push(int val)
 
 int threadsafe_stack::top() const
 {//Доступ к верхнему элементу (вычитать может кто угодно )
-	int r=int();
+	int r{};//0 def
 	
 	m_mut.lock_shared();// будет освобожден когда последний вляделец скажет unlock  в коллективном режиме,  а доступ в эксклюзивном режиме до unlock запрещен
 	//читать можно всем, если нет модификации
@@ -93,7 +95,8 @@ void threadsafe_stack::pop(int &r)
 	{
 		r = m_v[0];
 
-		m_v.erase(m_v.begin());
+		m_v.erase(m_v.begin());//дорого => верхушка стека д.б. организована на последнем элементе 
+		//вектора, т.к. erase - дорогая опре_я
 	}
 	else
 	{

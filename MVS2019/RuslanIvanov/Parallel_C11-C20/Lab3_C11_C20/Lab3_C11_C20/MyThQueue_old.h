@@ -10,7 +10,7 @@
 #include <mutex>
 #include <atomic>
 
-#define SIZE_QUEUE 10
+#define SIZE_QUEUE 20
 class MyQueue
 {
    
@@ -24,7 +24,6 @@ class MyQueue
     bool m_bInsert;
 
     mutable std::mutex m; 
-    mutable std::mutex m2;
     std::condition_variable m_cvInsert;
     std::condition_variable m_cvClear;
     static std::atomic<int> m_stopAll;
@@ -50,12 +49,11 @@ public:
 	void printQueue();
     void printQueueRaw();
 
-    static void stopQ();
+    static void stopQ() { m_stopAll=1; }
    // работает
    
    char* begin()
    {
-       std::lock_guard<std::mutex> lm(m2);
        size_t l = ((m_first + m_n) % m_cap);
        if (m_first < l)
            return &m_pmass[m_first];
@@ -64,7 +62,6 @@ public:
    }
    char* end()
    {
-       std::lock_guard<std::mutex> lm(m2);
        size_t l = ((m_first + m_n) % m_cap);
        if (m_first < l)
            return &m_pmass[(m_first + m_n) % m_cap];

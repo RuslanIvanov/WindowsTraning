@@ -25,10 +25,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::promise<int> promise1;
 		std::promise<int> promise2;
 		std::mutex m;
-
+		//ref ?? future - îòïğ â 3 
 		std::thread th1(thread_func1, ref(v),N,std::ref(m),std::ref(promise1));
 		std::thread th2(thread_func2, ref(v),M,std::ref(m),std::ref(promise2));
-		std::thread th3(thread_transform, ref(v), std::ref(promise1), std::ref(promise2));
+		std::thread th3(thread_transform, ref(v), std::ref(promise1), std::ref(promise2));//future
 		th1.detach();
 		th2.detach();
 		std::cout<< "main [ " <<std::this_thread::get_id()<< "]";
