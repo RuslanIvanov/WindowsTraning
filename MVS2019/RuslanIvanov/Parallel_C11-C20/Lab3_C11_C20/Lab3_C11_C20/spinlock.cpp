@@ -88,14 +88,19 @@ void spinlock::do_lock_shared()
 {//Перед установкой флага, читатель проверяет есть ли писатель – т.е. есть ли эксклюзивная блокировка
     while (someone_has_exclusive_lock() || maximal_number_of_readers_reached()) 
     {//При первом вызове lock_shared() поток автоматически будет регистрироваться – взводя определеный бит.
-     //Если потоков больше, чем размер ulong, то остальные потоки при вызове lock_shared() будут вызывать эксклюзивную блокировку писателя.
+     //Если потоков больше, чем размер ulong (32bits), то остальные потоки при вызове lock_shared() будут вызывать эксклюзивную блокировку писателя.
        // lock();//wait
-       bool b = f.test_and_set(std::memory_order_relaxed);//??
+       bool b = f.test_and_set(std::memory_order_relaxed);//?? //Не всегда суда поподаю
+       if (b)
+       {
+           std::cout << "\ndo_lock_shared TRUE";
+       }
+       else { std::cout << "\ndo_lock_shared FALSE"; }
        //std::condition_variable_any
     }
 
     increment_readers();//чтобы читатели не мешали друг другу, для этого они должны писать информацию о своих
-    //shared-блокировках в разные ячейки памят
+    //shared-блокировках в разные ячейки памят (в разные биты)
 }
 
 void spinlock::do_unlock_shared()

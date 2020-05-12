@@ -24,6 +24,7 @@ class MyQueue
     bool m_bInsert;
 
     mutable std::mutex m; 
+    mutable std::mutex m2;
     std::condition_variable m_cvInsert;
     std::condition_variable m_cvClear;
     static std::atomic<int> m_stopAll;
@@ -49,7 +50,7 @@ public:
 	void printQueue();
     void printQueueRaw();
 
-    static void stopQ() { m_stopAll=1; }
+    static void stopQ();
    // работает
    
    char* begin()
