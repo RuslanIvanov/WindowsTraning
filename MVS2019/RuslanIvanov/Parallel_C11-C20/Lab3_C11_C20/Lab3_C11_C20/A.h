@@ -3,7 +3,7 @@
 #include <atomic>
 #include "spinlock.h"
 
-enum SINXRO {ATOMIC,MUTEX,SPIN};
+//enum SINXRO {ATOMIC,MUTEX,SPIN};
 
 template <typename T>
 class A

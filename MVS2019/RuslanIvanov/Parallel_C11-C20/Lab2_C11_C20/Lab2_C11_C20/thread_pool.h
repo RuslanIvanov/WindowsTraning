@@ -23,7 +23,6 @@ public:
 	~thread_pool();
 	void add_task(std::function<void()>&); //в общем случае принимает параметры для задания
 	void add_task_cv(std::function<void()>&);
-	bool isEmpty();
 	void stopRun_cv();
 	thread_pool(const thread_pool&) = delete; 
 	thread_pool& operator=(const thread_pool&) = delete;

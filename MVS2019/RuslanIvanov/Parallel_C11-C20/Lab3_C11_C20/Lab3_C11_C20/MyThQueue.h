@@ -9,6 +9,8 @@
 #include <condition_variable>
 #include <mutex>
 #include <atomic>
+#include <chrono>
+#include<thread>
 
 #define SIZE_QUEUE 10
 class MyQueue
@@ -16,7 +18,8 @@ class MyQueue
    
 	char m_pmass[SIZE_QUEUE];
   
-    size_t m_n;
+   // size_t m_n;
+    std::atomic<size_t> m_n;
     size_t m_cap;  
 	size_t m_first;
 	size_t m_last;
@@ -24,7 +27,7 @@ class MyQueue
     bool m_bInsert;
 
     mutable std::mutex m; 
-    mutable std::mutex m2;
+   
     std::condition_variable m_cvInsert;
     std::condition_variable m_cvClear;
     static std::atomic<int> m_stopAll;
@@ -55,7 +58,7 @@ public:
    
    char* begin()
    {
-       std::lock_guard<std::mutex> lm(m2);
+       std::lock_guard<std::mutex> lm(m);
        size_t l = ((m_first + m_n) % m_cap);
        if (m_first < l)
            return &m_pmass[m_first];
@@ -64,7 +67,7 @@ public:
    }
    char* end()
    {
-       std::lock_guard<std::mutex> lm(m2);
+       std::lock_guard<std::mutex> lm(m);
        size_t l = ((m_first + m_n) % m_cap);
        if (m_first < l)
            return &m_pmass[(m_first + m_n) % m_cap];
@@ -72,9 +75,10 @@ public:
            return m_pmass + m_n;
    }//*/
 
-    size_t size() { return  m_n;}
-    bool isEmpty() { return  (m_n==0); }
+    size_t size() { return  m_n.load();}
+    bool isEmpty() { return  (m_n.load()==0); }
     size_t capacity() { return m_cap;}
+    int getStop()  {  return m_stopAll.load(); }
 
  
 	friend  std::ostream& operator<< (std::ostream& os, const MyQueue& s)

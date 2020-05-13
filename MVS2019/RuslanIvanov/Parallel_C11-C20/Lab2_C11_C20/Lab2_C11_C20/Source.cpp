@@ -272,7 +272,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				tp.add_task_cv(f_display);
 				//tp.add_task_cv(std::move(std::function<void()>{mytask}));
 			}
-		}// or	//	if (!tp.isEmpty()) { std::this_thread::sleep_for(1s); }
+		}
 		auto end = std::chrono::steady_clock::now();
 		std::cout << "\ntime run pool: ";
 		printTime(begin, end);

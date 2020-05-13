@@ -131,7 +131,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		auto begin = std::chrono::steady_clock::now();	
 
-		A<int> a(0);
+		A<int> a(0);//atom
 		std::thread th1(funcMakeA, 0);
 		std::thread th2(funcMakeA, 0);
 		std::thread th3(funcMakeA, 0);
@@ -139,11 +139,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		th2.join();
 		th3.join();
 		auto end = std::chrono::steady_clock::now();
-		std::cout << "\ntime run A0: ";
+		std::cout << "\ntime run A0: ";//медленнее atomic
 		printTime(begin, end);
 
 		begin = std::chrono::steady_clock::now();
-		A<int> a1(1);
+		A<int> a1(1);//mutex
 		std::thread th11(funcMakeA, 1);
 		std::thread th22(funcMakeA, 1);
 		std::thread th33(funcMakeA, 1);
@@ -151,11 +151,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		th22.join();
 		th33.join();
 		end = std::chrono::steady_clock::now();
-		std::cout << "\ntime run A1: ";
+		std::cout << "\ntime run A1: ";//бытро mutex
 		printTime(begin, end);
 
 		begin = std::chrono::steady_clock::now();
-		A<int> a2(2);
+		A<int> a2(2);//spin
 		std::thread th111(funcMakeA, 2);
 		std::thread th222(funcMakeA, 2);
 		std::thread th333(funcMakeA, 2);
@@ -165,7 +165,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		th333.join();
 
 		end = std::chrono::steady_clock::now();
-		std::cout << "\ntime run A2: ";
+		std::cout << "\ntime run A2: ";//медленно spin
 		printTime(begin, end);
 
 		std::cout << "\n count A "<<A<int>::getCountObj();
@@ -197,7 +197,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		for (size_t i = 0; i < NW; i++)
 			w[i].join();
-
+		//q.stopQ();
 		for (size_t i = 0; i < NR; i++)
 			r[i].join();
 

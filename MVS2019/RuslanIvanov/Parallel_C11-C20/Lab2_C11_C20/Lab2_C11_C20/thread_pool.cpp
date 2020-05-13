@@ -33,9 +33,7 @@ void thread_pool::task_thread_cv()
 		Когда переменная условия уведомляется, поток пробуждается, и мьютекс снова приобретается.*/
 		{
 		std::unique_lock <std::mutex > l(m);
-		
-		//cv.wait(lock,pred = false, если ожиданеи должно быть продолжено)
-
+	
 		/*while (!pred()) { wait(lock);}*/
 		//std::cout << "\nwait...id  = " << std::this_thread::get_id();
 		cv.wait(l, [this]() { return !tasks.empty() || m_stop.load(); });//gdать пока не добавят кого то в очередь или не скажут стоп
@@ -67,26 +65,13 @@ void thread_pool::task_thread_cv()
 void  thread_pool::stopRun_cv()
 {
 	{
-		std::lock_guard<std::mutex> lk{ m };// а если m_stop - atomic ?? надо m ?
+		//std::lock_guard<std::mutex> lk{ m };// а если m_stop - atomic ?? надо m ?
 		m_stop.store(true);//atomic
 
 	}
 	// а стоп надо сказать всем!!
 	cv.notify_all();// 
-	//cv.notify_one(); //??надо пробудить 1 го в очереди а не всех
-}
-
-bool thread_pool::isEmpty() //const ??
-{/// зачем
-	bool b = false;
-	
-	if (m.try_lock())
-	{
-		b = tasks.empty();
-		m.unlock();
-	}
-	return b;
-
+	//cv.notify_one(); //????надо пробудить 1 го в очереди а не всех
 }
 
 void thread_pool::add_task_cv(std::function<void()>& pfunc)
