@@ -28,8 +28,6 @@ void thread_pool::task_thread_cv()
 	{
 		std::function<void()> task;
 
-		std::cout << "\nwait...id  = " << std::this_thread::get_id();
-
 		/*Ћюбой поток, который намерен ждать на std::condition_variable должен сначала приобрести std::unique_lock.
 		ќпераци€ ожидани€ атомарно освобождает мьютекс и приостанавливает выполнение потока.
 		 огда переменна€ услови€ уведомл€етс€, поток пробуждаетс€, и мьютекс снова приобретаетс€.*/
@@ -39,10 +37,11 @@ void thread_pool::task_thread_cv()
 		//cv.wait(lock,pred = false, если ожиданеи должно быть продолжено)
 
 		/*while (!pred()) { wait(lock);}*/
+		//std::cout << "\nwait...id  = " << std::this_thread::get_id();
 		cv.wait(l, [this]() { return !tasks.empty() || m_stop.load(); });//gdать пока не добав€т кого то в очередь или не скажут стоп
 		if (m_stop.load()) 
 		{ 
-			std::cout << "\nthread  go to stop... ";
+			//std::cout << "\nthread  go to stop... ";
 			break; 
 		}
 
