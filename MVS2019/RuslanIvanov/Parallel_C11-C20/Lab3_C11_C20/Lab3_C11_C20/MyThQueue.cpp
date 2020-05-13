@@ -9,6 +9,9 @@ MyQueue::~MyQueue()
 void MyQueue ::stopQ() 
 { 
     m_stopAll = 1; 
+    m_cvPop.notify_all();
+    m_cvPush.notify_all();
+
     std::cout << "\nSTOP QUEUE\n";
 }
 
@@ -116,21 +119,19 @@ MyQueue& MyQueue::operator=(MyQueue&& r)
 void MyQueue::push(const char& t)
 {//producer-производитель
 
-   // if (m_stopAll == 0)
-   // {
-
         std::cout << "\npush: m_n = " << m_n.load() << " m_cap = " << m_cap << "";
 
         std::unique_lock <std::mutex > l(m);
         using seconds = std::chrono::duration<long long>;
         seconds sec = static_cast<seconds>(1);
-        bool b = m_cvClear.wait_for(l, sec, []() {return !isEmpty() && (m_stopAll == 0); });
+        bool b = m_cvPop.wait_for(l, sec, [this]() {return !isEmpty() || !(m_stopAll == 0) || m_bPop; });
+
         if (b)
         {
             if (m_stopAll == 1)
             {
-                m_cvClear.notify_all();
-                m_cvInsert.notify_all();
+                m_cvPop.notify_all();
+                m_cvPush.notify_all();
             }
             else
             {
@@ -139,149 +140,66 @@ void MyQueue::push(const char& t)
 
                 m_last = (m_last + 1) % m_cap;
                 m_n.fetch_add(1);
-                m_bInsert = true;
+                m_bPush = true;
              
-                m_cvInsert.notify_one();// всем или первому ожид...
+                m_cvPush.notify_one();// всем или первому ожид...
             }
         }
         else 
-        {
-            m_stopAll = 0;
-            m_cvClear.notify_all();
-            m_cvInsert.notify_all();
+        {// по тайауту
+            m_stopAll = 1;//0;
+            m_cvPop.notify_all();
+            m_cvPush.notify_all();
         }
-
-        //if (m_n.load() < m_cap)//m_n - atom
-        //{
-        //    {
-        //        std::unique_lock <std::mutex > l(m);//улс перем с t wait_for 
-
-        //        m_pmass[(m_first + m_n.load()) % m_cap] = t;//в m_last
-        //       // std::cout << " add in mass[" << (m_first + m_n) % m_cap << "] = " << m_pmass[(m_first + m_n) % m_cap];
-
-        //        m_last = (m_last + 1) % m_cap;
-        //        // m_n++;
-        //    }
-
-        //    m_n.fetch_add(1);
-        //    m_bInsert = true;
-        //    // m_cvInsert.notify_all();// всем или первому ожид...
-        //    m_cvInsert.notify_one();// всем или первому ожид...
-
-        //}
-        //else
-        //{// wait отработки pop
-
-        //    std::unique_lock <std::mutex > l(m);
-        //    //m.lock()
-        //    //ждать по ка что то не освободится
-        //    m_cvClear.wait(l, [this]() { return !isEmpty() || m_bClear; });//m.unlock()
-        //    //m/lock()
-        //}
-    //}//m.unlock()
 }
 
-/*
-void MyQueue::push(const char& t)
-{//producer-производитель
-
-    if (m_stopAll == 0)
-    {
-
-        std::cout << "\npush: m_n = " << m_n.load() << " m_cap = " << m_cap << "";
-       
-        // std::unique_lock <std::mutex > l(m);
-
-        if (m_n.load() < m_cap)//m_n - atom
-        {
-            {
-                std::unique_lock <std::mutex > l(m);//улс перем с t wait_for 
-
-                m_pmass[(m_first + m_n.load()) % m_cap] = t;//в m_last
-               // std::cout << " add in mass[" << (m_first + m_n) % m_cap << "] = " << m_pmass[(m_first + m_n) % m_cap];
-
-                m_last = (m_last + 1) % m_cap;
-                // m_n++;
-            }
-
-            m_n.fetch_add(1);
-            m_bInsert = true;
-           // m_cvInsert.notify_all();// всем или первому ожид...
-            m_cvInsert.notify_one();// всем или первому ожид...
-
-        }
-        else
-        {// wait отработки pop
-
-           std::unique_lock <std::mutex > l(m);
-            //m.lock()
-            //ждать по ка что то не освободится
-            m_cvClear.wait(l, [this]() { return !isEmpty() || m_bClear; });//m.unlock()
-            //m/lock()
-        }
-    }//m.unlock()
-}//*/
-
-
 char MyQueue::pop()
-{//error
-
-    if (m_stopAll == 0)
-    {
-
-        //size_t ind1 = m_first;
-      //  std::unique_lock <std::mutex > l(m);//mutex lock
-
-        if (m_n.load() == 0)
-        {
-            std::cout << "\nQueue is empty! Wait notify...\n";
+{//consumer - читатель
 
             {
                 std::unique_lock <std::mutex > l(m);
 
                 using seconds = std::chrono::duration<long long>;
-                seconds sec = static_cast<seconds>(15);
+                seconds sec = static_cast<seconds>(5);
 
-                if (m_cvInsert.wait_for(l, sec, [this]() { return  m_bInsert; })) //m_n = 0
-                {
+                if (m_cvPush.wait_for(l, sec, [this]() { return (m_bPush || isEmpty()) || (m_stopAll == 0); }))
+                {//очередь не пуста и что то вставили
+
                     //под защитой m
-                    std::cout << "\nfinished waiting";
-                    size_t ind1 = m_first;
-                    m_first = (m_first + 1) % m_cap;
-                    //m_n--;
-                    m_n.fetch_sub(1);
 
-                    return m_pmass[ind1];
+                    if (m_stopAll == 1)
+                    {
+                        m_cvPop.notify_all();
+                        m_cvPush.notify_all();
+                    }
+                    else {
+                        std::cout << "\nfinished waiting";
+                        size_t ind1 = m_first;
+                        m_first = (m_first + 1) % m_cap;
+                        //m_n--;
+                        m_n.fetch_sub(1);
 
+                        m_bPop = true;
+                        m_cvPop.notify_one();// уведомить что очередь пуста один поток
+
+
+                        return m_pmass[ind1];
+                    }
                 }
                 else
                 {
                     std::cout << "\ntimed out pop, no writers\n";
-                    m_stopAll = 1;
+
+                   {
+
+                        m_stopAll = 1;
+                        m_cvPop.notify_all();
+                        m_cvPush.notify_all();
+                    }
                 }
             }
 
-            m_bClear = true;
-            m_cvClear.notify_all();// уведомить что очередь пуста
-
             return 0;
-        }
-
-        std::unique_lock <std::mutex > ll(m);//mutex lock
-
-        m_cvInsert.wait(ll, [this]() { return  m_bInsert; }); //mutex unlock while wait notify or perd return true (pred return false - если продолжать ждать)
-       //mutex lock
-       
-        size_t ind1 = m_first;
-        m_first = (m_first + 1) % m_cap;
-        ////std::cout << "\n[pop mass[" << ind1 << "] = " << m_pmass[ind1] << "] ";
-       // m_n--;
-        m_n.fetch_sub(1);
-
-        return m_pmass[ind1];
-    }
-
-    return 0;
 }
 
 void MyQueue::printQueueRaw()

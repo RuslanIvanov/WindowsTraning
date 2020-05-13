@@ -23,13 +23,13 @@ class MyQueue
     size_t m_cap;  
 	size_t m_first;
 	size_t m_last;
-    bool m_bClear;
-    bool m_bInsert;
+    bool m_bPop;
+    bool m_bPush;
 
     mutable std::mutex m; 
    
-    std::condition_variable m_cvInsert;
-    std::condition_variable m_cvClear;
+    std::condition_variable m_cvPush;
+    std::condition_variable m_cvPop;
     static std::atomic<int> m_stopAll;
    
     const size_t MAX_SIZE = SIZE_QUEUE;
@@ -53,7 +53,7 @@ public:
 	void printQueue();
     void printQueueRaw();
 
-    static void stopQ();
+     void stopQ();
    // работает
    
    char* begin()
