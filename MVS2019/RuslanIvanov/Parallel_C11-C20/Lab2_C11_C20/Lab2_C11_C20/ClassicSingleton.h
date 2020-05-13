@@ -3,7 +3,7 @@
 #include <mutex>
 class ClassSingleton
 {
-	ClassSingleton() = default;
+	ClassSingleton() = default;//защита что б никто не со3дал
 public:
 
 	static ClassSingleton* getInstance();

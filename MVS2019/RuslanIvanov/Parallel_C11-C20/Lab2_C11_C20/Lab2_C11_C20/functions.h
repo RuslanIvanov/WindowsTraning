@@ -43,7 +43,7 @@ inline void mytask()
     static unsigned  char count;
     char c = 'A'+(count++);
    
-    mut.lock();
+    mut.lock();//защита вывода!
     std::cout << "\nrun task '" << c;
     mut.unlock();
 
