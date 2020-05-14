@@ -202,14 +202,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		stop
 
-		MyQueue q0;
+		/*MyQueue q0;
 		q0.push('A');
 		q0.push('B');
 		MyQueue q2 = move(q0);
 		MyQueue q3;
 		q3.push('Y');
 		q3.push('Z');
-		q3 = move(q2);
+		q3 = move(q2);*/
 
 		stop
 	}
