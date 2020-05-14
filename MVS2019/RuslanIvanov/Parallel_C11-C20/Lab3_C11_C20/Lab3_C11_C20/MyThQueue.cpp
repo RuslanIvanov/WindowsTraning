@@ -153,6 +153,7 @@ void MyQueue::push(const char& t)
                 m_n.fetch_add(1);
                           
                 m_cvPush.notify_one();// уведомлени одному читателю что вставили 
+               // m_cvPush.notify_all();
             }
         }
         else 
@@ -192,7 +193,8 @@ char MyQueue::pop()
 
                         m_n.fetch_sub(1);
                                      
-                        m_cvPop.notify_one();// уведомить одного из писателей, что в очереди есть  место                        
+                        m_cvPop.notify_one();// уведомить одного из писателей, что в очереди есть  место   
+                       // m_cvPop.notify_all();
                         return m_pmass[ind1];
                     }
                 }
