@@ -17,14 +17,11 @@ class MyQueue
 {
    
 	char m_pmass[SIZE_QUEUE];
-  
-   // size_t m_n;
+
     std::atomic<size_t> m_n;
     size_t m_cap;  
 	size_t m_first;
 	size_t m_last;
-    //bool m_bPop;
-    //bool m_bPush;
 
     mutable std::mutex m; 
    

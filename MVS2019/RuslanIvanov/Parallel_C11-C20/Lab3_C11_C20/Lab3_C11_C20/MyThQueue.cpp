@@ -72,7 +72,7 @@ MyQueue::MyQueue(std::initializer_list<char> list)
 MyQueue::MyQueue(MyQueue&& r)
 {
     std::cout << "\nMyQueue(MyQueue&& )\n";
-   // m_n = r.m_n;
+   // m_n = r.m_n;//no = разный атомарные переменые не атомарны друг к другу
 
     size_t n = r.m_n.load();
     m_n.store(n);
@@ -91,7 +91,7 @@ MyQueue::MyQueue(MyQueue&& r)
 
         r.stopQ();// под защитой, что б  выйти на wait сигнальой перем с флагом стоп
     }
-    //r.stopQ();
+
 }
 
 MyQueue& MyQueue::operator=(MyQueue&& r)
@@ -101,7 +101,8 @@ MyQueue& MyQueue::operator=(MyQueue&& r)
     if (&r == this) return *this;
 
    // size_t n = r.m_n; T operator(T t), где n копия будет
-  //  m_n=n;
+
+    m_stopAll = 1;// надо установить свои в стоп потоки, а => нужно уже успеть переписать за таймаут данные??
 
     size_t n = r.m_n.load();
     m_n.store(n);
@@ -123,7 +124,6 @@ MyQueue& MyQueue::operator=(MyQueue&& r)
     r.m.unlock();
     m.unlock();
 
-   // r.stopQ();
     return *this;
 }
 
@@ -135,7 +135,7 @@ void MyQueue::push(const char& t)
         std::unique_lock <std::mutex > l(m);
         using seconds = std::chrono::duration<long long>;
         seconds sec = static_cast<seconds>(1);
-        bool b = m_cvPop.wait_for(l, sec, [this]() {return !isFull() || !(m_stopAll == 0); /*|| m_bPop;*/ });
+        bool b = m_cvPop.wait_for(l, sec, [this]() {return !isFull() || !(m_stopAll == 0); });
 
         if (b)
         {
@@ -151,8 +151,7 @@ void MyQueue::push(const char& t)
 
                 m_last = (m_last + 1) % m_cap;
                 m_n.fetch_add(1);
-                //m_bPush = true;
-             
+                          
                 m_cvPush.notify_one();// уведомлени одному читателю что вставили 
             }
         }
@@ -175,7 +174,7 @@ char MyQueue::pop()
                 using seconds = std::chrono::duration<long long>;
                 seconds sec = static_cast<seconds>(5);
 
-                if (m_cvPush.wait_for(l, sec, [this]() { return (/*m_bPush ||*/ !isEmpty()) || !(m_stopAll == 0); } ))
+                if (m_cvPush.wait_for(l, sec, [this]() { return (!isEmpty()) || !(m_stopAll == 0); } ))
                 {//очередь не пуста и что то вставили
 
                     //под защитой m
@@ -191,11 +190,8 @@ char MyQueue::pop()
                         size_t ind1 = m_first;
                         m_first = (m_first + 1) % m_cap;
 
-                        //m_n--;
-
                         m_n.fetch_sub(1);
-
-                       // m_bPop = true;
+                                     
                         m_cvPop.notify_one();// уведомить одного из писателей, что в очереди есть  место                        
                         return m_pmass[ind1];
                     }
