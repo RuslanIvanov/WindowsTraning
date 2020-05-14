@@ -124,7 +124,7 @@ void MyQueue::push(const char& t)
         std::unique_lock <std::mutex > l(m);
         using seconds = std::chrono::duration<long long>;
         seconds sec = static_cast<seconds>(1);
-        bool b = m_cvPop.wait_for(l, sec, [this]() {return !isEmpty() || !(m_stopAll == 0) || m_bPop; });
+        bool b = m_cvPop.wait_for(l, sec, [this]() {return !isFull() || !(m_stopAll == 0); /*|| m_bPop;*/ });
 
         if (b)
         {
@@ -162,7 +162,7 @@ char MyQueue::pop()
                 using seconds = std::chrono::duration<long long>;
                 seconds sec = static_cast<seconds>(5);
 
-                if (m_cvPush.wait_for(l, sec, [this]() { return (m_bPush || isEmpty()) || (m_stopAll == 0); }))
+                if (m_cvPush.wait_for(l, sec, [this]() { return (/*m_bPush ||*/ !isEmpty()) || !(m_stopAll == 0); } ))
                 {//очередь не пуста и что то вставили
 
                     //под защитой m
@@ -172,17 +172,19 @@ char MyQueue::pop()
                         m_cvPop.notify_all();
                         m_cvPush.notify_all();
                     }
-                    else {
+                    else 
+                    {
                         std::cout << "\nfinished waiting";
                         size_t ind1 = m_first;
                         m_first = (m_first + 1) % m_cap;
+
                         //m_n--;
+
                         m_n.fetch_sub(1);
 
                         m_bPop = true;
                         m_cvPop.notify_one();// уведомить что очередь пуста один поток
-
-
+                        
                         return m_pmass[ind1];
                     }
                 }

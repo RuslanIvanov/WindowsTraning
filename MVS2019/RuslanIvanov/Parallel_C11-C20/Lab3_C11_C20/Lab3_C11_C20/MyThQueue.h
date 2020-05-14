@@ -77,6 +77,7 @@ public:
 
     size_t size() { return  m_n.load();}
     bool isEmpty() { return  (m_n.load()==0); }
+    bool isFull() { return  (m_n.load() >= m_cap); }
     size_t capacity() { return m_cap;}
     int getStop()  {  return m_stopAll.load(); }
 
