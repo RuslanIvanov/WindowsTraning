@@ -23,8 +23,8 @@ class MyQueue
     size_t m_cap;  
 	size_t m_first;
 	size_t m_last;
-    bool m_bPop;
-    bool m_bPush;
+    //bool m_bPop;
+    //bool m_bPush;
 
     mutable std::mutex m; 
    

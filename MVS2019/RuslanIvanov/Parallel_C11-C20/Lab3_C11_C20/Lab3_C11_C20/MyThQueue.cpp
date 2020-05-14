@@ -140,7 +140,7 @@ void MyQueue::push(const char& t)
 
                 m_last = (m_last + 1) % m_cap;
                 m_n.fetch_add(1);
-                m_bPush = true;
+                //m_bPush = true;
              
                 m_cvPush.notify_one();// всем или первому ожид...
             }
@@ -182,7 +182,7 @@ char MyQueue::pop()
 
                         m_n.fetch_sub(1);
 
-                        m_bPop = true;
+                       // m_bPop = true;
                         m_cvPop.notify_one();// уведомить что очередь пуста один поток
                         
                         return m_pmass[ind1];
