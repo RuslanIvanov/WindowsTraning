@@ -190,19 +190,28 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 		for (size_t i = 0; i < countR; i++)
 			r.emplace_back(fReadersQ, ref(q));
-		
 
 		size_t NR = r.size();
 		size_t NW = w.size();
 
 		for (size_t i = 0; i < NW; i++)
 			w[i].join();
-		//q.stopQ();
+		
 		for (size_t i = 0; i < NR; i++)
 			r[i].join();
 
-			stop
+		stop
 
+		MyQueue q0;
+		q0.push('A');
+		q0.push('B');
+		MyQueue q2 = move(q0);
+		MyQueue q3;
+		q3.push('Y');
+		q3.push('Z');
+		q3 = move(q2);
+
+		stop
 	}
 	std::cout << "\nTHE END!\n";
 	return 0;

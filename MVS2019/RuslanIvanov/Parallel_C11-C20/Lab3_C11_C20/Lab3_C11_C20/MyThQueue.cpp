@@ -76,17 +76,22 @@ MyQueue::MyQueue(MyQueue&& r)
 
     size_t n = r.m_n.load();
     m_n.store(n);
-
-    memcpy(m_pmass, r.m_pmass, n);
-
-    m_cap = r.m_cap;//при премещении забирать весь объем (всю емкость)
-    m_last = r.m_last;//net perezapisi - ostavit indeksi kak est'
-    m_first = r.m_first;
-
     r.m_n = 0;
-  
-    r.m_cap = 0;
-    r.m_last = r.m_first = 0;
+
+    std::unique_lock <std::mutex > l(r.m);
+    {
+        memcpy(m_pmass, r.m_pmass, n);
+
+        m_cap = r.m_cap;//при премещении забирать весь объем (всю емкость)
+        m_last = r.m_last;//net perezapisi - ostavit indeksi kak est'
+        m_first = r.m_first;
+
+        r.m_cap = 0;
+        r.m_last = r.m_first = 0;
+
+        r.stopQ();// под защитой, что б  выйти на wait сигнальой перем с флагом стоп
+    }
+    //r.stopQ();
 }
 
 MyQueue& MyQueue::operator=(MyQueue&& r)
@@ -100,19 +105,25 @@ MyQueue& MyQueue::operator=(MyQueue&& r)
 
     size_t n = r.m_n.load();
     m_n.store(n);
+    r.m_n = 0;
+
+    std::lock(m, r.m);
 
     memcpy(m_pmass, r.m_pmass, n);
- 
+   
     m_cap = r.m_cap;//при премещении забирать весь объем (всю емкость)
-
     m_last = r.m_last;
     m_first = r.m_first;
 
-    r.m_n = 0;
-   // r.m_pmass = nullptr;
     r.m_cap = 0;
     r.m_last = r.m_first = 0;
 
+    r.stopQ();//что б  выйти на wait сигнальной пременной
+
+    r.m.unlock();
+    m.unlock();
+
+   // r.stopQ();
     return *this;
 }
 
@@ -142,11 +153,13 @@ void MyQueue::push(const char& t)
                 m_n.fetch_add(1);
                 //m_bPush = true;
              
-                m_cvPush.notify_one();// всем или первому ожид...
+                m_cvPush.notify_one();// уведомлени одному читателю что вставили 
             }
         }
         else 
         {// по тайауту
+            std::cout << "\ntimed out push, no readers\n";
+
             m_stopAll = 1;//0;
             m_cvPop.notify_all();
             m_cvPush.notify_all();
@@ -156,7 +169,7 @@ void MyQueue::push(const char& t)
 char MyQueue::pop()
 {//consumer - читатель
 
-            {
+           
                 std::unique_lock <std::mutex > l(m);
 
                 using seconds = std::chrono::duration<long long>;
@@ -183,25 +196,22 @@ char MyQueue::pop()
                         m_n.fetch_sub(1);
 
                        // m_bPop = true;
-                        m_cvPop.notify_one();// уведомить что очередь пуста один поток
-                        
+                        m_cvPop.notify_one();// уведомить одного из писателей, что в очереди есть  место                        
                         return m_pmass[ind1];
                     }
                 }
                 else
-                {
+                {// по тайауту
                     std::cout << "\ntimed out pop, no writers\n";
 
-                   {
+                    m_stopAll = 1;
+                    m_cvPop.notify_all();
+                    m_cvPush.notify_all();
 
-                        m_stopAll = 1;
-                        m_cvPop.notify_all();
-                        m_cvPush.notify_all();
-                    }
                 }
-            }
+            
 
-            return 0;
+                return 0;
 }
 
 void MyQueue::printQueueRaw()
