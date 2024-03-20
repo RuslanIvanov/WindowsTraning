@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "labrab4", "labrab4\labrab4.vcproj", "{39FF1406-FE02-4584-A6EB-677332BAEAEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39FF1406-FE02-4584-A6EB-677332BAEAEC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{39FF1406-FE02-4584-A6EB-677332BAEAEC}.Debug|Win32.Build.0 = Debug|Win32
+		{39FF1406-FE02-4584-A6EB-677332BAEAEC}.Release|Win32.ActiveCfg = Release|Win32
+		{39FF1406-FE02-4584-A6EB-677332BAEAEC}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

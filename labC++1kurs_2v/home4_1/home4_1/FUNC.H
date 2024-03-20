@@ -1,0 +1,1 @@
+void max(int *p1,int *p2,int *pout,int n);
