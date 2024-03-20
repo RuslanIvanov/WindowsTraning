@@ -1,0 +1,1 @@
+enum head1 {My0=5,My1,My2,My3};
